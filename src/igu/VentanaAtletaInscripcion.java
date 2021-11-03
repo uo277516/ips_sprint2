@@ -39,6 +39,7 @@ public class VentanaAtletaInscripcion extends JFrame {
 	private Panel pnlAtletaInsTitulo;
 	private Panel pnlTxtArea;
 	private JTable table;
+	//Hola
 //
 //	/**
 //	 * Launch the application.
