@@ -182,7 +182,7 @@ public class VentanaMostrarCarreras extends JFrame {
 	protected void pasarAInscripcion() throws SQLException {
 		this.dispose();
 		CompeticionDto competicion = crearCompeticion();
-		VentanaInscripción vPal = new VentanaInscripción(this, competicion);
+		VentanaInscripcion vPal = new VentanaInscripcion(this, competicion);
 		vPal.setLocationRelativeTo(this);
 		vPal.setVisible(true);
 	}

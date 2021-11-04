@@ -23,7 +23,7 @@ import logica.CompeticionDto;
 import logica.CompeticionModel;
 import logica.InscripcionModel;
 
-public class VentanaInscripción extends JFrame {
+public class VentanaInscripcion extends JFrame {
 
 	/**
 	 * 
@@ -53,7 +53,7 @@ public class VentanaInscripción extends JFrame {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
 //				try {
-//					VentanaInscripción frame = new VentanaInscripción();
+//					VentanaInscripciï¿½n frame = new VentanaInscripciï¿½n();
 //					frame.setVisible(true);
 //				} catch (Exception e) {
 //					e.printStackTrace();
@@ -68,7 +68,7 @@ public class VentanaInscripción extends JFrame {
 	 * @param competicionDto
 	 * @param ventanaMostrarCarreras
 	 */
-	public VentanaInscripción(VentanaMostrarCarreras ventanaMostrarCarreras, CompeticionDto competicionDto) {
+	public VentanaInscripcion(VentanaMostrarCarreras ventanaMostrarCarreras, CompeticionDto competicionDto) {
 		ins = new InscripcionModel();
 		atl = new AtletaModel();
 		comp = new CompeticionModel();
@@ -154,7 +154,7 @@ public class VentanaInscripción extends JFrame {
 	}
 
 	protected void mostrarErrorDatosNoRegistrados() {
-		JOptionPane.showMessageDialog(this, "Sus datos todavía no han sido registrados");
+		JOptionPane.showMessageDialog(this, "Sus datos todavï¿½a no han sido registrados");
 
 	}
 
@@ -215,21 +215,21 @@ public class VentanaInscripción extends JFrame {
 
 	protected void mostrarErrorVacio() {
 		// TODO Auto-generated method stub
-		JOptionPane.showMessageDialog(this, "El campo email no puede estar vacío");
+		JOptionPane.showMessageDialog(this, "El campo email no puede estar vacï¿½o");
 	}
 
 	/*
-	 * Como resultado de la inscripción, el atleta recibirá un justificante con su
-	 * nombre, la competición, categoría en la que participará (ver siguientes HUs),
-	 * fecha inscripción y cantidad que debe abonar en concepto de inscripción.
+	 * Como resultado de la inscripciï¿½n, el atleta recibirï¿½ un justificante con su
+	 * nombre, la competiciï¿½n, categorï¿½a en la que participarï¿½ (ver siguientes HUs),
+	 * fecha inscripciï¿½n y cantidad que debe abonar en concepto de inscripciï¿½n.
 	 */
 	private String getInformacion() {
 		String s = "";
 		float n = 10.0f + cSeleccionada.getCuota();
 		atleta = ins.findAtletaEmail(txtEmail.getText());
-		return s += "Nombre del atleta: " + atleta.getNombre() + "\n" + "Competición: " + cSeleccionada.getNombre()
-				+ "\n" + "Categoría: " + ins.getCategoriaByDniId(atleta.getDni(), cSeleccionada.getId()) + "\n"
-				+ "Fecha de inscripción: " + cambiarFormatoFecha() + "\n" + "Cantidad a abonar: " + n
+		return s += "Nombre del atleta: " + atleta.getNombre() + "\n" + "Competiciï¿½n: " + cSeleccionada.getNombre()
+				+ "\n" + "Categorï¿½a: " + ins.getCategoriaByDniId(atleta.getDni(), cSeleccionada.getId()) + "\n"
+				+ "Fecha de inscripciï¿½n: " + cambiarFormatoFecha() + "\n" + "Cantidad a abonar: " + n
 				+ " euros (cuota+gastos adicionales)";
 	}
 
@@ -269,10 +269,10 @@ public class VentanaInscripción extends JFrame {
 			btnSiguiente.setEnabled(false);
 			btnSiguiente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int seleccion = JOptionPane.showOptionDialog(null, "Método de pago",
-							"Seleccione una opción para pagar su inscripción", JOptionPane.YES_NO_CANCEL_OPTION,
+					int seleccion = JOptionPane.showOptionDialog(null, "Mï¿½todo de pago",
+							"Seleccione una opciï¿½n para pagar su inscripciï¿½n", JOptionPane.YES_NO_CANCEL_OPTION,
 							JOptionPane.QUESTION_MESSAGE, null, // null para icono por defecto.
-							new Object[] { "Tarjeta de crédito", "Tranferencia" }, // null para YES, NO y CANCEL
+							new Object[] { "Tarjeta de crï¿½dito", "Tranferencia" }, // null para YES, NO y CANCEL
 							"opcion 1");
 
 					if (seleccion != -1)

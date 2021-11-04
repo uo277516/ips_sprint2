@@ -45,7 +45,7 @@ public class VentanaTarjetaCredito extends JFrame {
 	private JPanel panel;
 	private JLabel lblJusti;
 	private JButton btnFinalizar;
-	private VentanaInscripción vi;
+	private VentanaInscripcion vi;
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
 	private InscripcionDto inscripcion;
@@ -60,7 +60,7 @@ public class VentanaTarjetaCredito extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaTarjetaCredito(VentanaInscripción vi, CompeticionDto cDto, AtletaDto aDto) {
+	public VentanaTarjetaCredito(VentanaInscripcion vi, CompeticionDto cDto, AtletaDto aDto) {
 		this.vi=vi;
 		this.competicion=cDto;
 		this.atleta=aDto;
@@ -114,7 +114,7 @@ public class VentanaTarjetaCredito extends JFrame {
 	private boolean compruebaSoloNumeros(String text) {
 		String numero="";
 		String minumero="";
-		int tamañotext = text.length();
+		int textsize = text.length();
 		String[] numeros= {"0","1","2","3","4","5","6","7","8","9"};
 		for (int i=0;i<text.length();i++) {
 			numero=text.substring(i,i+1);
@@ -124,7 +124,7 @@ public class VentanaTarjetaCredito extends JFrame {
 				}
 			}
 		}
-		if (minumero.length()==tamañotext) {
+		if (minumero.length()==textsize) {
 			return true;
 		}else
 			return false;
@@ -268,7 +268,7 @@ public class VentanaTarjetaCredito extends JFrame {
 		return btnValidar;
 	}
 	private void pagarInscripcion() {
-		JOptionPane.showMessageDialog(this, "Pago realizado correctamente, se generará un justificante de la operación.");
+		JOptionPane.showMessageDialog(this, "Pago realizado correctamente, se generarï¿½ un justificante de la operaciï¿½n.");
 		String fechaString = cambiarFormatoFecha();
 		inscripcion = ins.findInsByDniId(atleta.getDni(), competicion.getId());
 		String cadena ="";
@@ -277,7 +277,7 @@ public class VentanaTarjetaCredito extends JFrame {
 				"\tNombre: "+atleta.getNombre() +"\n" +
 				"\tSexo: "+atleta.getSexo()+"\n"
 				+"\tDNI: "+atleta.getDni() + "\n"+
-		"Competeción:"+ "\n" 
+		"Competeciï¿½n:"+ "\n" 
 				+"\tNombre: "+ competicion.getNombre()+"\n"+
 				"\tFecha: "+competicion.getF_comp()+"\n"+
 				"\tDistancia: "+ competicion.getDistancia()+"km" + "\n"+
@@ -318,7 +318,7 @@ public class VentanaTarjetaCredito extends JFrame {
 	}
 
 	private void mostrarErrorNumero() {
-		JOptionPane.showMessageDialog(this, "Error: Formato introducido incorrecto: Solo números porfavor");
+		JOptionPane.showMessageDialog(this, "Error: Formato introducido incorrecto: Solo nï¿½meros porfavor");
 		
 	}
 
