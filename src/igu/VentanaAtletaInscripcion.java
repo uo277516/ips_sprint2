@@ -150,6 +150,7 @@ public class VentanaAtletaInscripcion extends JFrame {
 					return false;
 				}
 			};
+			//tabla cambaida
 			table.setModel(modelo);
 			modelo.addColumn("DNI");
 			modelo.addColumn("Nombre");
