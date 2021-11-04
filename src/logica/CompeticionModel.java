@@ -15,7 +15,7 @@ public class CompeticionModel {
 	public static String sql1 = "select * from competicion";
 	public static String sql2ById = "select * from competicion where id=?";
 	public static String sqlActualizarPlazas = "update competicion set num_plazas = num_plazas-1 where id =?";
-	
+
 	private InscripcionModel im = new InscripcionModel();
 	private AtletaModel am = new AtletaModel();
 
@@ -232,5 +232,29 @@ public class CompeticionModel {
 						+ "h " + i.getMinutos() + " minutos");
 		}
 		return clasificacion;
+	}
+
+	public List<String> getClasificacionPorSexo(int id, String categoria) throws SQLException {
+		if (categoria == "General") {
+			return getClasificacion(id);
+		} else {
+			List<String> clasificacion = new ArrayList<String>();
+			AtletaDto a;
+			List<InscripcionDto> inscripciones = im.getInscripcionesPorTiempoYSexo(id, categoria);
+			System.out.println("----- Clasificacion " + categoria + " -----");
+			for (InscripcionDto i : inscripciones) {
+				a = am.findAtletaByDni(i.getDni_a());
+				if (i.getHoras() == 0 && i.getMinutos() == 0)
+					clasificacion.add("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
+				else
+					clasificacion.add("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: "
+							+ i.getHoras() + "h " + i.getMinutos() + " minutos");
+			}
+			return clasificacion;
+		}
+	}
+
+	public String[] getCategorias() {
+		return new String[] { "General", "masculino", "femenino" };
 	}
 }
