@@ -77,7 +77,6 @@ public class VentanaMostrarCarrerasOrganizador extends JFrame {
 						else if (opcion == "c")
 							mostrarVentanaCompeticion();
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}

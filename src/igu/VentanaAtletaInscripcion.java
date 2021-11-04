@@ -136,8 +136,9 @@ public class VentanaAtletaInscripcion extends JFrame {
 	private JTable getTable() throws SQLException {
 		if (table == null) {
 			table = new JTable();
+			table.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 			table.setSelectionBackground(new Color(106, 31, 109));
-			table.setBackground(Color.LIGHT_GRAY);
+			table.setBackground(Color.WHITE);
 			DefaultTableModel modelo = new DefaultTableModel() {
 				/**
 				 * 
@@ -150,18 +151,21 @@ public class VentanaAtletaInscripcion extends JFrame {
 				}
 			};
 			table.setModel(modelo);
-			modelo.addColumn("Atleta");
-			modelo.addColumn("Inscripción");
-			String[][] info = new String[getAtletas().size()][2];
+			modelo.addColumn("DNI");
+			modelo.addColumn("Nombre");
+			modelo.addColumn("Categoría");
+			modelo.addColumn("Fecha");
+			modelo.addColumn("Estado");
+			String[][] info = new String[getAtletas().size()][5];
 			List<AtletaDto> atletas = getAtletas();
 			List<InscripcionDto> inscripciones = getInscripciones();
 			
 			for(int i = 0; i < atletas.size(); i++) {
-				info[i][0] = atletas.get(i).getDni() + " - " 
-						+ atletas.get(i).getNombre();
-				info[i][1] = inscripciones.get(i).getCategoria() + " - " 
-						+ inscripciones.get(i).getFecha() + " - " 
-						+ inscripciones.get(i).getEstado();
+				info[i][0] = atletas.get(i).getDni();
+				info[i][1] = atletas.get(i).getNombre();
+				info[i][2] = inscripciones.get(i).getCategoria();
+				info[i][3] = inscripciones.get(i).getFecha();
+				info[i][4] = inscripciones.get(i).getEstado();
 				modelo.addRow(info[i]);
 			}
 		}
