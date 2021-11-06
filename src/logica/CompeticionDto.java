@@ -2,7 +2,7 @@ package logica;
 
 public class CompeticionDto {
 	
-	private int id;
+	private String id;
 	private String nombre;
 	private String f_comp;
 	private String tipo;
@@ -17,10 +17,11 @@ public class CompeticionDto {
 	private float cuota3;
 	private String f_fin3;
 	private String f_inicio3;
-	public int getId() {
+	
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getNombre() {

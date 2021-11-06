@@ -78,7 +78,7 @@ public class DtoAssembler {
 			a.setF_inicio2(rs.getString("f_inicio2"));
 		if (rs.getString("f_inicio3") != null)
 			a.setF_inicio3(rs.getString("f_inicio3"));
-		a.setId(Integer.parseInt(rs.getString("id")));
+		a.setId((rs.getString("id")));
 		a.setNombre(rs.getString("nombre"));
 		a.setNum_plazas(Integer.parseInt(rs.getString("num_plazas")));
 		a.setTipo(rs.getString("tipo"));

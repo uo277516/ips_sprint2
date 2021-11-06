@@ -31,7 +31,7 @@ public class VentanaClasificacion extends JFrame {
 	private JLabel label;
 
 	CompeticionModel cm = new CompeticionModel();
-	private int id;
+	private String id;
 
 //	/**
 //	 * Launch the application.
@@ -52,7 +52,7 @@ public class VentanaClasificacion extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaClasificacion(int id) {
+	public VentanaClasificacion(String id) {
 		this.id = id;
 		setTitle("Clasificación:");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
