@@ -269,10 +269,10 @@ public class VentanaInscripcion extends JFrame {
 			btnSiguiente.setEnabled(false);
 			btnSiguiente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int seleccion = JOptionPane.showOptionDialog(null, "Mï¿½todo de pago",
-							"Seleccione una opciï¿½n para pagar su inscripciï¿½n", JOptionPane.YES_NO_CANCEL_OPTION,
+					int seleccion = JOptionPane.showOptionDialog(null, "Método de pago",
+							"Seleccione una opción para pagar su inscripción", JOptionPane.YES_NO_CANCEL_OPTION,
 							JOptionPane.QUESTION_MESSAGE, null, // null para icono por defecto.
-							new Object[] { "Tarjeta de crï¿½dito", "Tranferencia" }, // null para YES, NO y CANCEL
+							new Object[] { "Tarjeta de crédito", "Tranferencia" }, // null para YES, NO y CANCEL
 							"opcion 1");
 
 					if (seleccion != -1)

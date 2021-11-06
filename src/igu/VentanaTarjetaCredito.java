@@ -160,7 +160,7 @@ public class VentanaTarjetaCredito extends JFrame {
 		Date fechaTarjeta = formato.parse(fecha);
 		Date fechaActual = formato.parse(cambiarFormatoFecha());
 		
-		if (!fechaTarjeta.before(fechaActual)) {
+		if (fechaTarjeta.before(fechaActual)) {
 			return false;
 		}
 		
@@ -269,7 +269,7 @@ public class VentanaTarjetaCredito extends JFrame {
 		return btnValidar;
 	}
 	private void pagarInscripcion() throws ParseException {
-		JOptionPane.showMessageDialog(this, "Pago realizado correctamente, se generarï¿½ un justificante de la operaciï¿½n.");
+		JOptionPane.showMessageDialog(this, "Pago realizado correctamente, se generará un justificante de la operación.");
 		String fechaString = cambiarFormatoFecha();
 		inscripcion = ins.findInsByDniId(atleta.getDni(), competicion.getId());
 		float cuota = sacarCuota(fechaString);
@@ -279,7 +279,7 @@ public class VentanaTarjetaCredito extends JFrame {
 				"\tNombre: "+atleta.getNombre() +"\n" +
 				"\tSexo: "+atleta.getSexo()+"\n"
 				+"\tDNI: "+atleta.getDni() + "\n"+
-		"Competeciï¿½n:"+ "\n" 
+		"Competeción:"+ "\n" 
 				+"\tNombre: "+ competicion.getNombre()+"\n"+
 				"\tFecha: "+competicion.getF_comp()+"\n"+
 				"\tDistancia: "+ competicion.getDistancia()+"km" + "\n"+

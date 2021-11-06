@@ -221,7 +221,6 @@ public class VentanaMostrarCarreras extends JFrame {
 			table.setBackground(Color.LIGHT_GRAY);
 			DefaultTableModel modelo = new DefaultTableModel();
 			table.setModel(modelo);
-			table.setEnabled(false);
 			modelo.addColumn("Iden");modelo.addColumn("Nombre");modelo.addColumn("Fecha Comp");modelo.addColumn("Tipo");modelo.addColumn("Distancia");modelo.addColumn("Cuota");modelo.addColumn("Fecha Fin Insc");modelo.addColumn("Plazas");
 			List<CompeticionDto> competiciones = comp.getCompetcionesFechaLista(textFecha.getText());
 			String[][] info = new String[competiciones.size()][8];
