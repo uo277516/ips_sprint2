@@ -172,7 +172,7 @@ public class CompeticionModel {
 		try {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sql2ById);
-			pst.setInt(1, Integer.parseInt(identificador));
+			pst.setString(1, identificador);
 			rs = pst.executeQuery();
 
 			// Añadimos los pedidos a la lista
