@@ -149,7 +149,7 @@ public class AtletaModel {
 		return op;
 	}
 
-	public List<AtletaDto> getAletasDeUnaCompeticion(int id) throws SQLException {
+	public List<AtletaDto> getAletasDeUnaCompeticion(String id) throws SQLException {
 		List<AtletaDto> atletas = new ArrayList<AtletaDto>();
 
 		Connection c = null;
@@ -158,7 +158,7 @@ public class AtletaModel {
 		try {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(COMPID_ATL);
-			pst.setInt(1, id);
+			pst.setString(1, id);
 			rs = pst.executeQuery();
 
 			atletas = DtoAssembler.toAtletaDtoList(rs);

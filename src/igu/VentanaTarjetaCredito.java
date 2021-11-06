@@ -27,6 +27,7 @@ import logica.CompeticionDto;
 import logica.CompeticionModel;
 import logica.InscripcionDto;
 import logica.InscripcionModel;
+import util.DtoAssembler;
 
 @SuppressWarnings("serial")
 public class VentanaTarjetaCredito extends JFrame {
@@ -159,7 +160,7 @@ public class VentanaTarjetaCredito extends JFrame {
 		Date fechaTarjeta = formato.parse(fecha);
 		Date fechaActual = formato.parse(cambiarFormatoFecha());
 		
-		if (!fechaTarjeta.before(fechaActual)) {
+		if (fechaTarjeta.before(fechaActual)) {
 			return false;
 		}
 		
@@ -267,27 +268,48 @@ public class VentanaTarjetaCredito extends JFrame {
 		}
 		return btnValidar;
 	}
-	private void pagarInscripcion() {
-		JOptionPane.showMessageDialog(this, "Pago realizado correctamente, se generarï¿½ un justificante de la operaciï¿½n.");
+	private void pagarInscripcion() throws ParseException {
+		JOptionPane.showMessageDialog(this, "Pago realizado correctamente, se generará un justificante de la operación.");
 		String fechaString = cambiarFormatoFecha();
 		inscripcion = ins.findInsByDniId(atleta.getDni(), competicion.getId());
+		float cuota = sacarCuota(fechaString);
 		String cadena ="";
 		cadena = 
 		"Datos del Atleta:"+"\n"+ 
 				"\tNombre: "+atleta.getNombre() +"\n" +
 				"\tSexo: "+atleta.getSexo()+"\n"
 				+"\tDNI: "+atleta.getDni() + "\n"+
-		"Competeciï¿½n:"+ "\n" 
+		"Competeción:"+ "\n" 
 				+"\tNombre: "+ competicion.getNombre()+"\n"+
 				"\tFecha: "+competicion.getF_comp()+"\n"+
 				"\tDistancia: "+ competicion.getDistancia()+"km" + "\n"+
-		"Cuota: "+competicion.getCuota()+"\u20AC"+"\n"+
+		"Cuota: "+cuota+"\u20AC"+"\n"+
 		"Fecha de pago: "+ fechaString+"\n";
 		textAreaJusti.setText(cadena);
 		consultasUpdate();
 		
 	}
 	
+	@SuppressWarnings("unused")
+	private float sacarCuota(String fechaString) throws ParseException {
+		boolean plazo2 = false;
+		boolean plazo3 = false;
+		boolean plazo1 = DtoAssembler.compararFecha(competicion.getF_fin1(), fechaString, competicion.getF_inicio1());
+		if (competicion.getF_fin2() != null)
+			plazo2 = DtoAssembler.compararFecha(competicion.getF_fin2(), fechaString, competicion.getF_inicio2());
+		if (competicion.getF_fin3() != null)
+			plazo3 = DtoAssembler.compararFecha(competicion.getF_fin3(), fechaString, competicion.getF_inicio3());
+		
+		if (plazo3) {
+			return competicion.getCuota3();
+		}else if (plazo2) {
+			return competicion.getCuota2();
+		}else
+			return competicion.getCuota1();
+		
+	}
+
+
 	private void consultasUpdate() {
 		ins.actualizarInscripcionEstado("Inscrito",atleta.getDni(),competicion.getId());
 		comp.actualizarPlazas(competicion.getId());
