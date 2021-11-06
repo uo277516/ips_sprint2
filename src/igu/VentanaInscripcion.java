@@ -183,7 +183,7 @@ public class VentanaInscripcion extends JFrame {
 	protected void inscribirParticipante() {
 		System.out.println(txtEmail.getText());
 		System.out.println(cSeleccionada.getId());
-		float n = 10.0f + cSeleccionada.getCuota();
+		float n = 10.0f + cSeleccionada.getCuota1();
 		ins.agregarInscripcion(txtEmail.getText(), cSeleccionada.getId(), n, cambiarFormatoFecha());
 
 	}
@@ -225,7 +225,7 @@ public class VentanaInscripcion extends JFrame {
 	 */
 	private String getInformacion() {
 		String s = "";
-		float n = 10.0f + cSeleccionada.getCuota();
+		float n = 10.0f + cSeleccionada.getCuota1();
 		atleta = ins.findAtletaEmail(txtEmail.getText());
 		return s += "Nombre del atleta: " + atleta.getNombre() + "\n" + "Competici�n: " + cSeleccionada.getNombre()
 				+ "\n" + "Categor�a: " + ins.getCategoriaByDniId(atleta.getDni(), cSeleccionada.getId()) + "\n"

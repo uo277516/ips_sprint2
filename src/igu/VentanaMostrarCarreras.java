@@ -227,18 +227,39 @@ public class VentanaMostrarCarreras extends JFrame {
 			String[][] info = new String[competiciones.size()][8];
 			//List<AtletaDto> atletas = getAtletas();
 			//List<InscripcionDto> inscripciones = getInscripciones();
-			
+			float cuota=0;
+			String fecha ="";
 			for(int i = 0; i < competiciones.size(); i++) {
 				info[i][0] = String.valueOf(competiciones.get(i).getId());
 				info[i][1] = competiciones.get(i).getNombre();info[i][2] = competiciones.get(i).getF_comp();
 				info[i][3] = competiciones.get(i).getTipo();info[i][4] = competiciones.get(i).getDistancia()+"km";
-				info[i][5] = String.valueOf(competiciones.get(i).getCuota())+"\u20AC";info[i][6] = competiciones.get(i).getF_fin();
+				cuota = sacarCuota(competiciones.get(i));
+				fecha = sacarFechaFin(competiciones.get(i));
+				info[i][5] = String.valueOf(cuota)+"\u20AC";info[i][6] = fecha;
 				info[i][7] = String.valueOf(competiciones.get(i).getNum_plazas());
 				modelo.addRow(info[i]);
 			}
 		}
 		
 		return table;
+	}
+
+	private String sacarFechaFin(CompeticionDto competicionDto) {
+		if (competicionDto.getF_fin3() != null)
+			return competicionDto.getF_fin3();
+		else if (competicionDto.getF_fin2() != null)
+			return competicionDto.getF_fin2();
+		
+		return competicionDto.getF_fin1();
+	}
+
+	private float sacarCuota(CompeticionDto competicionDto) {
+		if (competicionDto.getCuota3()>0)
+			return competicionDto.getCuota3();
+		else if (competicionDto.getCuota2()>0)
+			return competicionDto.getCuota2();
+		
+		return competicionDto.getCuota1();
 	}
 	
 	
