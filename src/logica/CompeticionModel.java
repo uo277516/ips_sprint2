@@ -15,12 +15,10 @@ public class CompeticionModel {
 	public static String sql1 = "select * from competicion";
 	public static String sql2ById = "select * from competicion where id=?";
 	public static String sqlActualizarPlazas = "update competicion set num_plazas = num_plazas-1 where id =?";
-<<<<<<< HEAD
 
-=======
+
+
 	public static String sqlInsertarCompeticionBasicos = "insert into competicion (nombre,f_comp,tipo,distancia,num_plazas,id) values (?,?,?,?,?,?)";
-	
->>>>>>> refs/heads/15320
 	private InscripcionModel im = new InscripcionModel();
 	private AtletaModel am = new AtletaModel();
 
@@ -176,7 +174,7 @@ public class CompeticionModel {
 		try {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sql2ById);
-			pst.setInt(1, Integer.parseInt(identificador));
+			pst.setString(1, identificador);
 			rs = pst.executeQuery();
 
 			// Añadimos los pedidos a la lista
@@ -239,12 +237,12 @@ public class CompeticionModel {
 		}
 	}
 
-	public void listarClasificacionPorCategoria(int carreraId, String sql) throws SQLException {
+	public void listarClasificacionPorCategoria(String carreraId, String sql) throws SQLException {
 		listarClasificacionPorSexo(carreraId, "masculino");
 		listarClasificacionPorSexo(carreraId, "femenino");
 	}
 
-	public void listarClasificacionPorSexo(int carreraId, String sexo) throws SQLException {
+	public void listarClasificacionPorSexo(String carreraId, String sexo) throws SQLException {
 		AtletaDto a;
 		List<InscripcionDto> inscripciones = im.getInscripcionesPorTiempoYSexo(carreraId, sexo);
 		System.out.println("----- Clasificacion sexo " + sexo + " -----");
@@ -274,7 +272,7 @@ public class CompeticionModel {
 		return clasificacion;
 	}
 
-	public List<String> getClasificacionPorSexo(int id, String categoria) throws SQLException {
+	public List<String> getClasificacionPorSexo(String id, String categoria) throws SQLException {
 		if (categoria == "General") {
 			return getClasificacion(id);
 		} else {
