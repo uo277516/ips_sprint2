@@ -1,7 +1,7 @@
 package logica;
 
 public class InscripcionDto {
-	
+
 	@Override
 	public String toString() {
 		return "InscripcionDto [dni_a=" + dni_a + ", id_c=" + id_c + ", categoria=" + categoria + ", email=" + email
@@ -17,6 +17,9 @@ public class InscripcionDto {
 	private String metodo_pago;
 	private float cantidad_pagada;
 	private int horas;
+	private int minutos;
+	private String estado;
+
 	public String getDni_a() {
 		return dni_a;
 	}
@@ -89,11 +92,7 @@ public class InscripcionDto {
 		this.minutos = minutos;
 	}
 
-	private int minutos;
-	private String estado;
-	
-	public InscripcionDto()
-	{
+	public InscripcionDto() {
 	}
 
 	public String getEstado() {
@@ -107,16 +106,13 @@ public class InscripcionDto {
 	public String mostrarMisInscripcionesNombre(String nombre) {
 		return "--> Nombre: " + nombre;
 	}
-	
+
 	public String mostrarMisInscripcionesEstado() {
-		return "      Estado de la inscripción:"
-				+ " " + getEstado();
+		return "      Estado de la inscripciï¿½n:" + " " + getEstado();
 	}
+
 	public String mostrarMisInscripcionesFecha() {
-		return "      Fecha último cambio: " + getFecha();
+		return "      Fecha ï¿½ltimo cambio: " + getFecha();
 	}
-	
-	
-	
 
 }

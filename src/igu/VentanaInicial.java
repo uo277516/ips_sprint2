@@ -84,7 +84,7 @@ public class VentanaInicial extends JFrame {
 	protected void elegirAsOrganizador() {
 		int seleccion = JOptionPane.showOptionDialog(
 				   this,
-				   "¿Desea conocer el estado de las diferentes inscripciones o las clasificiones?", 
+				   "ï¿½Desea conocer el estado de las diferentes inscripciones o las clasificiones?", 
 				   "Inicio como organizador",
 				   JOptionPane.YES_NO_CANCEL_OPTION,
 				   JOptionPane.QUESTION_MESSAGE,
@@ -124,7 +124,7 @@ public class VentanaInicial extends JFrame {
 	protected void elegirAsAtleta() {
 		int seleccion = JOptionPane.showOptionDialog(
 				   this,
-				   "¿Desea inscribirse o conocer el estado de sus inscripciones?", 
+				   "ï¿½Desea inscribirse o conocer el estado de sus inscripciones?", 
 				   "Inicio como atleta",
 				   JOptionPane.YES_NO_CANCEL_OPTION,
 				   JOptionPane.QUESTION_MESSAGE,
@@ -145,7 +145,6 @@ public class VentanaInicial extends JFrame {
 
 	private void mostrarVentanaConocerEstado() {
 		this.dispose();
-		//CompeticionDto competicion = crearCompeticion();
 		VentanaInscripcionesAtleta vPal = new VentanaInscripcionesAtleta(this);
 		vPal.setLocationRelativeTo(this);
 		vPal.setVisible(true);

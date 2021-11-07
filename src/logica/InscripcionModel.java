@@ -21,7 +21,6 @@ public class InscripcionModel {
 	public static String sql5 = "select * from inscripcion where inscripcion.dni_a=? order by inscripcion.fecha asc";
 	public static String COMPID_INS = "select * from inscripcion where id_c=?";
 
-	public static String ATLETA_DNI = "select * from atleta where dni = ?";
 	public static String INS_DNI_IDC = "select * from inscripcion where dni_a = ? and id_c = ?";
 	public static String CAT_INS_DNI_ID = "select categoria from inscripcion where dni_a = ? and id_c = ?";
 	public static String sql6Ins = "select * from inscripcion where dni_a=? and id_c =?";
@@ -44,7 +43,7 @@ public class InscripcionModel {
 		}
 		return a;
 	}
-	
+
 	public AtletaDto findAtletaEmail2(String email) {
 		AtletaDto a = null;
 		try {
@@ -55,7 +54,7 @@ public class InscripcionModel {
 		}
 		return a;
 	}
-	
+
 	private AtletaDto findAtletaByEmail2(String email) throws SQLException {
 		AtletaDto a = null;
 		Connection c = null;
@@ -105,9 +104,6 @@ public class InscripcionModel {
 		}
 		return a;
 	}
-	
-	
-	
 
 	public List<InscripcionDto> getInscripciones() throws SQLException {
 		return getAllInscripciones();
@@ -116,7 +112,7 @@ public class InscripcionModel {
 	private List<InscripcionDto> getAllInscripciones() throws SQLException {
 		List<InscripcionDto> listaInscrpcines = new ArrayList<InscripcionDto>();
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -125,7 +121,7 @@ public class InscripcionModel {
 			pst = c.prepareStatement(sql1);
 			rs = pst.executeQuery();
 
-			// Añadimos los pedidos a la lista
+			// Aï¿½adimos los pedidos a la lista
 			listaInscrpcines = DtoAssembler.toInscripcionDtoList(rs);
 
 		} catch (SQLException e) {
@@ -157,7 +153,7 @@ public class InscripcionModel {
 	private boolean existsThisEmail(String email) throws SQLException {
 		List<InscripcionDto> listaAtletas = new ArrayList<InscripcionDto>();
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -167,7 +163,7 @@ public class InscripcionModel {
 			pst.setString(1, email);
 			rs = pst.executeQuery();
 
-			// Añadimos los pedidos a la lista
+			// Aï¿½adimos los pedidos a la lista
 			listaAtletas = DtoAssembler.toInscripcionDtoList(rs);
 
 		} catch (SQLException e) {
@@ -191,7 +187,7 @@ public class InscripcionModel {
 		try {
 			agregarParticipante(text, id, f, fecha);
 		} catch (SQLException e) {
-			System.out.println("no se pudo añadir -- inscripcion model");
+			System.out.println("no se pudo aï¿½adir -- inscripcion model");
 			e.printStackTrace();
 		}
 	}
@@ -200,7 +196,7 @@ public class InscripcionModel {
 		AtletaDto a = findAtletaEmail2(email);
 		String dni = a.getDni();
 		String cat = calcularCategoria(a.getF_nac());
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 //        ResultSet rs = null;
@@ -275,7 +271,7 @@ public class InscripcionModel {
 	private List<InscripcionDto> buscarInsByDniP(String dni) throws SQLException {
 		List<InscripcionDto> listaDni = new ArrayList<InscripcionDto>();
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -285,7 +281,7 @@ public class InscripcionModel {
 			pst.setString(1, dni);
 			rs = pst.executeQuery();
 
-			// Añadimos los pedidos a la lista
+			// Aï¿½adimos los pedidos a la lista
 			listaDni = DtoAssembler.toInscripcionDtoList(rs);
 
 		} catch (SQLException e) {
@@ -305,7 +301,7 @@ public class InscripcionModel {
 	public List<InscripcionDto> buscarInsByEmailP(String email) throws SQLException {
 		List<InscripcionDto> listaE = new ArrayList<InscripcionDto>();
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -315,7 +311,7 @@ public class InscripcionModel {
 			pst.setString(1, email);
 			rs = pst.executeQuery();
 
-			// Añadimos los pedidos a la lista
+			// Aï¿½adimos los pedidos a la lista
 			listaE = DtoAssembler.toInscripcionDtoList(rs);
 
 		} catch (SQLException e) {
@@ -361,7 +357,7 @@ public class InscripcionModel {
 		try {
 			a = getCategoria(dni, id);
 		} catch (SQLException e) {
-			System.out.println("no se pudo añadir -- inscripcion model");
+			System.out.println("no se pudo aï¿½adir -- inscripcion model");
 			e.printStackTrace();
 		}
 		return a;
@@ -413,7 +409,6 @@ public class InscripcionModel {
 			pst = c.prepareStatement(sql6Ins);
 			pst.setString(1, dni_a);
 			pst.setInt(2, id_c);
-			// System.out.println(pst);
 			rs = pst.executeQuery();
 			rs.next();
 
@@ -439,7 +434,7 @@ public class InscripcionModel {
 	}
 
 	private void actualizarEstado(String estado, String dni, int id) throws SQLException {
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 //        ResultSet rs = null;
@@ -470,7 +465,7 @@ public class InscripcionModel {
 	}
 
 	private void actualizarFechaP(String fecha, String dni, int id) throws SQLException {
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 //        ResultSet rs = null;
@@ -501,7 +496,7 @@ public class InscripcionModel {
 	}
 
 	public void cambiarMetodoPagoP(String string, String dni, int id) throws SQLException {
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 //        ResultSet rs = null;
@@ -525,7 +520,7 @@ public class InscripcionModel {
 	public List<InscripcionDto> getInscripcionesPorTiempo(int carreraId) throws SQLException {
 		List<InscripcionDto> listaInscripciones = new ArrayList<InscripcionDto>();
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -551,7 +546,7 @@ public class InscripcionModel {
 	public List<InscripcionDto> getInscripcionesPorTiempoYSexo(int carreraId, String sexo) throws SQLException {
 		List<InscripcionDto> listaInscripciones = new ArrayList<InscripcionDto>();
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;

@@ -227,9 +227,9 @@ public class VentanaInscripcion extends JFrame {
 		String s = "";
 		float n = 10.0f + cSeleccionada.getCuota();
 		atleta = ins.findAtletaEmail(txtEmail.getText());
-		return s += "Nombre del atleta: " + atleta.getNombre() + "\n" + "Competici�n: " + cSeleccionada.getNombre()
-				+ "\n" + "Categor�a: " + ins.getCategoriaByDniId(atleta.getDni(), cSeleccionada.getId()) + "\n"
-				+ "Fecha de inscripci�n: " + cambiarFormatoFecha() + "\n" + "Cantidad a abonar: " + n
+		return s += "Nombre del atleta: " + atleta.getNombre() + "\n" + "Competición: " + cSeleccionada.getNombre()
+				+ "\n" + "Categoría: " + ins.getCategoriaByDniId(atleta.getDni(), cSeleccionada.getId()) + "\n"
+				+ "Fecha de inscripción: " + cambiarFormatoFecha() + "\n" + "Cantidad a abonar: " + n
 				+ " euros (cuota+gastos adicionales)";
 	}
 
@@ -269,10 +269,10 @@ public class VentanaInscripcion extends JFrame {
 			btnSiguiente.setEnabled(false);
 			btnSiguiente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int seleccion = JOptionPane.showOptionDialog(null, "M�todo de pago",
-							"Seleccione una opci�n para pagar su inscripci�n", JOptionPane.YES_NO_CANCEL_OPTION,
+					int seleccion = JOptionPane.showOptionDialog(null, "Método de pago",
+							"Seleccione una opción para pagar su inscripción", JOptionPane.YES_NO_CANCEL_OPTION,
 							JOptionPane.QUESTION_MESSAGE, null, // null para icono por defecto.
-							new Object[] { "Tarjeta de cr�dito", "Tranferencia" }, // null para YES, NO y CANCEL
+							new Object[] { "Tarjeta de crédito", "Tranferencia" }, // null para YES, NO y CANCEL
 							"opcion 1");
 
 					if (seleccion != -1)
