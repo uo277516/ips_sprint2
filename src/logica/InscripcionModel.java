@@ -283,9 +283,8 @@ public class InscripcionModel {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sql5);
 			pst.setString(1, dni);
-			
 			rs = pst.executeQuery();
-			rs.next();
+
 			// Añadimos los pedidos a la lista
 			listaDni = DtoAssembler.toInscripcionDtoList(rs);
 
@@ -549,7 +548,7 @@ public class InscripcionModel {
 		return listaInscripciones;
 	}
 
-	public List<InscripcionDto> getInscripcionesPorTiempoYSexo(String carreraId, String sexo) throws SQLException {
+	public List<InscripcionDto> getInscripcionesPorTiempoYSexo(int carreraId, String sexo) throws SQLException {
 		List<InscripcionDto> listaInscripciones = new ArrayList<InscripcionDto>();
 
 		// Conexión a la base de datos
