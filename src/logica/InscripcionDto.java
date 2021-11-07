@@ -9,6 +9,14 @@ public class InscripcionDto {
 				+ ", horas=" + horas + ", minutos=" + minutos + "]";
 	}
 
+	// Estados
+	public static String INSCRITO = "Inscrito";
+	public static String PRE_INSCRITO = "Pre-inscrito";
+	public static String ANULADA = "Anulada";
+	public static String ANULADA_DEVOLUCION = "Anulada - pendiente de devolución";
+	public static String INSCRITO_DEVOLUCION = "Inscrito - pendiente de devolución";
+	public static String PENDIENTE = "Pendiente";
+
 	private String dni_a;
 	private String id_c;
 	private String categoria;

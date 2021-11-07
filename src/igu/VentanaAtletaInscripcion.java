@@ -228,7 +228,7 @@ public class VentanaAtletaInscripcion extends JFrame {
 				updateInscripcion(linea);
 				i++;
 			}
-			System.out.println(linea);
+//			System.out.println(linea);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -250,14 +250,32 @@ public class VentanaAtletaInscripcion extends JFrame {
 		InscripcionDto ins = im.findInsByDniId(dnia, this.competition.getId());
 
 		float cuota = this.competition.getCuota();
+		float pagado = Integer.valueOf(line[2]);
 		LocalDate ahora = LocalDate.now();
 		String[] dateFichero = line[1].split("-");
 		LocalDate date = LocalDate.of(Integer.valueOf(dateFichero[2]), Integer.valueOf(dateFichero[1]),
 				Integer.valueOf(dateFichero[0]));
 		long dias = DAYS.between(date, ahora);
-		if (dias < 3) {
-			im.actualizarInscripcionEstado("INSCRITO", dnia, this.competition.getId());
+		if (dias >= 3) {
+			// Fuera del plazo
+			if (pagado > 0) {
+				// Pagó
+				im.actualizarInscripcionEstado("Anulada - pendiente de devolucion", dnia, this.competition.getId());
+			} else {
+				im.actualizarInscripcionEstado("Anulada", dnia, this.competition.getId());
+			}
+		} else {
+			// Dentro del plazo
+			if (cuota == pagado) {
+				// Pagó la cantidad correcta
+				im.actualizarInscripcionEstado("Inscrito", dnia, this.competition.getId());
+			} else if (cuota < pagado) {
+				// Pagó de más
+				im.actualizarInscripcionEstado("Inscrito - pendiente de devolución", dnia, this.competition.getId());
+			} else {
+				// Pagó de menos
+				im.actualizarInscripcionEstado("Anulada - pendiente de devolución", dnia, this.competition.getId());
+			}
 		}
-		// TODO
 	}
 }
