@@ -283,8 +283,9 @@ public class InscripcionModel {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sql5);
 			pst.setString(1, dni);
+			
 			rs = pst.executeQuery();
-
+			rs.next();
 			// Añadimos los pedidos a la lista
 			listaDni = DtoAssembler.toInscripcionDtoList(rs);
 
