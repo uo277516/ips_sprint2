@@ -251,6 +251,7 @@ public class VentanaTarjetaCredito extends JFrame {
 									txtCvc.setText("");
 								}else {
 									pagarInscripcion();
+									btnValidar.setEnabled(false);
 								}
 							} catch (ParseException e1) {
 								// TODO Auto-generated catch block

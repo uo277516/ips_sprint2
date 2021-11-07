@@ -16,7 +16,8 @@ public class CompeticionModel {
 	public static String sql2ById = "select * from competicion where id=?";
 	public static String sqlActualizarPlazas = "update competicion set num_plazas = num_plazas-1 where id =?";
 	public static String sqlInsertarCompeticionBasicos = "insert into competicion (nombre,f_comp,tipo,distancia,num_plazas,id) values (?,?,?,?,?,?)";
-	
+	public static String sqlFinCom = "select * from competicion where id =?";
+
 	private InscripcionModel im = new InscripcionModel();
 	private AtletaModel am = new AtletaModel();
 
@@ -85,7 +86,7 @@ public class CompeticionModel {
 		}
 		return articulos;
 	}
-	
+
 	public void insertarDatosBasicos(String id,String nombre, String fecha,String tipo, int distancia,int plazas) {
 		try {
 			insertarDatosBasicosPrivado(id, nombre, fecha, tipo, distancia, plazas);
@@ -94,7 +95,7 @@ public class CompeticionModel {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void insertarDatosBasicosPrivado(String id,String nombre, String fecha,String tipo, int distancia,int plazas) throws SQLException {
 		// Conexión a la base de datos
 		Connection c = null;
@@ -104,14 +105,14 @@ public class CompeticionModel {
 			pst = c.prepareStatement(sqlInsertarCompeticionBasicos);
 			if (pst != null)
 				System.out.println("Adios");
-			
+
 			pst.setString(1, nombre);
 			pst.setString(2, fecha);
 			pst.setString(3, tipo);
 			pst.setInt(4, distancia);
 			pst.setInt(5, plazas);
 			pst.setString(6, id);
-			
+
 			pst.executeUpdate();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -144,10 +145,10 @@ public class CompeticionModel {
 			c.close();
 		}
 
-//        for (AtletaDto atletaDto : listaPedidos) {
-//			System.out.println(atletaDto.getDni() + " " + atletaDto.getF_nac()
-//			);
-//		}
+		//        for (AtletaDto atletaDto : listaPedidos) {
+		//			System.out.println(atletaDto.getDni() + " " + atletaDto.getF_nac()
+		//			);
+		//		}
 		return listaCompeticiones;
 	}
 
@@ -205,7 +206,7 @@ public class CompeticionModel {
 		// Conexión a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
-//        ResultSet rs = null;
+		//        ResultSet rs = null;
 		try {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sqlActualizarPlazas);
@@ -231,7 +232,7 @@ public class CompeticionModel {
 				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
 			else
 				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: " + i.getHoras()
-						+ "h " + i.getMinutos() + " minutos");
+				+ "h " + i.getMinutos() + " minutos");
 		}
 	}
 
@@ -250,7 +251,7 @@ public class CompeticionModel {
 				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
 			else
 				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: " + i.getHoras()
-						+ "h " + i.getMinutos() + " minutos");
+				+ "h " + i.getMinutos() + " minutos");
 		}
 	}
 
@@ -265,8 +266,10 @@ public class CompeticionModel {
 				clasificacion.add("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
 			else
 				clasificacion.add("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: " + i.getHoras()
-						+ "h " + i.getMinutos() + " minutos");
+				+ "h " + i.getMinutos() + " minutos");
 		}
 		return clasificacion;
 	}
+
+	
 }
