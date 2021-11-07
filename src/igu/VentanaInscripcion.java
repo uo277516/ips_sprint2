@@ -45,6 +45,7 @@ public class VentanaInscripcion extends JFrame {
 	private JTextArea textArea;
 	private AtletaDto atleta;
 	private JButton btnSiguiente;
+	private VentanaRegistro vR;
 
 //	/**
 //	 * Launch the application.
@@ -91,6 +92,8 @@ public class VentanaInscripcion extends JFrame {
 		contentPane.add(getBtnSiguiente());
 	}
 
+	
+
 	private JLabel getLblPedir() {
 		if (lblPedir == null) {
 			lblPedir = new JLabel("Para inscribirte en una nueva carrera, por favor introduzca su email:");
@@ -127,24 +130,26 @@ public class VentanaInscripcion extends JFrame {
 			btnValidar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					if (txtEmail.getText().equals("")) {
+					if (txtEmail.getText().equals("")) { //si esta vacio
 						mostrarErrorVacio();
-//					} else if (!registradoAtletaEnBase()) {
-//						mostrarErrorDatosNoRegistrados();
-					
-					} else if (!yaRegistradoEnlaCarrera()) {
+					} else if (yaRegistradoEnlaCarrera()) { //si ya en la carrera
+						mostrarErrorYaRegistrado();
+					} else if (registradoAtletaEnBase()) { //si ya en la base de datos
 						textArea.setEnabled(true);
 						lblInfoJus.setVisible(true);
 						btnSiguiente.setEnabled(true);
 						inscribirParticipante();
 						textArea.setText(getInformacion());
-					} else if (yaRegistradoEnlaCarrera()) {
-						mostrarErrorYaRegistrado();
-					} else if (!haySuficientesPlazas()) {
+					} else if (!registradoAtletaEnBase()) { //si no en la base de datos
+						System.out.println("patata");
+						mostrarMensajeNoInscritoSiQuiere();
+					} else if (!haySuficientesPlazas()) { //si no plazos
 						mostrarErrorPlazas();
-					} else if (esMenor()) {
+					} else if (esMenor()) { //si es menor
 						mostrarErrorMenor();
-					} } }
+					} 
+				}
+			}
 			);
 			btnValidar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			btnValidar.setBackground(SystemColor.activeCaption);
@@ -153,21 +158,41 @@ public class VentanaInscripcion extends JFrame {
 		return btnValidar;
 	}
 
+	protected void mostrarMensajeNoInscritoSiQuiere() {
+		int reply = JOptionPane.showConfirmDialog(this, "No estás registrado en la base ¿te gustaría registrarte?", "Ventana registro", JOptionPane.YES_NO_OPTION);
+        if (reply == JOptionPane.YES_OPTION) {
+          mostrarVentanaRegistro();
+        }
+        else {
+           JOptionPane.showMessageDialog(this, "Lo sentimos, pero entonces no puede inscribirse.");
+           System.exit(0);
+        }
+	}
+
+	private void mostrarVentanaRegistro() {
+		//this.dispose();
+		// CompeticionDto competicion = crearCompeticion();
+		VentanaRegistro vPal = new VentanaRegistro(this);
+		vPal.setLocationRelativeTo(this);
+		vPal.setVisible(true);
+	}
+
 	protected void mostrarErrorDatosNoRegistrados() {
-		JOptionPane.showMessageDialog(this, "Sus datos todavï¿½a no han sido registrados");
+		JOptionPane.showMessageDialog(this, "Sus datos todavia no han sido registrados");
 
 	}
 
 	private boolean registradoAtletaEnBase() {
-		if (atl.atletaEnBase(txtEmail.getText()))
+		if (atl.atletaYaRegistradoEnLaBase(txtEmail.getText()).isEmpty()) 
+		{
+			//si no hay ninguno
 			return false;
-		else
-			return true;
+		} else return true;
 	}
 
 	protected void mostrarErrorMenor() {
 		JOptionPane.showMessageDialog(this,
-				"Usted es menor de edad, por lo tanto no puede participar en la competiciÃ³n");
+				"Usted es menor de edad, por lo tanto no puede participar en la competicion");
 
 	}
 
@@ -227,9 +252,9 @@ public class VentanaInscripcion extends JFrame {
 		String s = "";
 		float n = 10.0f + cSeleccionada.getCuota1();
 		atleta = ins.findAtletaEmail(txtEmail.getText());
-		return s += "Nombre del atleta: " + atleta.getNombre() + "\n" + "Competiciï¿½n: " + cSeleccionada.getNombre()
-				+ "\n" + "Categorï¿½a: " + ins.getCategoriaByDniId(atleta.getDni(), cSeleccionada.getId()) + "\n"
-				+ "Fecha de inscripciï¿½n: " + cambiarFormatoFecha() + "\n" + "Cantidad a abonar: " + n
+		return s += "Nombre del atleta: " + atleta.getNombre() + "\n" + "Competicion: " + cSeleccionada.getNombre()
+				+ "\n" + "Categoria: " + ins.getCategoriaByDniId(atleta.getDni(), cSeleccionada.getId()) + "\n"
+				+ "Fecha de inscripcion: " + cambiarFormatoFecha() + "\n" + "Cantidad a abonar: " + n
 				+ " euros (cuota+gastos adicionales)";
 	}
 

@@ -23,7 +23,8 @@ public class AtletaModel {
 	
 	public static String sqlFindByDni = "select * from atleta where dni=?";
 	public static String sqlFindByEmail = "select * from atleta where email=?";
-
+	//String dni, String nombre, String sexo, String fecha, String email
+	public static String sqlAdd = "insert into Atleta(dni, nombre, sexo, f_nac, email) values (?,?,?,?,?)";
 
 	public List<AtletaDto> getAtletas() throws SQLException {
 		return getAllAtletas();
@@ -148,6 +149,46 @@ public class AtletaModel {
 		}
 		return op;
 	}
+	
+	
+	public List<AtletaDto> atletaYaRegistradoEnLaBase(String email)
+	{
+		List<AtletaDto> atletas = new ArrayList<AtletaDto>();
+		try {
+			atletas = atletaYaRegistradoEnLaBaseP(email);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("algo mal ventana atleta model");
+		}
+		return atletas;
+	}
+	
+	private List<AtletaDto> atletaYaRegistradoEnLaBaseP(String email) throws SQLException
+	{
+		List<AtletaDto> atletas = new ArrayList<AtletaDto>();
+
+		Connection c = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sql3);
+			pst.setString(1, email);
+			rs = pst.executeQuery();
+
+			atletas = DtoAssembler.toAtletaDtoList(rs);
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			rs.close();
+			pst.close();
+			c.close();
+		}
+
+		return atletas;
+	}
 
 	public List<AtletaDto> getAletasDeUnaCompeticion(String id) throws SQLException {
 		List<AtletaDto> atletas = new ArrayList<AtletaDto>();
@@ -259,5 +300,41 @@ public class AtletaModel {
 			c.close();
 		}
 		return a;
+	}
+	
+	public void añadirAtleta(String dni, String nombre, String sexo, String fecha, String email)
+	{
+		try {
+			añadirAtletaP(dni, nombre, sexo, fecha, email);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void añadirAtletaP(String dni, String nombre, String sexo, String fecha, String email) throws SQLException {
+		// Conexión a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		//ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sqlAdd);
+			pst.setString(1, dni);
+			pst.setString(2, nombre);
+			pst.setString(3, sexo);
+			pst.setString(4, fecha);
+			pst.setString(5, email);
+			pst.executeUpdate();
+
+//			rs.next();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			//rs.close();
+			pst.close();
+			c.close();
+		}
 	}
 }
