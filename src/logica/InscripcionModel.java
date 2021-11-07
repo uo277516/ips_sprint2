@@ -547,7 +547,7 @@ public class InscripcionModel {
 
 		return listaInscripciones;
 	}
-
+//aver
 	public List<InscripcionDto> getInscripcionesPorTiempoYSexo(int carreraId, String sexo) throws SQLException {
 		List<InscripcionDto> listaInscripciones = new ArrayList<InscripcionDto>();
 
