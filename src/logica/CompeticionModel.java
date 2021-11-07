@@ -17,6 +17,9 @@ public class CompeticionModel {
 	public static String sqlActualizarPlazas = "update competicion set num_plazas = num_plazas-1 where id =?";
 	public static String sqlInsertarCompeticionBasicos = "insert into competicion (nombre,f_comp,tipo,distancia,num_plazas,id) values (?,?,?,?,?,?)";
 	public static String sqlFinCom = "select * from competicion where id =?";
+	public static String sqlActualizarCompeticion1 = "update competicion set f_inicio1=?, f_fin1=?, cuota1=? where id=?";
+	public static String sqlActualizarCompeticion2 = "update competicion set f_inicio2=?, f_fin2=?, cuota2=? where id=?";
+	public static String sqlActualizarCompeticion3 = "update competicion set f_inicio3=?, f_fin3=?, cuota3=? where id=?";
 
 	private InscripcionModel im = new InscripcionModel();
 	private AtletaModel am = new AtletaModel();
@@ -211,6 +214,102 @@ public class CompeticionModel {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sqlActualizarPlazas);
 			pst.setString(1, id);
+			pst.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			pst.close();
+			c.close();
+		}
+
+	}
+	
+	public void actualizarCopeticion1(String fechaInicio,String fechaFin, float cuota,String id) {
+		try {
+			actualizarCopeticion1P(fechaInicio,fechaFin,cuota,id);
+		} catch (SQLException e) {
+			System.out.println("no se pudo actuliazar");
+			e.printStackTrace();
+		}
+	}
+
+	private void actualizarCopeticion1P(String fechaInicio,String fechaFin, float cuota,String id) throws SQLException {
+		// Conexión a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		//        ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sqlActualizarCompeticion1);
+			pst.setString(1, fechaInicio);
+			pst.setString(2, fechaFin);
+			pst.setFloat(3, cuota);
+			pst.setString(4, id);
+			pst.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			pst.close();
+			c.close();
+		}
+
+	}
+	
+	public void actualizarCopeticion2(String fechaInicio,String fechaFin, float cuota,String id) {
+		try {
+			actualizarCopeticion2P(fechaInicio,fechaFin,cuota,id);
+		} catch (SQLException e) {
+			System.out.println("no se pudo actuliazar");
+			e.printStackTrace();
+		}
+	}
+
+	private void actualizarCopeticion2P(String fechaInicio,String fechaFin, float cuota,String id) throws SQLException {
+		// Conexión a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		//        ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sqlActualizarCompeticion2);
+			pst.setString(1, fechaInicio);
+			pst.setString(2, fechaFin);
+			pst.setFloat(3, cuota);
+			pst.setString(4, id);
+			pst.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			pst.close();
+			c.close();
+		}
+
+	}
+	
+	public void actualizarCopeticion3(String fechaInicio,String fechaFin, float cuota,String id) {
+		try {
+			actualizarCopeticion3P(fechaInicio,fechaFin,cuota,id);
+		} catch (SQLException e) {
+			System.out.println("no se pudo actuliazar");
+			e.printStackTrace();
+		}
+	}
+
+	private void actualizarCopeticion3P(String fechaInicio,String fechaFin, float cuota,String id) throws SQLException {
+		// Conexión a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		//        ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sqlActualizarCompeticion3);
+			pst.setString(1, fechaInicio);
+			pst.setString(2, fechaFin);
+			pst.setFloat(3, cuota);
+			pst.setString(4, id);
 			pst.executeUpdate();
 
 		} catch (SQLException e) {

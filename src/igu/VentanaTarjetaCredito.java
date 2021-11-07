@@ -131,13 +131,25 @@ public class VentanaTarjetaCredito extends JFrame {
 			return false;
 	}
 	
+	private boolean fechaValida(String fecha) throws ParseException {
+		SimpleDateFormat formato =new SimpleDateFormat("dd/MM/yyyy");
+		
+		Date fechaTarjeta = formato.parse(fecha);
+		Date fechaActual = formato.parse(cambiarFormatoFecha());
+		
+		if (fechaTarjeta.before(fechaActual)) {
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * Comprueba si la cadena esta formada por numeros
 	 * @param dni
 	 * @return
 	 * @throws ParseException 
 	 */
-	private boolean soloNumerosFecha(String fecha) throws ParseException {
+	private boolean soloNumerosFecha(String fecha){
 		String numero="";
 		int contador =0;
 		String minumero="";
@@ -155,14 +167,7 @@ public class VentanaTarjetaCredito extends JFrame {
 				contador++;
 			}
 		}
-		SimpleDateFormat formato =new SimpleDateFormat("dd/MM/yyyy");
 		
-		Date fechaTarjeta = formato.parse(fecha);
-		Date fechaActual = formato.parse(cambiarFormatoFecha());
-		
-		if (fechaTarjeta.before(fechaActual)) {
-			return false;
-		}
 		
 		if (contador==2 && minumero.length()==8) {
 			if (posiciones[2] != null && posiciones[5]!=null) {
@@ -245,7 +250,9 @@ public class VentanaTarjetaCredito extends JFrame {
 								if(!soloNumerosFecha(txtFecha.getText())) {
 									mostrarErrorFecha();
 									txtFecha.setText(""); 
-									
+								}else if(!fechaValida(txtFecha.getText())) {
+									mostrarErrorFecha();
+									txtFecha.setText(""); 	
 								}else if(!soloNumeros3(txtCvc.getText())) {
 									mostrarErrorCvc();
 									txtCvc.setText("");
@@ -261,6 +268,8 @@ public class VentanaTarjetaCredito extends JFrame {
 					}
 				
 				}
+
+				
 			});
 			btnValidar.setBounds(506, 198, 89, 31);
 			btnValidar.setForeground(Color.WHITE);
