@@ -7,7 +7,10 @@ import java.awt.SystemColor;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -250,13 +253,67 @@ public class VentanaInscripcion extends JFrame {
 	 */
 	private String getInformacion() {
 		String s = "";
-		float n = 10.0f + cSeleccionada.getCuota1();
+		float n = 10.0f + cogerCuotaSegunFecha();
 		atleta = ins.findAtletaEmail(txtEmail.getText());
 		return s += "Nombre del atleta: " + atleta.getNombre() + "\n" + "Competicion: " + cSeleccionada.getNombre()
 				+ "\n" + "Categoria: " + ins.getCategoriaByDniId(atleta.getDni(), cSeleccionada.getId()) + "\n"
 				+ "Fecha de inscripcion: " + cambiarFormatoFecha() + "\n" + "Cantidad a abonar: " + n
 				+ " euros (cuota+gastos adicionales)";
 	}
+
+	private float cogerCuotaSegunFecha() {
+		SimpleDateFormat formato =new SimpleDateFormat("dd/MM/yyyy");
+		Date fechaActual = null;
+		Date fechaInicio1 = null;
+		Date fechaInicio2 = null;
+		Date fechaInicio3 = null;
+		Date fechaFin1 = null;
+		Date fechaFin2 = null;
+		Date fechaFin3 = null;
+		
+		try {
+			fechaActual = formato.parse(cambiarFormatoFecha());
+			if (cSeleccionada.getF_inicio1()!=null) {
+				fechaInicio1 = formato.parse(cSeleccionada.getF_inicio1());
+				fechaFin1 = formato.parse(cSeleccionada.getF_fin1());
+			}
+			if (cSeleccionada.getF_inicio2()!=null) {
+				fechaInicio2 = formato.parse(cSeleccionada.getF_inicio2());
+				fechaFin2 = formato.parse(cSeleccionada.getF_fin2());
+			}
+			if (cSeleccionada.getF_inicio3()!=null) {
+				fechaInicio3 = formato.parse(cSeleccionada.getF_inicio3());
+				fechaFin3 = formato.parse(cSeleccionada.getF_fin3());
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (cSeleccionada.getF_inicio1()!=null) {
+	        if (fechaActual.before(fechaFin1) && fechaActual.after(fechaInicio1))
+	        {
+	        	return cSeleccionada.getCuota1();
+	        }
+		}
+		else if (cSeleccionada.getF_inicio2()!=null) {
+	        if (fechaActual.before(fechaFin2) && fechaActual.after(fechaInicio2))
+	        {
+	        	return cSeleccionada.getCuota2();
+	        }
+		} else if (cSeleccionada.getF_inicio3()!=null) {
+	        if (fechaActual.before(fechaFin3) && fechaActual.after(fechaInicio3))
+	        {
+	        	return cSeleccionada.getCuota3();
+	        }
+		}
+		return -600;
+		
+        
+        
+	}
+
+
 
 	private String cambiarFormatoFecha() {
 		String fechaString = String.valueOf(LocalDate.now());
