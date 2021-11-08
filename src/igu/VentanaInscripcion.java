@@ -7,7 +7,10 @@ import java.awt.SystemColor;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -45,6 +48,7 @@ public class VentanaInscripcion extends JFrame {
 	private JTextArea textArea;
 	private AtletaDto atleta;
 	private JButton btnSiguiente;
+	private VentanaRegistro vR;
 
 //	/**
 //	 * Launch the application.
@@ -127,25 +131,26 @@ public class VentanaInscripcion extends JFrame {
 			btnValidar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					if (txtEmail.getText().equals("")) {
+					if (txtEmail.getText().equals("")) { // si esta vacio
 						mostrarErrorVacio();
-//					} else if (!registradoAtletaEnBase()) {
-//						mostrarErrorDatosNoRegistrados();
-					
-					} else if (!yaRegistradoEnlaCarrera()) {
+					} else if (yaRegistradoEnlaCarrera()) { // si ya en la carrera
+						mostrarErrorYaRegistrado();
+					} else if (registradoAtletaEnBase()) { // si ya en la base de datos
 						textArea.setEnabled(true);
 						lblInfoJus.setVisible(true);
 						btnSiguiente.setEnabled(true);
 						inscribirParticipante();
 						textArea.setText(getInformacion());
-					} else if (yaRegistradoEnlaCarrera()) {
-						mostrarErrorYaRegistrado();
-					} else if (!haySuficientesPlazas()) {
+					} else if (!registradoAtletaEnBase()) { // si no en la base de datos
+						System.out.println("patata");
+						mostrarMensajeNoInscritoSiQuiere();
+					} else if (!haySuficientesPlazas()) { // si no plazos
 						mostrarErrorPlazas();
-					} else if (esMenor()) {
+					} else if (esMenor()) { // si es menor
 						mostrarErrorMenor();
-					} } }
-			);
+					}
+				}
+			});
 			btnValidar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			btnValidar.setBackground(SystemColor.activeCaption);
 			btnValidar.setBounds(20, 131, 106, 21);
@@ -153,21 +158,41 @@ public class VentanaInscripcion extends JFrame {
 		return btnValidar;
 	}
 
+	protected void mostrarMensajeNoInscritoSiQuiere() {
+		int reply = JOptionPane.showConfirmDialog(this, "No est�s registrado en la base �te gustar�a registrarte?",
+				"Ventana registro", JOptionPane.YES_NO_OPTION);
+		if (reply == JOptionPane.YES_OPTION) {
+			mostrarVentanaRegistro();
+		} else {
+			JOptionPane.showMessageDialog(this, "Lo sentimos, pero entonces no puede inscribirse.");
+			System.exit(0);
+		}
+	}
+
+	private void mostrarVentanaRegistro() {
+		// this.dispose();
+		// CompeticionDto competicion = crearCompeticion();
+		VentanaRegistro vPal = new VentanaRegistro(this);
+		vPal.setLocationRelativeTo(this);
+		vPal.setVisible(true);
+	}
+
 	protected void mostrarErrorDatosNoRegistrados() {
-		JOptionPane.showMessageDialog(this, "Sus datos todav�a no han sido registrados");
+		JOptionPane.showMessageDialog(this, "Sus datos todavia no han sido registrados");
 
 	}
 
 	private boolean registradoAtletaEnBase() {
-		if (atl.atletaEnBase(txtEmail.getText()))
+		if (atl.atletaYaRegistradoEnLaBase(txtEmail.getText()).isEmpty()) {
+			// si no hay ninguno
 			return false;
-		else
+		} else
 			return true;
 	}
 
 	protected void mostrarErrorMenor() {
 		JOptionPane.showMessageDialog(this,
-				"Usted es menor de edad, por lo tanto no puede participar en la competición");
+				"Usted es menor de edad, por lo tanto no puede participar en la competicion");
 
 	}
 
@@ -183,7 +208,7 @@ public class VentanaInscripcion extends JFrame {
 	protected void inscribirParticipante() {
 		System.out.println(txtEmail.getText());
 		System.out.println(cSeleccionada.getId());
-		float n = 10.0f + cSeleccionada.getCuota();
+		float n = 10.0f + cSeleccionada.getCuota1();
 		ins.agregarInscripcion(txtEmail.getText(), cSeleccionada.getId(), n, cambiarFormatoFecha());
 
 	}
@@ -225,12 +250,57 @@ public class VentanaInscripcion extends JFrame {
 	 */
 	private String getInformacion() {
 		String s = "";
-		float n = 10.0f + cSeleccionada.getCuota();
+		float n = 10.0f + cogerCuotaSegunFecha();
 		atleta = ins.findAtletaEmail(txtEmail.getText());
 		return s += "Nombre del atleta: " + atleta.getNombre() + "\n" + "Competición: " + cSeleccionada.getNombre()
 				+ "\n" + "Categoría: " + ins.getCategoriaByDniId(atleta.getDni(), cSeleccionada.getId()) + "\n"
-				+ "Fecha de inscripción: " + cambiarFormatoFecha() + "\n" + "Cantidad a abonar: " + n
-				+ " euros (cuota+gastos adicionales)";
+				+ "Fecha de inscripción: " + cambiarFormatoFecha() + "\n" + "Cantidad a abonar: " + n;
+	}
+
+	private float cogerCuotaSegunFecha() {
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		Date fechaActual = null;
+		Date fechaInicio1 = null;
+		Date fechaInicio2 = null;
+		Date fechaInicio3 = null;
+		Date fechaFin1 = null;
+		Date fechaFin2 = null;
+		Date fechaFin3 = null;
+
+		try {
+			fechaActual = formato.parse(cambiarFormatoFecha());
+			if (cSeleccionada.getF_inicio1() != null) {
+				fechaInicio1 = formato.parse(cSeleccionada.getF_inicio1());
+				fechaFin1 = formato.parse(cSeleccionada.getF_fin1());
+			}
+			if (cSeleccionada.getF_inicio2() != null) {
+				fechaInicio2 = formato.parse(cSeleccionada.getF_inicio2());
+				fechaFin2 = formato.parse(cSeleccionada.getF_fin2());
+			}
+			if (cSeleccionada.getF_inicio3() != null) {
+				fechaInicio3 = formato.parse(cSeleccionada.getF_inicio3());
+				fechaFin3 = formato.parse(cSeleccionada.getF_fin3());
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (cSeleccionada.getF_inicio1() != null) {
+			if (fechaActual.before(fechaFin1) && fechaActual.after(fechaInicio1)) {
+				return cSeleccionada.getCuota1();
+			}
+		} else if (cSeleccionada.getF_inicio2() != null) {
+			if (fechaActual.before(fechaFin2) && fechaActual.after(fechaInicio2)) {
+				return cSeleccionada.getCuota2();
+			}
+		} else if (cSeleccionada.getF_inicio3() != null) {
+			if (fechaActual.before(fechaFin3) && fechaActual.after(fechaInicio3)) {
+				return cSeleccionada.getCuota3();
+			}
+		}
+		return -600;
+
 	}
 
 	private String cambiarFormatoFecha() {

@@ -2,13 +2,6 @@ package logica;
 
 public class InscripcionDto {
 
-	@Override
-	public String toString() {
-		return "InscripcionDto [dni_a=" + dni_a + ", id_c=" + id_c + ", categoria=" + categoria + ", email=" + email
-				+ ", fecha=" + fecha + ", metodo_pago=" + metodo_pago + ", cantidad_pagada=" + cantidad_pagada
-				+ ", horas=" + horas + ", minutos=" + minutos + "]";
-	}
-
 	// Estados
 	public static String INSCRITO = "Inscrito";
 	public static String PRE_INSCRITO = "Pre-inscrito";
@@ -100,6 +93,8 @@ public class InscripcionDto {
 		this.minutos = minutos;
 	}
 
+	private String dorsal;
+
 	public InscripcionDto() {
 	}
 
@@ -109,6 +104,14 @@ public class InscripcionDto {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public String getDorsal() {
+		return dorsal;
+	}
+
+	public void setDorsal(String dorsal) {
+		this.dorsal = dorsal;
 	}
 
 	public String mostrarMisInscripcionesNombre(String nombre) {
@@ -121,6 +124,13 @@ public class InscripcionDto {
 
 	public String mostrarMisInscripcionesFecha() {
 		return "      Fecha �ltimo cambio: " + getFecha();
+	}
+
+	@Override
+	public String toString() {
+		return "InscripcionDto [dni_a=" + dni_a + ", id_c=" + id_c + ", categoria=" + categoria + ", email=" + email
+				+ ", fecha=" + fecha + ", metodo_pago=" + metodo_pago + ", cantidad_pagada=" + cantidad_pagada
+				+ ", horas=" + horas + ", minutos=" + minutos + ", estado=" + estado + ", dorsal=" + dorsal + "]";
 	}
 
 }

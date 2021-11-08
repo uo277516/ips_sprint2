@@ -58,12 +58,27 @@ public class DtoAssembler {
 
 	private static CompeticionDto cogerDatosCompeticion(ResultSet rs) throws SQLException {
 		CompeticionDto a = new CompeticionDto();
-		a.setCuota(Float.parseFloat(rs.getString("cuota")));
+		if (rs.getString("cuota1") != null)
+			a.setCuota1(Float.parseFloat(rs.getString("cuota1")));
+		if (rs.getString("cuota2") != null)
+			a.setCuota2(Float.parseFloat(rs.getString("cuota2")));
+		if (rs.getString("cuota3") != null)
+			a.setCuota3(Float.parseFloat(rs.getString("cuota3")));
 		a.setDistancia(rs.getString("distancia"));
 		a.setF_comp(rs.getString("f_comp"));
-		a.setF_fin(rs.getString("f_fin"));
-		a.setF_inicio(rs.getString("f_inicio"));
-		a.setId(Integer.parseInt(rs.getString("id")));
+		if (rs.getString("f_fin1") != null)
+			a.setF_fin1(rs.getString("f_fin1"));
+		if (rs.getString("f_fin2") != null)
+			a.setF_fin2(rs.getString("f_fin2"));
+		if (rs.getString("f_fin3") != null)
+			a.setF_fin3(rs.getString("f_fin3"));
+		if (rs.getString("f_inicio1") != null)
+			a.setF_inicio1(rs.getString("f_inicio1"));
+		if (rs.getString("f_inicio2") != null)
+			a.setF_inicio2(rs.getString("f_inicio2"));
+		if (rs.getString("f_inicio3") != null)
+			a.setF_inicio3(rs.getString("f_inicio3"));
+		a.setId((rs.getString("id")));
 		a.setNombre(rs.getString("nombre"));
 		a.setNum_plazas(Integer.parseInt(rs.getString("num_plazas")));
 		a.setTipo(rs.getString("tipo"));
@@ -128,8 +143,15 @@ public class DtoAssembler {
 			while(rs.next())
 			{
 				try {
-					if (compararFecha(rs.getString("f_fin"),fecha,rs.getString("f_inicio")))
-						lista.add(cogerDatosCompeticion(rs));
+					if (rs.getString("f_fin3") != null) {
+						if (compararFecha(rs.getString("f_fin3"),fecha,rs.getString("f_inicio3")))
+							lista.add(cogerDatosCompeticion(rs));
+					}else if(rs.getString("f_fin2") != null) {
+						if (compararFecha(rs.getString("f_fin2"),fecha,rs.getString("f_inicio2")))
+							lista.add(cogerDatosCompeticion(rs));
+					}else
+						if (compararFecha(rs.getString("f_fin1"),fecha,rs.getString("f_inicio1")))
+							lista.add(cogerDatosCompeticion(rs));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -142,7 +164,7 @@ public class DtoAssembler {
 		return lista;
 	}
 	
-	private static boolean compararFecha(String ffin, String fecha,String fechaInicio) throws ParseException{
+	public static boolean compararFecha(String ffin, String fecha,String fechaInicio) throws ParseException{
 //		String[] fechaFin = ffin.split("/");
 //		String[] fechaAcomparar = fecha.split("/");
 //		String[] fInicio = fechaInicio.split("/");

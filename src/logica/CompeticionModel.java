@@ -15,7 +15,12 @@ public class CompeticionModel {
 	public static String sql1 = "select * from competicion";
 	public static String sql2ById = "select * from competicion where id=?";
 	public static String sqlActualizarPlazas = "update competicion set num_plazas = num_plazas-1 where id =?";
-	
+	public static String sqlInsertarCompeticionBasicos = "insert into competicion (nombre,f_comp,tipo,distancia,num_plazas,id) values (?,?,?,?,?,?)";
+	public static String sqlFinCom = "select * from competicion where id =?";
+	public static String sqlActualizarCompeticion1 = "update competicion set f_inicio1=?, f_fin1=?, cuota1=? where id=?";
+	public static String sqlActualizarCompeticion2 = "update competicion set f_inicio2=?, f_fin2=?, cuota2=? where id=?";
+	public static String sqlActualizarCompeticion3 = "update competicion set f_inicio3=?, f_fin3=?, cuota3=? where id=?";
+
 	private InscripcionModel im = new InscripcionModel();
 	private AtletaModel am = new AtletaModel();
 
@@ -85,6 +90,41 @@ public class CompeticionModel {
 		return articulos;
 	}
 
+	public void insertarDatosBasicos(String id,String nombre, String fecha,String tipo, int distancia,int plazas) {
+		try {
+			insertarDatosBasicosPrivado(id, nombre, fecha, tipo, distancia, plazas);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+
+	private void insertarDatosBasicosPrivado(String id,String nombre, String fecha,String tipo, int distancia,int plazas) throws SQLException {
+		// Conexión a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sqlInsertarCompeticionBasicos);
+			if (pst != null)
+				System.out.println("Adios");
+
+			pst.setString(1, nombre);
+			pst.setString(2, fecha);
+			pst.setString(3, tipo);
+			pst.setInt(4, distancia);
+			pst.setInt(5, plazas);
+			pst.setString(6, id);
+
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			pst.close();
+			c.close();
+		}
+	}
+
 	private List<CompeticionDto> filtrarPorFecha(String fecha) throws SQLException {
 		List<CompeticionDto> listaCompeticiones = new ArrayList<CompeticionDto>();
 
@@ -108,10 +148,10 @@ public class CompeticionModel {
 			c.close();
 		}
 
-//        for (AtletaDto atletaDto : listaPedidos) {
-//			System.out.println(atletaDto.getDni() + " " + atletaDto.getF_nac()
-//			);
-//		}
+		//        for (AtletaDto atletaDto : listaPedidos) {
+		//			System.out.println(atletaDto.getDni() + " " + atletaDto.getF_nac()
+		//			);
+		//		}
 		return listaCompeticiones;
 	}
 
@@ -136,7 +176,7 @@ public class CompeticionModel {
 		try {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sql2ById);
-			pst.setInt(1, Integer.parseInt(identificador));
+			pst.setString(1, identificador);
 			rs = pst.executeQuery();
 
 			// Añadimos los pedidos a la lista
@@ -156,7 +196,7 @@ public class CompeticionModel {
 		return listaCompeticiones;
 	}
 
-	public void actualizarPlazas(int id) {
+	public void actualizarPlazas(String id) {
 		try {
 			actualizarPlazasP(id);
 		} catch (SQLException e) {
@@ -165,15 +205,111 @@ public class CompeticionModel {
 		}
 	}
 
-	private void actualizarPlazasP(int id) throws SQLException {
+	private void actualizarPlazasP(String id) throws SQLException {
 		// Conexión a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
-//        ResultSet rs = null;
+		//        ResultSet rs = null;
 		try {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sqlActualizarPlazas);
-			pst.setInt(1, id);
+			pst.setString(1, id);
+			pst.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			pst.close();
+			c.close();
+		}
+
+	}
+	
+	public void actualizarCopeticion1(String fechaInicio,String fechaFin, float cuota,String id) {
+		try {
+			actualizarCopeticion1P(fechaInicio,fechaFin,cuota,id);
+		} catch (SQLException e) {
+			System.out.println("no se pudo actuliazar");
+			e.printStackTrace();
+		}
+	}
+
+	private void actualizarCopeticion1P(String fechaInicio,String fechaFin, float cuota,String id) throws SQLException {
+		// Conexión a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		//        ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sqlActualizarCompeticion1);
+			pst.setString(1, fechaInicio);
+			pst.setString(2, fechaFin);
+			pst.setFloat(3, cuota);
+			pst.setString(4, id);
+			pst.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			pst.close();
+			c.close();
+		}
+
+	}
+	
+	public void actualizarCopeticion2(String fechaInicio,String fechaFin, float cuota,String id) {
+		try {
+			actualizarCopeticion2P(fechaInicio,fechaFin,cuota,id);
+		} catch (SQLException e) {
+			System.out.println("no se pudo actuliazar");
+			e.printStackTrace();
+		}
+	}
+
+	private void actualizarCopeticion2P(String fechaInicio,String fechaFin, float cuota,String id) throws SQLException {
+		// Conexión a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		//        ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sqlActualizarCompeticion2);
+			pst.setString(1, fechaInicio);
+			pst.setString(2, fechaFin);
+			pst.setFloat(3, cuota);
+			pst.setString(4, id);
+			pst.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			pst.close();
+			c.close();
+		}
+
+	}
+	
+	public void actualizarCopeticion3(String fechaInicio,String fechaFin, float cuota,String id) {
+		try {
+			actualizarCopeticion3P(fechaInicio,fechaFin,cuota,id);
+		} catch (SQLException e) {
+			System.out.println("no se pudo actuliazar");
+			e.printStackTrace();
+		}
+	}
+
+	private void actualizarCopeticion3P(String fechaInicio,String fechaFin, float cuota,String id) throws SQLException {
+		// Conexión a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		//        ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sqlActualizarCompeticion3);
+			pst.setString(1, fechaInicio);
+			pst.setString(2, fechaFin);
+			pst.setFloat(3, cuota);
+			pst.setString(4, id);
 			pst.executeUpdate();
 
 		} catch (SQLException e) {
@@ -185,7 +321,7 @@ public class CompeticionModel {
 
 	}
 
-	public void listarClasificacion(int carreraId) throws SQLException {
+	public void listarClasificacion(String carreraId) throws SQLException {
 		AtletaDto a;
 		List<InscripcionDto> inscripciones = im.getInscripcionesPorTiempo(carreraId);
 		System.out.println("----- Clasificacion general -----");
@@ -195,7 +331,7 @@ public class CompeticionModel {
 				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
 			else
 				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: " + i.getHoras()
-						+ "h " + i.getMinutos() + " minutos");
+				+ "h " + i.getMinutos() + " minutos");
 		}
 	}
 
@@ -214,11 +350,11 @@ public class CompeticionModel {
 				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
 			else
 				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: " + i.getHoras()
-						+ "h " + i.getMinutos() + " minutos");
+				+ "h " + i.getMinutos() + " minutos");
 		}
 	}
 
-	public List<String> getClasificacion(int carreraId) throws SQLException {
+	public List<String> getClasificacion(String carreraId) throws SQLException {
 		List<String> clasificacion = new ArrayList<String>();
 		AtletaDto a;
 		List<InscripcionDto> inscripciones = im.getInscripcionesPorTiempo(carreraId);
@@ -229,8 +365,10 @@ public class CompeticionModel {
 				clasificacion.add("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
 			else
 				clasificacion.add("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: " + i.getHoras()
-						+ "h " + i.getMinutos() + " minutos");
+				+ "h " + i.getMinutos() + " minutos");
 		}
 		return clasificacion;
 	}
+
+	
 }
