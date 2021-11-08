@@ -125,6 +125,7 @@ public class VentanaRegistro extends JFrame {
 		txtSExo.setColumns(10);
 		
 		JLabel lblSexoDes = new JLabel("femenino/masculino");
+		lblSexoDes.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblSexoDes.setBounds(264, 236, 129, 13);
 		contentPane.add(lblSexoDes);
 		
@@ -144,6 +145,11 @@ public class VentanaRegistro extends JFrame {
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnNewButton.setBounds(427, 289, 85, 21);
 		contentPane.add(btnNewButton);
+		
+		JLabel lblNewLabel = new JLabel("dd/mm/yyyy");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblNewLabel.setBounds(348, 158, 103, 13);
+		contentPane.add(lblNewLabel);
 	}
 
 	protected void mostrarVentanaInscripcionAgain() {
