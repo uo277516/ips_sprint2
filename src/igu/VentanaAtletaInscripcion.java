@@ -265,11 +265,17 @@ public class VentanaAtletaInscripcion extends JFrame {
 				Integer.valueOf(dateFichero[0]));
 
 		InscripcionDto ins = im.findInsByDniId(dnia, this.competition.getId());
+		String[] fecha = ins.getFecha().split("/");
+		LocalDate fechaIns = LocalDate.of(Integer.valueOf(fecha[2]), Integer.valueOf(fecha[1]),
+				Integer.valueOf(fecha[0]));
 
 		float pagado = Integer.valueOf(line[2]);
 
+		/*
+		 * 14 8 5 5 8 8
+		 */
 		long dias = DAYS.between(date, ahora);
-		if (dias >= 3) {
+		if (fechaIns.compareTo(ahora) < 0 && dias >= 3) {
 			// Fuera del plazo
 			if (pagado > 0) {
 				// Pagó
@@ -294,6 +300,42 @@ public class VentanaAtletaInscripcion extends JFrame {
 	}
 
 	private float calcularCuotaPlazo(LocalDate date) {
+		LocalDate di, df;
+		String[] inicio, fin;
+
+		// Coger fechas plazos
+		if (this.competition.getF_inicio1() != null && this.competition.getF_fin1() != null) {
+			inicio = this.competition.getF_inicio1().split("/");
+			fin = this.competition.getF_fin1().split("/");
+			di = LocalDate.of(Integer.valueOf(inicio[2]), Integer.valueOf(inicio[1]), Integer.valueOf(inicio[0]));
+			df = LocalDate.of(Integer.valueOf(fin[2]), Integer.valueOf(fin[1]), Integer.valueOf(fin[0]));
+			if (di.compareTo(date) < 0 && date.compareTo(df) < 0) {
+				// Está en el primer plazo
+				return this.competition.getCuota1();
+			}
+		}
+
+		if (this.competition.getF_inicio2() != null && this.competition.getF_fin2() != null) {
+			inicio = this.competition.getF_inicio2().split("/");
+			fin = this.competition.getF_fin2().split("/");
+			di = LocalDate.of(Integer.valueOf(inicio[2]), Integer.valueOf(inicio[1]), Integer.valueOf(inicio[0]));
+			df = LocalDate.of(Integer.valueOf(fin[2]), Integer.valueOf(fin[1]), Integer.valueOf(fin[0]));
+			if (di.compareTo(date) < 0 && date.compareTo(df) < 0) {
+				// Está en el segundo plazo
+				return this.competition.getCuota2();
+			}
+		}
+
+		if (this.competition.getF_inicio3() != null && this.competition.getF_fin3() != null) {
+			inicio = this.competition.getF_inicio3().split("/");
+			fin = this.competition.getF_fin3().split("/");
+			di = LocalDate.of(Integer.valueOf(inicio[2]), Integer.valueOf(inicio[1]), Integer.valueOf(inicio[0]));
+			df = LocalDate.of(Integer.valueOf(fin[2]), Integer.valueOf(fin[1]), Integer.valueOf(fin[0]));
+			if (di.compareTo(date) < 0 && date.compareTo(df) < 0) {
+				// Está en el tercer plazo
+				return this.competition.getCuota3();
+			}
+		}
 
 		return 0;
 	}
