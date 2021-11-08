@@ -216,7 +216,8 @@ public class VentanaAtletaInscripcion extends JFrame {
 
 		try {
 
-			archivo = new File("banco" + competition.getNombre().strip().toLowerCase());
+			String fileName = getNombreFichero();
+			archivo = new File(fileName);
 			fr = new FileReader(archivo);
 			br = new BufferedReader(fr);
 
@@ -242,19 +243,31 @@ public class VentanaAtletaInscripcion extends JFrame {
 		}
 	}
 
+	private String getNombreFichero() {
+		String[] a = this.competition.getNombre().toLowerCase().split(" ");
+		String nombre = "banco";
+		for (String s : a) {
+			nombre += s;
+		}
+		return nombre;
+	}
+
 	private void updateInscripcion(String linea) {
 		// DNI @ dia-mes-año @ cantidad ingresada
+		// Obtenemos los datos
 		String[] line = linea.split("@");
 		String dnia = line[0];
 
-		InscripcionDto ins = im.findInsByDniId(dnia, this.competition.getId());
-
-		float cuota = this.competition.getCuota();
-		float pagado = Integer.valueOf(line[2]);
-		LocalDate ahora = LocalDate.now();
+		// Obtenemos la fecha
 		String[] dateFichero = line[1].split("-");
+		LocalDate ahora = LocalDate.now();
 		LocalDate date = LocalDate.of(Integer.valueOf(dateFichero[2]), Integer.valueOf(dateFichero[1]),
 				Integer.valueOf(dateFichero[0]));
+
+		InscripcionDto ins = im.findInsByDniId(dnia, this.competition.getId());
+
+		float pagado = Integer.valueOf(line[2]);
+
 		long dias = DAYS.between(date, ahora);
 		if (dias >= 3) {
 			// Fuera del plazo
@@ -266,6 +279,7 @@ public class VentanaAtletaInscripcion extends JFrame {
 			}
 		} else {
 			// Dentro del plazo
+			float cuota = calcularCuotaPlazo(date);
 			if (cuota == pagado) {
 				// Pagó la cantidad correcta
 				im.actualizarInscripcionEstado("Inscrito", dnia, this.competition.getId());
@@ -277,5 +291,10 @@ public class VentanaAtletaInscripcion extends JFrame {
 				im.actualizarInscripcionEstado("Anulada - pendiente de devolución", dnia, this.competition.getId());
 			}
 		}
+	}
+
+	private float calcularCuotaPlazo(LocalDate date) {
+
+		return 0;
 	}
 }
