@@ -82,6 +82,7 @@ public class DtoAssembler {
 		a.setNombre(rs.getString("nombre"));
 		a.setNum_plazas(Integer.parseInt(rs.getString("num_plazas")));
 		a.setTipo(rs.getString("tipo"));
+		a.setDorsales_vip(Integer.parseInt(rs.getString("dorsales_vip")));
 		return a;
 	}
 

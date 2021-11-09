@@ -17,7 +17,14 @@ public class CompeticionDto {
 	private float cuota3;
 	private String f_fin3;
 	private String f_inicio3;
+	private int dorsales_vip;
 	
+	public int getDorsales_vip() {
+		return dorsales_vip;
+	}
+	public void setDorsales_vip(int dorsales_vip) {
+		this.dorsales_vip = dorsales_vip;
+	}
 	public String getId() {
 		return id;
 	}
