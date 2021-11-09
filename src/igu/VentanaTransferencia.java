@@ -20,9 +20,9 @@ public class VentanaTransferencia extends JFrame {
 	private JPanel contentPane;
 	private JTextArea textArea;
 
-//	/**
-//	 * Launch the application.
-//	 */
+	/**
+	 * Launch the application.
+	 */
 //	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
@@ -30,7 +30,7 @@ public class VentanaTransferencia extends JFrame {
 //					VentanaTransferencia frame = new VentanaTransferencia();
 //					frame.setVisible(true);
 //					InscripcionModel im = new InscripcionModel();
-//					im.agregarInscripcion(null, WIDTH, FRAMEBITS, null);
+//					//im.agregarInscripcion(null, WIDTH, FRAMEBITS, null);
 //				} catch (Exception e) {
 //					e.printStackTrace();
 //				}

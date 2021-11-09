@@ -20,7 +20,8 @@ public class CompeticionModel {
 	public static String sqlActualizarCompeticion1 = "update competicion set f_inicio1=?, f_fin1=?, cuota1=? where id=?";
 	public static String sqlActualizarCompeticion2 = "update competicion set f_inicio2=?, f_fin2=?, cuota2=? where id=?";
 	public static String sqlActualizarCompeticion3 = "update competicion set f_inicio3=?, f_fin3=?, cuota3=? where id=?";
-
+	public static String findCategoriasById = "select * from categorias where id = ?";
+			
 	private InscripcionModel im = new InscripcionModel();
 	private AtletaModel am = new AtletaModel();
 
@@ -335,12 +336,12 @@ public class CompeticionModel {
 		}
 	}
 
-	public void listarClasificacionPorCategoria(int carreraId, String sql) throws SQLException {
+	public void listarClasificacionPorCategoria(String carreraId, String sql) throws SQLException {
 		listarClasificacionPorSexo(carreraId, "masculino");
 		listarClasificacionPorSexo(carreraId, "femenino");
 	}
 
-	public void listarClasificacionPorSexo(int carreraId, String sexo) throws SQLException {
+	public void listarClasificacionPorSexo(String carreraId, String sexo) throws SQLException {
 		AtletaDto a;
 		List<InscripcionDto> inscripciones = im.getInscripcionesPorTiempoYSexo(carreraId, sexo);
 		System.out.println("----- Clasificacion sexo " + sexo + " -----");
@@ -370,5 +371,47 @@ public class CompeticionModel {
 		return clasificacion;
 	}
 
+	
+	public List<String> getClasificacionPorSexo(String id, String categoria) throws SQLException {
+		if (categoria == "General") {
+			return getClasificacion(id);
+		} else {
+			List<String> clasificacion = new ArrayList<String>();
+			AtletaDto a;
+			List<InscripcionDto> inscripciones = im.getInscripcionesPorTiempoYSexo(id, categoria);
+			System.out.println("----- Clasificacion " + categoria + " -----");
+			for (InscripcionDto i : inscripciones) {
+				a = am.findAtletaByDni(i.getDni_a());
+				if (i.getHoras() == 0 && i.getMinutos() == 0)
+					clasificacion.add("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
+				else
+					clasificacion.add("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: "
+							+ i.getHoras() + "h " + i.getMinutos() + " minutos");
+			}
+			return clasificacion;
+		}
+	}
+
+	public List<CategoriaDto> findCategoriasById(String id) throws SQLException {
+		List<CategoriaDto> categorias = new ArrayList<CategoriaDto>();
+		// Conexión a la base de datos
+				Connection c = null;
+				PreparedStatement pst = null;
+				ResultSet rs = null;
+				try {
+					c = BaseDatos.getConnection();
+					pst = c.prepareStatement(findCategoriasById);
+					pst.setString(1, id);
+					rs = pst.executeQuery();
+					categorias = DtoAssembler.toCategoriaDtoList(rs);
+				} catch (SQLException e) {
+					throw new RuntimeException(e);
+				} finally {
+					rs.close();
+					pst.close();
+					c.close();
+				}
+		return categorias;
+	}
 	
 }
