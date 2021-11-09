@@ -32,6 +32,7 @@ public class InscripcionModel {
 	public static String sql_InscripcionesPorTiempo = "select  * from inscripcion i, atleta a where i.dni_a = a.dni and id_c = ? order by horas is null, minutos is null, horas, minutos asc";
 	public static String sql_InscripcionesPorTiempoYCategoria = "select  * from inscripcion i, atleta a where i.dni_a = a.dni and ? order by horas is null, minutos is null, horas, minutos asc";
 	public static String sql_InscripcionesPorTiempoYSexo = "select  * from inscripcion i, atleta a where i.dni_a = a.dni and a.sexo=? order by horas is null, minutos is null, horas, minutos asc";
+	public static String sql_InscripcionesMetodoPago = "select * from inscripcion where metodo_pago=?";
 
 	public AtletaDto findAtletaEmail(String email) {
 		AtletaDto a = null;
@@ -569,6 +570,46 @@ public class InscripcionModel {
 		}
 
 		return listaInscripciones;
+	}
+
+	public List<InscripcionDto> getInscripcionesMetodoPago(String metodoPago) {
+		List<InscripcionDto> ins = null;
+		try {
+			ins = getInscripcionesMetodoPagoP(metodoPago.toLowerCase());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ins;
+	}
+
+	private List<InscripcionDto> getInscripcionesMetodoPagoP(String metodoPago) throws SQLException {
+		List<InscripcionDto> listaInscrpcines = new ArrayList<InscripcionDto>();
+
+		// Conexi�n a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sql_InscripcionesMetodoPago);
+			pst.setString(1, metodoPago);
+			rs = pst.executeQuery();
+
+			// A�adimos los pedidos a la lista
+			listaInscrpcines = DtoAssembler.toInscripcionDtoList(rs);
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			rs.close();
+			pst.close();
+			c.close();
+		}
+
+		for (InscripcionDto atletaDto : listaInscrpcines) {
+			System.out.println(atletaDto);
+		}
+		return listaInscrpcines;
 	}
 
 }

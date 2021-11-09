@@ -1,7 +1,5 @@
 package igu;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +11,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -223,13 +222,26 @@ public class VentanaAtletaInscripcion extends JFrame {
 
 			// Lectura del fichero
 			String linea;
-			int i = 0;
+			List<String[]> transferenciasBanco = new LinkedList<>();
+			List<String> dniTransferenciasBanco = new LinkedList<>();
+			List<InscripcionDto> transferencias = im.getInscripcionesMetodoPago("transferencia");
+
 			while ((linea = br.readLine()) != null) {
-				// Procesar la línea
-				updateInscripcion(linea);
-				i++;
+				String[] line = linea.split("@");
+				transferenciasBanco.add(line);
+				dniTransferenciasBanco.add(line[0]);
 			}
-//			System.out.println(linea);
+			for (InscripcionDto ins : transferencias) {
+				if (dniTransferenciasBanco.contains(ins.getDni_a())) {
+					// Transferencia del banco
+					int index = dniTransferenciasBanco.indexOf(ins.getDni_a());
+					updateEstadoInsTransBanco(transferenciasBanco.get(index));
+				} else {
+					// Todavía no ha pagado
+					updateEstadoInsTrans(ins);
+				}
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -243,6 +255,27 @@ public class VentanaAtletaInscripcion extends JFrame {
 		}
 	}
 
+	private void updateEstadoInsTrans(InscripcionDto ins) {
+		// Obtenemos la fecha de inscripción
+		String[] fecha = ins.getFecha().split("/");
+		LocalDate fechaIns = LocalDate.of(Integer.valueOf(fecha[2]), Integer.valueOf(fecha[1]),
+				Integer.valueOf(fecha[0]));
+
+		// Obtenemos la fecha de hoy
+		LocalDate hoy = LocalDate.now();
+//		long dias = DAYS.between(fechaIns, hoy);
+		long dias = 0;
+		// La fecha de inscripción es previa a la de hoy y ha pasado el plazo de 48h
+		if (fechaIns.compareTo(hoy) < 0 && dias >= 3) {
+			im.actualizarInscripcionEstado("Anulada", ins.getDni_a(), ins.getId_c());
+		}
+	}
+
+	private void updateEstadoInsTransBanco(String[] strings) {
+		// TODO Auto-generated method stub
+
+	}
+
 	private String getNombreFichero() {
 		String[] a = this.competition.getNombre().toLowerCase().split(" ");
 		String nombre = "banco";
@@ -252,51 +285,69 @@ public class VentanaAtletaInscripcion extends JFrame {
 		return nombre;
 	}
 
+	// ESTE NO
 	private void updateInscripcion(String linea) {
-		// DNI @ dia-mes-año @ cantidad ingresada
-		// Obtenemos los datos
-		String[] line = linea.split("@");
-		String dnia = line[0];
-
-		// Obtenemos la fecha
-		String[] dateFichero = line[1].split("-");
-		LocalDate ahora = LocalDate.now();
-		LocalDate date = LocalDate.of(Integer.valueOf(dateFichero[2]), Integer.valueOf(dateFichero[1]),
-				Integer.valueOf(dateFichero[0]));
-
-		InscripcionDto ins = im.findInsByDniId(dnia, this.competition.getId());
-		String[] fecha = ins.getFecha().split("/");
-		LocalDate fechaIns = LocalDate.of(Integer.valueOf(fecha[2]), Integer.valueOf(fecha[1]),
-				Integer.valueOf(fecha[0]));
-
-		float pagado = Integer.valueOf(line[2]);
-
-		/*
-		 * 14 8 5 5 8 8
-		 */
-		long dias = DAYS.between(date, ahora);
-		if (fechaIns.compareTo(ahora) < 0 && dias >= 3) {
-			// Fuera del plazo
-			if (pagado > 0) {
-				// Pagó
-				im.actualizarInscripcionEstado("Anulada - pendiente de devolucion", dnia, this.competition.getId());
-			} else {
-				im.actualizarInscripcionEstado("Anulada", dnia, this.competition.getId());
-			}
-		} else {
-			// Dentro del plazo
-			float cuota = calcularCuotaPlazo(date);
-			if (cuota == pagado) {
-				// Pagó la cantidad correcta
-				im.actualizarInscripcionEstado("Inscrito", dnia, this.competition.getId());
-			} else if (cuota < pagado) {
-				// Pagó de más
-				im.actualizarInscripcionEstado("Inscrito - pendiente de devolución", dnia, this.competition.getId());
-			} else {
-				// Pagó de menos
-				im.actualizarInscripcionEstado("Anulada - pendiente de devolución", dnia, this.competition.getId());
-			}
-		}
+//		// DNI @ dia-mes-año @ cantidad ingresada
+//		// Obtenemos los datos
+//		String[] line = linea.split("@");
+//		String dnia = line[0];
+//
+//		// Obtenemos la fecha
+//		String[] dateFichero = line[1].split("-");
+//		LocalDate ahora = LocalDate.now();
+//		LocalDate fechaPago = LocalDate.of(Integer.valueOf(dateFichero[2]), Integer.valueOf(dateFichero[1]),
+//				Integer.valueOf(dateFichero[0]));
+//
+//		InscripcionDto ins = im.findInsByDniId(dnia, this.competition.getId());
+//		String[] fecha = ins.getFecha().split("/");
+//		LocalDate fechaIns = LocalDate.of(Integer.valueOf(fecha[2]), Integer.valueOf(fecha[1]),
+//				Integer.valueOf(fecha[0]));
+//
+//		/*
+//		 * 14 8 5 5 8 8
+//		 */
+//
+//		// La fecha de inscripción es previa a la actual
+//		if (fechaIns.compareTo(ahora) < 0) {
+//			// La fecha de inscripción es previa a la de pago
+//			if (fechaIns.compareTo(fechaPago) < 0) {
+//				long dias = DAYS.between(fechaIns, fechaPago);
+//				float pagado = Integer.valueOf(line[2]);
+//				if (dias >= 3) {
+//					// No está en el plazo de 48h
+//					if (pagado > 0) {
+//
+//					} else {
+//
+//					}
+//				} else {
+//					// Está en el plazo
+//
+//				}
+//			}
+//		}
+//		if (fechaIns.compareTo(ahora) < 0 && dias >= 3) {
+//			// Fuera del plazo
+//			if (pagado > 0) {
+//				// Pagó
+//				im.actualizarInscripcionEstado("Anulada - pendiente de devolucion", dnia, this.competition.getId());
+//			} else {
+//				im.actualizarInscripcionEstado("Anulada", dnia, this.competition.getId());
+//			}
+//		} else {
+//			// Dentro del plazo
+//			float cuota = calcularCuotaPlazo(fechaPago);
+//			if (cuota == pagado) {
+//				// Pagó la cantidad correcta
+//				im.actualizarInscripcionEstado("Inscrito", dnia, this.competition.getId());
+//			} else if (cuota < pagado) {
+//				// Pagó de más
+//				im.actualizarInscripcionEstado("Inscrito - pendiente de devolución", dnia, this.competition.getId());
+//			} else {
+//				// Pagó de menos
+//				im.actualizarInscripcionEstado("Anulada - pendiente de devolución", dnia, this.competition.getId());
+//			}
+//		}
 	}
 
 	private float calcularCuotaPlazo(LocalDate date) {
