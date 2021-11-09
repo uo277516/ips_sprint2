@@ -263,16 +263,38 @@ public class VentanaAtletaInscripcion extends JFrame {
 
 		// Obtenemos la fecha de hoy
 		LocalDate hoy = LocalDate.now();
-//		long dias = DAYS.between(fechaIns, hoy);
+//		long dias = DAYS.between(fechaIns, hoy); TODO
 		long dias = 0;
 		// La fecha de inscripción es previa a la de hoy y ha pasado el plazo de 48h
 		if (fechaIns.compareTo(hoy) < 0 && dias >= 3) {
 			im.actualizarInscripcionEstado("Anulada", ins.getDni_a(), ins.getId_c());
+		} else if (fechaIns.compareTo(hoy) < 0) {
+			im.actualizarInscripcionEstado("Pre-inscrito", ins.getDni_a(), ins.getId_c());
 		}
 	}
 
-	private void updateEstadoInsTransBanco(String[] strings) {
-		// TODO Auto-generated method stub
+	private void updateEstadoInsTransBanco(String[] line) {
+		// DNI @ dia-mes-año @ cantidad ingresada
+//		// Obtenemos los datos;
+		String dnia = line[0];
+
+		// Obtenemos la fecha de ahora y de pago
+		LocalDate ahora = LocalDate.now();
+		String[] dateFichero = line[1].split("-");
+		LocalDate fechaPago = LocalDate.of(Integer.valueOf(dateFichero[2]), Integer.valueOf(dateFichero[1]),
+				Integer.valueOf(dateFichero[0]));
+
+		// Obtenemos la inscripción del atleta
+		InscripcionDto ins = im.findInsByDniId(dnia, this.competition.getId());
+
+		// Obtenemos la fecha de la inscripción
+		String[] fecha = ins.getFecha().split("/");
+		LocalDate fechaIns = LocalDate.of(Integer.valueOf(fecha[2]), Integer.valueOf(fecha[1]),
+				Integer.valueOf(fecha[0]));
+
+		/*
+		 * 14 8 5 5 8 8
+		 */
 
 	}
 
