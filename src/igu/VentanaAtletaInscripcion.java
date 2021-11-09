@@ -232,6 +232,7 @@ public class VentanaAtletaInscripcion extends JFrame {
 				transferenciasBanco.add(line);
 				dniTransferenciasBanco.add(line[0]);
 			}
+
 			for (InscripcionDto ins : transferencias) {
 				if (dniTransferenciasBanco.contains(ins.getDni_a())) {
 					// Transferencia del banco
@@ -241,6 +242,7 @@ public class VentanaAtletaInscripcion extends JFrame {
 					// Todavía no ha pagado
 					updateEstadoInsTrans(ins);
 				}
+
 			}
 
 		} catch (Exception e) {
@@ -293,9 +295,6 @@ public class VentanaAtletaInscripcion extends JFrame {
 		LocalDate fechaIns = LocalDate.of(Integer.valueOf(fecha[2]), Integer.valueOf(fecha[1]),
 				Integer.valueOf(fecha[0]));
 
-		/*
-		 * 14 8 5 5 8 8
-		 */
 		if (fechaIns.compareTo(ahora) < 0 && fechaIns.compareTo(fechaPago) < 0) {
 			// La fecha de inscripción es antes de que la actual y la de pago
 			long dias = ChronoUnit.DAYS.between(fechaIns, fechaPago);

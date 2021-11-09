@@ -21,7 +21,6 @@ public class InscripcionModel {
 	public static String sql5 = "select * from inscripcion where inscripcion.dni_a=? order by inscripcion.fecha asc";
 	public static String COMPID_INS = "select * from inscripcion where id_c=?";
 
-	public static String INS_DNI_IDC = "select * from inscripcion where dni_a = ? and id_c = ?";
 	public static String CAT_INS_DNI_ID = "select categoria from inscripcion where dni_a = ? and id_c = ?";
 	public static String sql6Ins = "select * from inscripcion where dni_a=? and id_c =?";
 
