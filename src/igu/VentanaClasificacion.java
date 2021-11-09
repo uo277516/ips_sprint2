@@ -23,9 +23,11 @@ public class VentanaClasificacion extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	@SuppressWarnings("unused")
 	private JTextArea textArea;
 	private JList<String> clasificacion;
 	private DefaultListModel<String> model;
+	@SuppressWarnings("unused")
 	private JTable table;
 	private JScrollPane scrollLista;
 	private JLabel label;

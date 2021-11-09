@@ -48,6 +48,7 @@ public class VentanaInscripcion extends JFrame {
 	private JTextArea textArea;
 	private AtletaDto atleta;
 	private JButton btnSiguiente;
+	@SuppressWarnings("unused")
 	private VentanaRegistro vR;
 
 //	/**
@@ -165,10 +166,11 @@ public class VentanaInscripcion extends JFrame {
 		int reply = JOptionPane.showConfirmDialog(this, "No estás registrado en la base ¿te gustaría registrarte?", "Ventana registro", JOptionPane.YES_NO_OPTION);
         if (reply == JOptionPane.YES_OPTION) {
           mostrarVentanaRegistro();
+          txtEmail.setText("");
         }
         else {
            JOptionPane.showMessageDialog(this, "Lo sentimos, pero entonces no puede inscribirse.");
-           System.exit(0);
+           //System.exit(0);
         }
 	}
 

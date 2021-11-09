@@ -13,6 +13,7 @@ import logica.AtletaDto;
 import logica.CompeticionDto;
 import logica.InscripcionDto;
 
+@SuppressWarnings("unused")
 public class DtoAssembler {
 
 	public static List<AtletaDto> toAtletaDtoList (ResultSet rs)

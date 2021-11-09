@@ -46,10 +46,13 @@ public class VentanaTarjetaCredito extends JFrame {
 	private JPanel panel;
 	private JLabel lblJusti;
 	private JButton btnFinalizar;
+	@SuppressWarnings("unused")
 	private VentanaInscripcion vi;
 	private AtletaDto atleta;
 	private CompeticionDto competicion;
+	@SuppressWarnings("unused")
 	private InscripcionDto inscripcion;
+	@SuppressWarnings("unused")
 	private AtletaModel atl;
 	private CompeticionModel comp;
 	private InscripcionModel ins;

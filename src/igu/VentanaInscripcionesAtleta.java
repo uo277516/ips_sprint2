@@ -12,13 +12,12 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -27,7 +26,6 @@ import javax.swing.table.DefaultTableModel;
 import logica.CompeticionModel;
 import logica.InscripcionDto;
 import logica.InscripcionModel;
-import javax.swing.JTable;
 
 public class VentanaInscripcionesAtleta extends JFrame {
 
@@ -53,6 +51,7 @@ public class VentanaInscripcionesAtleta extends JFrame {
 	@SuppressWarnings("unused")
 	private VentanaInicial vi;
 	private JScrollPane scrollPane;
+	@SuppressWarnings("unused")
 	private DefaultListModel<String> listaINs;
 	private JTable table;
 	
