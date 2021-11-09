@@ -17,6 +17,8 @@ public class CompeticionDto {
 	private float cuota3;
 	private String f_fin3;
 	private String f_inicio3;
+	private int dorsales_vip;
+	private int d_asig; //1-> true | 0-> false
 	
 	public String getId() {
 		return id;
@@ -122,6 +124,18 @@ public class CompeticionDto {
 	{
 		return this.nombre + " - " + this.f_comp + " - " +this.tipo+" - "+ this.distancia +" - "+ 
 					this.num_plazas + " plazas disponibles ";
+	}
+	public int getDorsales_vip() {
+		return dorsales_vip;
+	}
+	public void setDorsales_vip(int dorsales_vip) {
+		this.dorsales_vip = dorsales_vip;
+	}
+	public int getD_asig() {
+		return d_asig;
+	}
+	public void setD_asig(int d_asig) {
+		this.d_asig = d_asig;
 	}
 	
 	

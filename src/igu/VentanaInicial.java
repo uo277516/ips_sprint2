@@ -84,12 +84,12 @@ public class VentanaInicial extends JFrame {
 	protected void elegirAsOrganizador() {
 		int seleccion = JOptionPane.showOptionDialog(
 				   this,
-				   "¿Desea conocer el estado de las diferentes inscripciones o las clasificiones?", 
+				   "Seleccione la opción que quiere realizar", 
 				   "Inicio como organizador",
 				   JOptionPane.YES_NO_CANCEL_OPTION,
 				   JOptionPane.QUESTION_MESSAGE,
 				   null,    // null para icono por defecto.
-				   new Object[] { "Inscripciones", "Clasificaciones"},   // null para YES, NO y CANCEL
+				   new Object[] { "Consultar inscripciones", "Consultar clasificaciones", "Asignar dorsales"},   // null para YES, NO y CANCEL
 				   "opcion 1");
 
 				if (seleccion != -1)
@@ -101,8 +101,22 @@ public class VentanaInicial extends JFrame {
 				else if (seleccion==1)
 					{
 						mostrarVentanaCalificaciones(); //moises
-					}}
+					}
+				else if (seleccion==2) 
+					{
+						asignarDorsales();
+					}
+		}
 	
+
+	private void asignarDorsales() {
+		this.dispose();
+		//CompeticionDto competicion = crearCompeticion();
+		VentanaAsignarDorsales vPal = new VentanaAsignarDorsales(this);
+		vPal.setLocationRelativeTo(this);
+		vPal.setVisible(true);
+		
+	}
 
 	private void mostrarVentanaCalificaciones() {
 		this.dispose();

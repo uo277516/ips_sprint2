@@ -20,7 +20,9 @@ public class CompeticionModel {
 	public static String sqlActualizarCompeticion1 = "update competicion set f_inicio1=?, f_fin1=?, cuota1=? where id=?";
 	public static String sqlActualizarCompeticion2 = "update competicion set f_inicio2=?, f_fin2=?, cuota2=? where id=?";
 	public static String sqlActualizarCompeticion3 = "update competicion set f_inicio3=?, f_fin3=?, cuota3=? where id=?";
-
+	
+	
+	
 	private InscripcionModel im = new InscripcionModel();
 	private AtletaModel am = new AtletaModel();
 
@@ -99,6 +101,9 @@ public class CompeticionModel {
 		}
 	}
 
+
+
+
 	private void insertarDatosBasicosPrivado(String id,String nombre, String fecha,String tipo, int distancia,int plazas) throws SQLException {
 		// Conexión a la base de datos
 		Connection c = null;
@@ -152,6 +157,42 @@ public class CompeticionModel {
 		//			System.out.println(atletaDto.getDni() + " " + atletaDto.getF_nac()
 		//			);
 		//		}
+		return listaCompeticiones;
+	}
+
+	public List<CompeticionDto> getListaCompCerradas(String fecha) {
+		List<CompeticionDto> articulos = null;
+		try {
+			articulos = listaCompeticionesCerradas(fecha);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return articulos;
+	}
+
+	private List<CompeticionDto> listaCompeticionesCerradas(String fecha) throws SQLException {
+		List<CompeticionDto> listaCompeticiones = new ArrayList<CompeticionDto>();
+
+		// Conexión a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sql1);
+			rs = pst.executeQuery();
+
+			// Añadimos los pedidos a la lista
+			listaCompeticiones = DtoAssembler.toCompeticionDtoListPorFechaCerradas(rs, fecha);
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			rs.close();
+			pst.close();
+			c.close();
+		}
 		return listaCompeticiones;
 	}
 
@@ -224,7 +265,7 @@ public class CompeticionModel {
 		}
 
 	}
-	
+
 	public void actualizarCopeticion1(String fechaInicio,String fechaFin, float cuota,String id) {
 		try {
 			actualizarCopeticion1P(fechaInicio,fechaFin,cuota,id);
@@ -256,7 +297,7 @@ public class CompeticionModel {
 		}
 
 	}
-	
+
 	public void actualizarCopeticion2(String fechaInicio,String fechaFin, float cuota,String id) {
 		try {
 			actualizarCopeticion2P(fechaInicio,fechaFin,cuota,id);
@@ -288,7 +329,7 @@ public class CompeticionModel {
 		}
 
 	}
-	
+
 	public void actualizarCopeticion3(String fechaInicio,String fechaFin, float cuota,String id) {
 		try {
 			actualizarCopeticion3P(fechaInicio,fechaFin,cuota,id);
@@ -371,4 +412,6 @@ public class CompeticionModel {
 	}
 
 	
+
+
 }
