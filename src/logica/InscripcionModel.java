@@ -33,7 +33,11 @@ public class InscripcionModel {
 	public static String sql_InscripcionesPorTiempo = "select  * from inscripcion i, atleta a where i.dni_a = a.dni and id_c = ? order by horas is null, minutos is null, horas, minutos asc";
 	public static String sql_InscripcionesPorTiempoYCategoria = "select  * from inscripcion i, atleta a where i.dni_a = a.dni and ? order by horas is null, minutos is null, horas, minutos asc";
 	public static String sql_InscripcionesPorTiempoYSexo = "select  * from inscripcion i, atleta a where i.dni_a = a.dni and a.sexo=? order by horas is null, minutos is null, horas, minutos asc";
+
 	public static String sql_InscripcionesMetodoPago = "select * from inscripcion where metodo_pago=?";
+
+	public static String sqlActualizarDorsales = "update inscripcion set dorsal=? where id_c=? and dni_a=?";
+	public static String sqlActEnComp = "update competicion set d_asig=1 where id=?";
 
 	public AtletaDto findAtletaEmail(String email) {
 		AtletaDto a = null;
@@ -330,7 +334,18 @@ public class InscripcionModel {
 		return listaE;
 	}
 
-	public List<InscripcionDto> getInscripcionesDeUnaCompeticion(String id) throws SQLException {
+	public List<InscripcionDto> getInscripcionesDeUnaCompeticion(String id) {
+		List<InscripcionDto> l = null;
+		try {
+			l = getInscripcionesDeUnaCompeticionP(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return l;
+	}
+
+	private List<InscripcionDto> getInscripcionesDeUnaCompeticionP(String id) throws SQLException {
 		List<InscripcionDto> inscripciones = new ArrayList<InscripcionDto>();
 
 		Connection c = null;
@@ -571,6 +586,44 @@ public class InscripcionModel {
 		}
 
 		return listaInscripciones;
+	}
+
+	public void asignarDorsalesInsConIdComp(String dni_a, String id_c, int dorsal) {
+		try {
+			asignarDorsalesInsConIdCompP(dni_a, id_c, dorsal);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void asignarDorsalesInsConIdCompP(String dni_a, String id_c, int dorsal) throws SQLException {
+		// Conexi�n a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		PreparedStatement pst2 = null;
+		// ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sqlActualizarDorsales);
+			pst.setString(3, dni_a);
+			pst.setString(2, id_c);
+			pst.setInt(1, dorsal);
+			int a = pst.executeUpdate();
+			System.out.println(a);
+
+			pst2 = c.prepareStatement(sqlActEnComp);
+			pst2.setString(1, id_c);
+			int b = pst2.executeUpdate();
+			System.out.println(b);
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			pst.close();
+			c.close();
+		}
 	}
 
 	public List<InscripcionDto> getInscripcionesMetodoPago(String metodoPago) {

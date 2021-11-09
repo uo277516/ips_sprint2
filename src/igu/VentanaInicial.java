@@ -49,12 +49,12 @@ public class VentanaInicial extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblPregunat = new JLabel("\u00BFDesea entrar como atleta o como organizador?");
 		lblPregunat.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblPregunat.setBounds(109, 89, 302, 70);
 		contentPane.add(lblPregunat);
-		
+
 		JButton btnAtleta = new JButton("Atleta");
 		btnAtleta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -64,7 +64,7 @@ public class VentanaInicial extends JFrame {
 		btnAtleta.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAtleta.setBounds(80, 210, 131, 35);
 		contentPane.add(btnAtleta);
-		
+
 		JButton btnOrganizador = new JButton("Organizador");
 		btnOrganizador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -74,7 +74,7 @@ public class VentanaInicial extends JFrame {
 		btnOrganizador.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnOrganizador.setBounds(303, 210, 122, 35);
 		contentPane.add(btnOrganizador);
-		
+
 		JLabel llblBienvenido = new JLabel("\u00A1Bienvenido!");
 		llblBienvenido.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		llblBienvenido.setBounds(218, 50, 131, 29);
@@ -82,66 +82,73 @@ public class VentanaInicial extends JFrame {
 	}
 
 	protected void elegirAsOrganizador() {
-		int seleccion = JOptionPane.showOptionDialog(
-				   this,
-				   "�Desea conocer el estado de las diferentes inscripciones o las clasificiones?", 
-				   "Inicio como organizador",
-				   JOptionPane.YES_NO_CANCEL_OPTION,
-				   JOptionPane.QUESTION_MESSAGE,
-				   null,    // null para icono por defecto.
-				   new Object[] { "Inscripciones", "Clasificaciones"},   // null para YES, NO y CANCEL
-				   "opcion 1");
+		int seleccion = JOptionPane.showOptionDialog(this, "Seleccione la opción que quiere realizar",
+				"Inicio como organizador", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, // null
+																													// para
+																													// icono
+																													// por
+																													// defecto.
+				new Object[] { "Consultar inscripciones", "Consultar clasificaciones", "Asignar dorsales" }, // null
+																												// para
+																												// YES,
+																												// NO y
+																												// CANCEL
+				"opcion 1");
 
-				if (seleccion != -1)
-				   System.out.println("seleccionada opcion " + (seleccion + 1));	
-				if (seleccion==0) //organizador
-					{
-						mostrarVentanaInscripciones();  //tania
-					}
-				else if (seleccion==1)
-					{
-						mostrarVentanaCalificaciones(); //moises
-					}}
-	
+		if (seleccion != -1)
+			System.out.println("seleccionada opcion " + (seleccion + 1));
+		if (seleccion == 0) // organizador
+		{
+			mostrarVentanaInscripciones(); // tania
+		} else if (seleccion == 1) {
+			mostrarVentanaCalificaciones(); // moises
+		} else if (seleccion == 2) {
+			asignarDorsales();
+		}
+	}
+
+	private void asignarDorsales() {
+		this.dispose();
+		// CompeticionDto competicion = crearCompeticion();
+		VentanaAsignarDorsales vPal = new VentanaAsignarDorsales(this);
+		vPal.setLocationRelativeTo(this);
+		vPal.setVisible(true);
+
+	}
 
 	private void mostrarVentanaCalificaciones() {
 		this.dispose();
-		//CompeticionDto competicion = crearCompeticion();
+		// CompeticionDto competicion = crearCompeticion();
 		VentanaMostrarCarrerasOrganizador vPal = new VentanaMostrarCarrerasOrganizador("c");
 		vPal.setLocationRelativeTo(this);
 		vPal.setVisible(true);
-		
+
 	}
 
 	private void mostrarVentanaInscripciones() {
 		this.dispose();
-		//CompeticionDto competicion = crearCompeticion();
+		// CompeticionDto competicion = crearCompeticion();
 		VentanaMostrarCarrerasOrganizador vPal = new VentanaMostrarCarrerasOrganizador("i");
 		vPal.setLocationRelativeTo(this);
 		vPal.setVisible(true);
 	}
 
 	protected void elegirAsAtleta() {
-		int seleccion = JOptionPane.showOptionDialog(
-				   this,
-				   "�Desea inscribirse o conocer el estado de sus inscripciones?", 
-				   "Inicio como atleta",
-				   JOptionPane.YES_NO_CANCEL_OPTION,
-				   JOptionPane.QUESTION_MESSAGE,
-				   null,    // null para icono por defecto.
-				   new Object[] { "Inscribirme", "Conocer mi estado"},   // null para YES, NO y CANCEL
-				   "opcion 1");
+		int seleccion = JOptionPane.showOptionDialog(this,
+				"�Desea inscribirse o conocer el estado de sus inscripciones?", "Inicio como atleta",
+				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, // null para icono por defecto.
+				new Object[] { "Inscribirme", "Conocer mi estado" }, // null para YES, NO y CANCEL
+				"opcion 1");
 
-				if (seleccion != -1)
-				   System.out.println("seleccionada opcion " + (seleccion + 1));	
-				if (seleccion==0) //tarjeta de credito
-					{
-						mostrarVentanaCarreras();
-					}
-				else if (seleccion==1)
-					{
-						mostrarVentanaConocerEstado();
-					}}
+		if (seleccion != -1)
+			System.out.println("seleccionada opcion " + (seleccion + 1));
+		if (seleccion == 0) // tarjeta de credito
+		{
+			mostrarVentanaCarreras();
+		} else if (seleccion == 1) {
+			mostrarVentanaConocerEstado();
+		}
+	}
 
 	private void mostrarVentanaConocerEstado() {
 		this.dispose();
@@ -152,11 +159,10 @@ public class VentanaInicial extends JFrame {
 
 	private void mostrarVentanaCarreras() {
 		this.dispose();
-		//CompeticionDto competicion = crearCompeticion();
+		// CompeticionDto competicion = crearCompeticion();
 		VentanaMostrarCarreras vPal = new VentanaMostrarCarreras(this);
 		vPal.setLocationRelativeTo(this);
 		vPal.setVisible(true);
-		
+
 	}
 }
-

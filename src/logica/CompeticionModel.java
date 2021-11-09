@@ -15,7 +15,7 @@ public class CompeticionModel {
 	public static String sql1 = "select * from competicion";
 	public static String sql2ById = "select * from competicion where id=?";
 	public static String sqlActualizarPlazas = "update competicion set num_plazas = num_plazas-1 where id =?";
-	public static String sqlInsertarCompeticionBasicos = "insert into competicion (nombre,f_comp,tipo,distancia,num_plazas,id) values (?,?,?,?,?,?)";
+	public static String sqlInsertarCompeticionBasicos = "insert into competicion (nombre,f_comp,tipo,distancia,num_plazas,dorsales_vip,id) values (?,?,?,?,?,?,?)";
 	public static String sqlFinCom = "select * from competicion where id =?";
 	public static String sqlActualizarCompeticion1 = "update competicion set f_inicio1=?, f_fin1=?, cuota1=? where id=?";
 	public static String sqlActualizarCompeticion2 = "update competicion set f_inicio2=?, f_fin2=?, cuota2=? where id=?";
@@ -42,7 +42,7 @@ public class CompeticionModel {
 	private List<CompeticionDto> getAllCompeticiones() throws SQLException {
 		List<CompeticionDto> listaCompeticiones = new ArrayList<CompeticionDto>();
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -51,7 +51,7 @@ public class CompeticionModel {
 			pst = c.prepareStatement(sql1);
 			rs = pst.executeQuery();
 
-			// Añadimos los pedidos a la lista
+			// Aï¿½adimos los pedidos a la lista
 			listaCompeticiones = DtoAssembler.toCompeticionDtoList(rs);
 
 		} catch (SQLException e) {
@@ -90,7 +90,7 @@ public class CompeticionModel {
 		return articulos;
 	}
 
-	public void insertarDatosBasicos(String id,String nombre, String fecha,String tipo, int distancia,int plazas) {
+	public void insertarDatosBasicos(String id, String nombre, String fecha, String tipo, int distancia, int plazas) {
 		try {
 			insertarDatosBasicosPrivado(id, nombre, fecha, tipo, distancia, plazas);
 		} catch (Exception e) {
@@ -99,8 +99,9 @@ public class CompeticionModel {
 		}
 	}
 
-	private void insertarDatosBasicosPrivado(String id,String nombre, String fecha,String tipo, int distancia,int plazas) throws SQLException {
-		// Conexión a la base de datos
+	private void insertarDatosBasicosPrivado(String id, String nombre, String fecha, String tipo, int distancia,
+			int plazas) throws SQLException {
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		try {
@@ -128,7 +129,7 @@ public class CompeticionModel {
 	private List<CompeticionDto> filtrarPorFecha(String fecha) throws SQLException {
 		List<CompeticionDto> listaCompeticiones = new ArrayList<CompeticionDto>();
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -137,7 +138,7 @@ public class CompeticionModel {
 			pst = c.prepareStatement(sql1);
 			rs = pst.executeQuery();
 
-			// Añadimos los pedidos a la lista
+			// Aï¿½adimos los pedidos a la lista
 			listaCompeticiones = DtoAssembler.toCompeticionDtoListPorFecha(rs, fecha);
 
 		} catch (SQLException e) {
@@ -148,10 +149,46 @@ public class CompeticionModel {
 			c.close();
 		}
 
-		//        for (AtletaDto atletaDto : listaPedidos) {
-		//			System.out.println(atletaDto.getDni() + " " + atletaDto.getF_nac()
-		//			);
-		//		}
+		// for (AtletaDto atletaDto : listaPedidos) {
+		// System.out.println(atletaDto.getDni() + " " + atletaDto.getF_nac()
+		// );
+		// }
+		return listaCompeticiones;
+	}
+
+	public List<CompeticionDto> getListaCompCerradas(String fecha) {
+		List<CompeticionDto> articulos = null;
+		try {
+			articulos = listaCompeticionesCerradas(fecha);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return articulos;
+	}
+
+	private List<CompeticionDto> listaCompeticionesCerradas(String fecha) throws SQLException {
+		List<CompeticionDto> listaCompeticiones = new ArrayList<CompeticionDto>();
+
+		// Conexiï¿½n a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sql1);
+			rs = pst.executeQuery();
+
+			// Aï¿½adimos los pedidos a la lista
+			listaCompeticiones = DtoAssembler.toCompeticionDtoListPorFechaCerradas(rs, fecha);
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			rs.close();
+			pst.close();
+			c.close();
+		}
 		return listaCompeticiones;
 	}
 
@@ -169,7 +206,7 @@ public class CompeticionModel {
 	public List<CompeticionDto> getCompeticionByIdP(String identificador) throws SQLException {
 		List<CompeticionDto> listaCompeticiones = new ArrayList<CompeticionDto>();
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -179,7 +216,7 @@ public class CompeticionModel {
 			pst.setString(1, identificador);
 			rs = pst.executeQuery();
 
-			// Añadimos los pedidos a la lista
+			// Aï¿½adimos los pedidos a la lista
 			listaCompeticiones = DtoAssembler.toCompeticionDtoList(rs);
 
 		} catch (SQLException e) {
@@ -206,10 +243,10 @@ public class CompeticionModel {
 	}
 
 	private void actualizarPlazasP(String id) throws SQLException {
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
-		//        ResultSet rs = null;
+		// ResultSet rs = null;
 		try {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sqlActualizarPlazas);
@@ -224,21 +261,22 @@ public class CompeticionModel {
 		}
 
 	}
-	
-	public void actualizarCopeticion1(String fechaInicio,String fechaFin, float cuota,String id) {
+
+	public void actualizarCopeticion1(String fechaInicio, String fechaFin, float cuota, String id) {
 		try {
-			actualizarCopeticion1P(fechaInicio,fechaFin,cuota,id);
+			actualizarCopeticion1P(fechaInicio, fechaFin, cuota, id);
 		} catch (SQLException e) {
 			System.out.println("no se pudo actuliazar");
 			e.printStackTrace();
 		}
 	}
 
-	private void actualizarCopeticion1P(String fechaInicio,String fechaFin, float cuota,String id) throws SQLException {
-		// Conexión a la base de datos
+	private void actualizarCopeticion1P(String fechaInicio, String fechaFin, float cuota, String id)
+			throws SQLException {
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
-		//        ResultSet rs = null;
+		// ResultSet rs = null;
 		try {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sqlActualizarCompeticion1);
@@ -256,21 +294,22 @@ public class CompeticionModel {
 		}
 
 	}
-	
-	public void actualizarCopeticion2(String fechaInicio,String fechaFin, float cuota,String id) {
+
+	public void actualizarCopeticion2(String fechaInicio, String fechaFin, float cuota, String id) {
 		try {
-			actualizarCopeticion2P(fechaInicio,fechaFin,cuota,id);
+			actualizarCopeticion2P(fechaInicio, fechaFin, cuota, id);
 		} catch (SQLException e) {
 			System.out.println("no se pudo actuliazar");
 			e.printStackTrace();
 		}
 	}
 
-	private void actualizarCopeticion2P(String fechaInicio,String fechaFin, float cuota,String id) throws SQLException {
-		// Conexión a la base de datos
+	private void actualizarCopeticion2P(String fechaInicio, String fechaFin, float cuota, String id)
+			throws SQLException {
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
-		//        ResultSet rs = null;
+		// ResultSet rs = null;
 		try {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sqlActualizarCompeticion2);
@@ -288,21 +327,22 @@ public class CompeticionModel {
 		}
 
 	}
-	
-	public void actualizarCopeticion3(String fechaInicio,String fechaFin, float cuota,String id) {
+
+	public void actualizarCopeticion3(String fechaInicio, String fechaFin, float cuota, String id) {
 		try {
-			actualizarCopeticion3P(fechaInicio,fechaFin,cuota,id);
+			actualizarCopeticion3P(fechaInicio, fechaFin, cuota, id);
 		} catch (SQLException e) {
 			System.out.println("no se pudo actuliazar");
 			e.printStackTrace();
 		}
 	}
 
-	private void actualizarCopeticion3P(String fechaInicio,String fechaFin, float cuota,String id) throws SQLException {
-		// Conexión a la base de datos
+	private void actualizarCopeticion3P(String fechaInicio, String fechaFin, float cuota, String id)
+			throws SQLException {
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
-		//        ResultSet rs = null;
+		// ResultSet rs = null;
 		try {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sqlActualizarCompeticion3);
@@ -331,7 +371,7 @@ public class CompeticionModel {
 				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
 			else
 				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: " + i.getHoras()
-				+ "h " + i.getMinutos() + " minutos");
+						+ "h " + i.getMinutos() + " minutos");
 		}
 	}
 
@@ -350,7 +390,7 @@ public class CompeticionModel {
 				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
 			else
 				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: " + i.getHoras()
-				+ "h " + i.getMinutos() + " minutos");
+						+ "h " + i.getMinutos() + " minutos");
 		}
 	}
 
@@ -365,10 +405,47 @@ public class CompeticionModel {
 				clasificacion.add("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
 			else
 				clasificacion.add("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: " + i.getHoras()
-				+ "h " + i.getMinutos() + " minutos");
+						+ "h " + i.getMinutos() + " minutos");
 		}
 		return clasificacion;
 	}
 
-	
+	public void insertarDatosBasicos(String id, String nombre, String fecha, String tipo, int distancia, int plazas,
+			int dorsales) {
+		try {
+			insertarDatosBasicosPrivado(id, nombre, fecha, tipo, distancia, plazas, dorsales);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+
+	private void insertarDatosBasicosPrivado(String id, String nombre, String fecha, String tipo, int distancia,
+			int plazas, int dorsales) throws SQLException {
+		// Conexiï¿½n a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sqlInsertarCompeticionBasicos);
+			if (pst != null)
+				System.out.println("Adios");
+
+			pst.setString(1, nombre);
+			pst.setString(2, fecha);
+			pst.setString(3, tipo);
+			pst.setInt(4, distancia);
+			pst.setInt(5, plazas);
+			pst.setInt(6, dorsales);
+			pst.setString(7, id);
+
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			pst.close();
+			c.close();
+		}
+	}
+
 }

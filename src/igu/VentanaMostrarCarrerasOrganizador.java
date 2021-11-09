@@ -30,6 +30,7 @@ public class VentanaMostrarCarrerasOrganizador extends JFrame {
 	private JButton btnAceptar;
 	private JLabel lblCompeticiones;
 	private JTextArea txtInfoCarrera;
+	@SuppressWarnings("unused")
 	private VentanaInicial vi;
 
 	private String opcion;

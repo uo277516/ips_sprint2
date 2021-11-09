@@ -22,6 +22,7 @@ public class VentanaRegistro extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	@SuppressWarnings("unused")
 	private VentanaInscripcion vI;
 	private JTextField txtDni;
 	private JTextField txtNombre;

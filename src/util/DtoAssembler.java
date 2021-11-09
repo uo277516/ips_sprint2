@@ -4,14 +4,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import logica.AtletaDto;
+import logica.CategoriaDto;
 import logica.CompeticionDto;
 import logica.InscripcionDto;
 
+@SuppressWarnings("unused")
 public class DtoAssembler {
 
 	public static List<AtletaDto> toAtletaDtoList (ResultSet rs)
@@ -78,6 +81,10 @@ public class DtoAssembler {
 			a.setF_inicio2(rs.getString("f_inicio2"));
 		if (rs.getString("f_inicio3") != null)
 			a.setF_inicio3(rs.getString("f_inicio3"));
+		if (rs.getString("dorsales_vip") != null)
+			a.setDorsales_vip(Integer.parseInt(rs.getString("dorsales_vip")));
+		if (rs.getString("d_asig") != null)
+			a.setD_asig(Integer.parseInt(rs.getString("d_asig")));
 		a.setId((rs.getString("id")));
 		a.setNombre(rs.getString("nombre"));
 		a.setNum_plazas(Integer.parseInt(rs.getString("num_plazas")));
@@ -186,5 +193,85 @@ public class DtoAssembler {
 		return true;
 		
 
+	}
+
+	public static List<CompeticionDto> toCompeticionDtoListPorFechaCerradas(ResultSet rs, String fecha) {
+		List<CompeticionDto> lista = toCompeticionDtoList(rs);
+		for (CompeticionDto competicionDto : lista) {
+			System.out.println(competicionDto.getF_fin1());
+			
+		}
+		System.out.println("acabado");
+		List<CompeticionDto> ret = new ArrayList<CompeticionDto>();
+		SimpleDateFormat formato =new SimpleDateFormat("dd/MM/yyyy");
+		
+		for (CompeticionDto c : lista) {
+			try {
+				if (formato.parse(fecha).before(formato.parse(c.getF_comp())) && c.getD_asig()==0) { 
+					//que la fecha de la comp no pasara y que no estén asignados ya
+					if (c.getF_fin1()!=null && c.getF_fin2()==null && c.getF_fin3()==null) 
+					{
+						//solo un plazo
+						try {
+							//Date fechaAct = formato.parse(fecha);
+							if (formato.parse(fecha).after(formato.parse(c.getF_fin1())))
+								ret.add(c);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else if (c.getF_fin1()!=null && c.getF_fin2()!=null && c.getF_fin3()==null)
+					{
+						try {
+							if (formato.parse(fecha).after(formato.parse(c.getF_fin2())))
+								ret.add(c);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else if (c.getF_fin1()!=null && c.getF_fin2()!=null && c.getF_fin3()!=null)
+					{
+						try {
+							if (formato.parse(fecha).after(formato.parse(c.getF_fin3())))
+								ret.add(c);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		//System.out.println(ret.get(0));
+		return ret;
+	}
+	
+	public static List<CategoriaDto> toCotegoriaDtoList (ResultSet rs)
+	{
+		List<CategoriaDto> lista = new ArrayList<CategoriaDto>();
+		try {
+			while(rs.next())
+			{
+				lista.add(cogerDatosCategoria(rs));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lista;
+	}
+
+	private static CategoriaDto cogerDatosCategoria(ResultSet rs) throws SQLException {
+		CategoriaDto a = new CategoriaDto();
+		
+		a.setId((rs.getString("id")));
+		a.setNombre(rs.getString("nombre"));
+		a.setEdad_min(Integer.parseInt(rs.getString("edad_min")));
+		a.setEdad_max(Integer.parseInt(rs.getString("edad_max")));
+		a.setSexo(rs.getString("sexo"));
+		return a;
 	}
 }
