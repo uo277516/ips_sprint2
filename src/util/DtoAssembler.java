@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import logica.AtletaDto;
+import logica.CategoriaDto;
 import logica.CompeticionDto;
 import logica.InscripcionDto;
 
@@ -246,5 +247,31 @@ public class DtoAssembler {
 		}
 		//System.out.println(ret.get(0));
 		return ret;
+	}
+	
+	public static List<CategoriaDto> toCotegoriaDtoList (ResultSet rs)
+	{
+		List<CategoriaDto> lista = new ArrayList<CategoriaDto>();
+		try {
+			while(rs.next())
+			{
+				lista.add(cogerDatosCategoria(rs));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lista;
+	}
+
+	private static CategoriaDto cogerDatosCategoria(ResultSet rs) throws SQLException {
+		CategoriaDto a = new CategoriaDto();
+		
+		a.setId((rs.getString("id")));
+		a.setNombre(rs.getString("nombre"));
+		a.setEdad_min(Integer.parseInt(rs.getString("edad_min")));
+		a.setEdad_max(Integer.parseInt(rs.getString("edad_max")));
+		a.setSexo(rs.getString("sexo"));
+		return a;
 	}
 }

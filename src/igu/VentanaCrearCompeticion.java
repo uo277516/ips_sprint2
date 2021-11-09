@@ -62,6 +62,11 @@ public class VentanaCrearCompeticion extends JFrame {
 
 	private String id_comp;
 	private int plazos=0;
+	private JLabel lblDorsales;
+	private JTextField txtDorsales;
+	private JLabel lblGestionarCat;
+	private JButton btnGestionar;
+	private JButton btnFinalizar;
 
 	/**
 	 * Launch the application.
@@ -102,6 +107,10 @@ public class VentanaCrearCompeticion extends JFrame {
 		txtFechaComp.setEditable(true);
 		txtPlazas.setEditable(true);
 		txtTipo.setEditable(true);
+		txtDorsales.setEditable(true);
+		contentPane.add(getLblGestionarCat());
+		contentPane.add(getBtnGestionar());
+		contentPane.add(getBtnFinalizar());
 	}
 	private JTextArea getTxtAreaInfo() {
 		if (txtAreaInfo == null) {
@@ -118,7 +127,7 @@ public class VentanaCrearCompeticion extends JFrame {
 			pnDatosBasicos = new JPanel();
 			pnDatosBasicos.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Datos b\u00E1sicos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			pnDatosBasicos.setBackground(Color.WHITE);
-			pnDatosBasicos.setBounds(30, 90, 551, 290);
+			pnDatosBasicos.setBounds(30, 100, 551, 253);
 			pnDatosBasicos.setLayout(null);
 			pnDatosBasicos.add(getLblNombre());
 			pnDatosBasicos.add(getTxtNombre());
@@ -134,6 +143,8 @@ public class VentanaCrearCompeticion extends JFrame {
 			pnDatosBasicos.add(getBtnValidar());
 			pnDatosBasicos.add(getLblTiposCarreras());
 			pnDatosBasicos.add(getLblKm());
+			pnDatosBasicos.add(getLblDorsales());
+			pnDatosBasicos.add(getTxtDorsales());
 		}
 		return pnDatosBasicos;
 	}
@@ -141,7 +152,7 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (lblNombre == null) {
 			lblNombre = new JLabel("Nombre:\r\n");
 			lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblNombre.setBounds(10, 26, 68, 22);
+			lblNombre.setBounds(10, 32, 68, 22);
 		}
 		return lblNombre;
 	}
@@ -149,7 +160,7 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (txtNombre == null) {
 			txtNombre = new JTextField();
 			txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			txtNombre.setBounds(103, 26, 307, 22);
+			txtNombre.setBounds(103, 32, 307, 22);
 			txtNombre.setColumns(10);
 		}
 		return txtNombre;
@@ -158,14 +169,14 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (lblFechaComp == null) {
 			lblFechaComp = new JLabel("Fecha Comp:\r\n");
 			lblFechaComp.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblFechaComp.setBounds(10, 77, 84, 22);
+			lblFechaComp.setBounds(10, 65, 84, 22);
 		}
 		return lblFechaComp;
 	}
 	private JTextField getTxtFechaComp() {
 		if (txtFechaComp == null) {
 			txtFechaComp = new JTextField();
-			txtFechaComp.setBounds(103, 78, 121, 22);
+			txtFechaComp.setBounds(103, 65, 121, 22);
 			txtFechaComp.setColumns(10);
 		}
 		return txtFechaComp;
@@ -174,7 +185,7 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (lblFormato == null) {
 			lblFormato = new JLabel("dd/MM/aaaa --- posterior a la actual");
 			lblFormato.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			lblFormato.setBounds(247, 82, 192, 17);
+			lblFormato.setBounds(248, 69, 192, 17);
 		}
 		return lblFormato;
 	}
@@ -182,14 +193,14 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (lblTipo == null) {
 			lblTipo = new JLabel("Tipo:");
 			lblTipo.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblTipo.setBounds(10, 124, 68, 22);
+			lblTipo.setBounds(10, 98, 68, 22);
 		}
 		return lblTipo;
 	}
 	private JTextField getTxtTipo() {
 		if (txtTipo == null) {
 			txtTipo = new JTextField();
-			txtTipo.setBounds(103, 125, 121, 22);
+			txtTipo.setBounds(103, 99, 121, 22);
 			txtTipo.setColumns(10);
 		}
 		return txtTipo;
@@ -198,14 +209,14 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (lblDistancia == null) {
 			lblDistancia = new JLabel("Distancia:");
 			lblDistancia.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblDistancia.setBounds(10, 172, 68, 22);
+			lblDistancia.setBounds(10, 131, 68, 22);
 		}
 		return lblDistancia;
 	}
 	private JTextField getTxtDistancia() {
 		if (txtDistancia == null) {
 			txtDistancia = new JTextField();
-			txtDistancia.setBounds(103, 173, 121, 23);
+			txtDistancia.setBounds(103, 132, 121, 23);
 			txtDistancia.setColumns(10);
 		}
 		return txtDistancia;
@@ -214,14 +225,14 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (lblPlazas == null) {
 			lblPlazas = new JLabel("Plazas:");
 			lblPlazas.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblPlazas.setBounds(10, 220, 68, 25);
+			lblPlazas.setBounds(10, 164, 68, 25);
 		}
 		return lblPlazas;
 	}
 	private JTextField getTxtPlazas() {
 		if (txtPlazas == null) {
 			txtPlazas = new JTextField();
-			txtPlazas.setBounds(103, 222, 121, 22);
+			txtPlazas.setBounds(103, 166, 121, 22);
 			txtPlazas.setColumns(10);
 		}
 		return txtPlazas;
@@ -251,6 +262,10 @@ public class VentanaCrearCompeticion extends JFrame {
 							}else if (!compruebaSoloNumeros(getTxtPlazas().getText())) {
 								mostrarErrorPlazas();
 								txtPlazas.setText("");
+							}
+							else if (!compruebaSoloNumeros(getTxtDorsales().getText())) {
+								mostrarErrorPlazas();
+								txtDorsales.setText("");
 							}else {
 								insertarDatosBasicos();
 								mostrarDatosBasicosCorrectos();
@@ -261,6 +276,7 @@ public class VentanaCrearCompeticion extends JFrame {
 								txtFechaComp.setEditable(false);
 								txtPlazas.setEditable(false);
 								txtTipo.setEditable(false);
+								txtDorsales.setEditable(false);
 							}
 						} catch (ParseException e1) {
 							// TODO Auto-generated catch block
@@ -274,7 +290,7 @@ public class VentanaCrearCompeticion extends JFrame {
 			btnValidar.setForeground(Color.WHITE);
 			btnValidar.setBackground(Color.GREEN);
 			btnValidar.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			btnValidar.setBounds(440, 257, 101, 22);
+			btnValidar.setBounds(440, 223, 101, 22);
 		}
 		return btnValidar;
 	}
@@ -284,7 +300,7 @@ public class VentanaCrearCompeticion extends JFrame {
 		this.id_comp=id;
 		String tipo = sacarTipo();
 		comp.insertarDatosBasicos(id,getTxtNombre().getText(), getTxtFechaComp().getText(), 
-				tipo, Integer.parseInt(getTxtDistancia().getText()), Integer.parseInt(getTxtPlazas().getText()));
+				tipo, Integer.parseInt(getTxtDistancia().getText()), Integer.parseInt(getTxtPlazas().getText()),Integer.parseInt(getTxtDorsales().getText()));
 
 	}
 
@@ -403,7 +419,7 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (lblTiposCarreras == null) {
 			lblTiposCarreras = new JLabel("monta\u00F1a/asfalto");
 			lblTiposCarreras.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			lblTiposCarreras.setBounds(247, 129, 95, 17);
+			lblTiposCarreras.setBounds(248, 102, 95, 17);
 		}
 		return lblTiposCarreras;
 	}
@@ -411,7 +427,7 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (lblKm == null) {
 			lblKm = new JLabel("En km");
 			lblKm.setFont(new Font("Tahoma", Font.PLAIN, 11));
-			lblKm.setBounds(247, 177, 49, 14);
+			lblKm.setBounds(247, 136, 49, 14);
 		}
 		return lblKm;
 	}
@@ -420,7 +436,7 @@ public class VentanaCrearCompeticion extends JFrame {
 			pnPlazos = new JPanel();
 			pnPlazos.setBorder(new TitledBorder(null, "Plazos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			pnPlazos.setBackground(Color.WHITE);
-			pnPlazos.setBounds(30, 391, 551, 215);
+			pnPlazos.setBounds(30, 364, 551, 189);
 			pnPlazos.setLayout(null);
 			pnPlazos.add(getLblFechaInicio());
 			pnPlazos.add(getTxtFechaIniico());
@@ -438,7 +454,7 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (lblFechaInicio == null) {
 			lblFechaInicio = new JLabel("Fecha inicio:");
 			lblFechaInicio.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblFechaInicio.setBounds(10, 42, 87, 16);
+			lblFechaInicio.setBounds(10, 26, 87, 16);
 		}
 		return lblFechaInicio;
 	}
@@ -446,7 +462,7 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (txtFechaIniico == null) {
 			txtFechaIniico = new JTextField();
 			txtFechaIniico.setColumns(10);
-			txtFechaIniico.setBounds(94, 41, 87, 22);
+			txtFechaIniico.setBounds(94, 24, 87, 22);
 		}
 		return txtFechaIniico;
 	}
@@ -454,7 +470,7 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (lblFechaFin == null) {
 			lblFechaFin = new JLabel("Fecha fin:");
 			lblFechaFin.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblFechaFin.setBounds(191, 43, 77, 14);
+			lblFechaFin.setBounds(191, 27, 77, 14);
 		}
 		return lblFechaFin;
 	}
@@ -462,7 +478,7 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (txtFechaFin == null) {
 			txtFechaFin = new JTextField();
 			txtFechaFin.setColumns(10);
-			txtFechaFin.setBounds(261, 40, 87, 22);
+			txtFechaFin.setBounds(260, 24, 87, 22);
 		}
 		return txtFechaFin;
 	}
@@ -470,7 +486,7 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (lblCuota == null) {
 			lblCuota = new JLabel("Cuota:");
 			lblCuota.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblCuota.setBounds(358, 44, 49, 14);
+			lblCuota.setBounds(357, 27, 49, 14);
 		}
 		return lblCuota;
 	}
@@ -478,7 +494,7 @@ public class VentanaCrearCompeticion extends JFrame {
 		if (txtCuota == null) {
 			txtCuota = new JTextField();
 			txtCuota.setColumns(10);
-			txtCuota.setBounds(404, 42, 87, 22);
+			txtCuota.setBounds(400, 24, 87, 22);
 		}
 		return txtCuota;
 	}
@@ -543,7 +559,7 @@ public class VentanaCrearCompeticion extends JFrame {
 
 				
 			});
-			btnInsertar.setBounds(440, 181, 101, 23);
+			btnInsertar.setBounds(440, 157, 101, 23);
 		}
 		return btnInsertar;
 	}
@@ -713,7 +729,7 @@ public class VentanaCrearCompeticion extends JFrame {
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(35, 103, 317, 101);
+			scrollPane.setBounds(30, 57, 317, 101);
 			scrollPane.setViewportView(getTextArea());
 		}
 		return scrollPane;
@@ -723,5 +739,49 @@ public class VentanaCrearCompeticion extends JFrame {
 			textArea = new JTextArea();
 		}
 		return textArea;
+	}
+	private JLabel getLblDorsales() {
+		if (lblDorsales == null) {
+			lblDorsales = new JLabel("Dorsales vip:");
+			lblDorsales.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			lblDorsales.setBounds(10, 208, 77, 14);
+		}
+		return lblDorsales;
+	}
+	private JTextField getTxtDorsales() {
+		if (txtDorsales == null) {
+			txtDorsales = new JTextField();
+			txtDorsales.setBounds(103, 205, 121, 20);
+			txtDorsales.setColumns(10);
+		}
+		return txtDorsales;
+	}
+	private JLabel getLblGestionarCat() {
+		if (lblGestionarCat == null) {
+			lblGestionarCat = new JLabel("Gestionar las categorias de la competici\u00F3n:");
+			lblGestionarCat.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			lblGestionarCat.setBounds(40, 564, 292, 30);
+		}
+		return lblGestionarCat;
+	}
+	private JButton getBtnGestionar() {
+		if (btnGestionar == null) {
+			btnGestionar = new JButton("Gestionar");
+			btnGestionar.setBackground(Color.GREEN);
+			btnGestionar.setForeground(Color.WHITE);
+			btnGestionar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			btnGestionar.setBounds(297, 569, 103, 23);
+		}
+		return btnGestionar;
+	}
+	private JButton getBtnFinalizar() {
+		if (btnFinalizar == null) {
+			btnFinalizar = new JButton("Finalizar");
+			btnFinalizar.setForeground(Color.WHITE);
+			btnFinalizar.setBackground(Color.RED);
+			btnFinalizar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			btnFinalizar.setBounds(527, 584, 89, 23);
+		}
+		return btnFinalizar;
 	}
 }
