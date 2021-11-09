@@ -102,7 +102,7 @@ public class VentanaAtletaInscripcion extends JFrame {
 	private JLabel getLblDniAtleta() {
 		if (lblDniAtleta == null) {
 			lblDniAtleta = new JLabel("DNI");
-			lblDniAtleta.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+			lblDniAtleta.setFont(new Font("Lucida Grande", Font.BOLD, 15));
 		}
 		return lblDniAtleta;
 	}
@@ -110,7 +110,7 @@ public class VentanaAtletaInscripcion extends JFrame {
 	private JLabel getLblNombre() {
 		if (lblNombre == null) {
 			lblNombre = new JLabel("Nombre");
-			lblNombre.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+			lblNombre.setFont(new Font("Lucida Grande", Font.BOLD, 15));
 		}
 		return lblNombre;
 	}
@@ -191,6 +191,7 @@ public class VentanaAtletaInscripcion extends JFrame {
 	private JLabel getLblCategoria() {
 		if (lblCategoria == null) {
 			lblCategoria = new JLabel("Categoría");
+			lblCategoria.setFont(new Font("Lucida Grande", Font.BOLD, 15));
 		}
 		return lblCategoria;
 	}
@@ -198,6 +199,7 @@ public class VentanaAtletaInscripcion extends JFrame {
 	private JLabel getLblFecha() {
 		if (lblFecha == null) {
 			lblFecha = new JLabel("Fecha");
+			lblFecha.setFont(new Font("Lucida Grande", Font.BOLD, 15));
 		}
 		return lblFecha;
 	}
@@ -205,6 +207,7 @@ public class VentanaAtletaInscripcion extends JFrame {
 	private JLabel getLblEstado() {
 		if (lblEstado == null) {
 			lblEstado = new JLabel("Estado");
+			lblEstado.setFont(new Font("Lucida Grande", Font.BOLD, 15));
 		}
 		return lblEstado;
 	}
