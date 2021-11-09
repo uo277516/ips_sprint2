@@ -26,6 +26,7 @@ public class InscripcionModel {
 	public static String sql6Ins = "select * from inscripcion where dni_a=? and id_c =?";
 
 	public static String sql7UpdateEstado = "update inscripcion set estado=? where dni_a=? and id_c=?";
+	public static String sqlUpdateCantidadPagada = "update inscripcion set cantidad_pagada=? where dni_a=? and id_c=?";
 	public static String sql7UpdateFecha = "update inscripcion set fecha=? where dni_a=? and id_c=?";
 	public static String sql7UpdatePago = "update inscripcion set metodo_pago=? where dni_a=? and id_c=?";
 
@@ -610,6 +611,34 @@ public class InscripcionModel {
 			System.out.println(atletaDto);
 		}
 		return listaInscrpcines;
+	}
+
+	public void actualizarInscripcionCantPagada(float cantidad, String dni, String id) {
+		try {
+			actualizarInscripcionCantPagadaP(cantidad, dni, id);
+		} catch (SQLException e) {
+			System.out.println("no se pudo actuliazar");
+			e.printStackTrace();
+		}
+	}
+
+	private void actualizarInscripcionCantPagadaP(float cantidad, String dni, String id) throws SQLException {
+		Connection c = null;
+		PreparedStatement pst = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sqlUpdateCantidadPagada);
+			pst.setFloat(1, cantidad);
+			pst.setString(2, dni);
+			pst.setString(3, id);
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			pst.close();
+			c.close();
+		}
+
 	}
 
 }
