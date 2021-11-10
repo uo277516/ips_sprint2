@@ -198,7 +198,9 @@ public class VentanaCategorias extends JFrame {
 
 		// CompeticionDto competicion = crearCompeticion();
 		VentanaCreacionActualizaCate vPal = new VentanaCreacionActualizaCate(this,cate,this.id_comp,edad);
+		
 		vPal.setLocationRelativeTo(this);
+		
 		vPal.setVisible(true);
 
 	}
@@ -206,6 +208,7 @@ public class VentanaCategorias extends JFrame {
 	private void mostrarVentanaActualizar(int edad, String genero) {
 		// CompeticionDto competicion = crearCompeticion();
 		VentanaCreacionActualizaCate vPal = new VentanaCreacionActualizaCate(this,id_comp,edad,genero);
+		
 		vPal.setLocationRelativeTo(this);
 		vPal.setVisible(true);
 
