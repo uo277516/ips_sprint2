@@ -111,6 +111,9 @@ public class VentanaCrearCompeticion extends JFrame {
 		contentPane.add(getLblGestionarCat());
 		contentPane.add(getBtnGestionar());
 		contentPane.add(getBtnFinalizar());
+		lblGestionarCat.setVisible(false);
+		btnGestionar.setVisible(false);
+		btnFinalizar.setVisible(false);
 	}
 	private JTextArea getTxtAreaInfo() {
 		if (txtAreaInfo == null) {
@@ -533,6 +536,8 @@ public class VentanaCrearCompeticion extends JFrame {
 								actualizarTextArea(plazos);
 								actualizarCompeticion(plazos);
 								actualizarTxtInicio();
+								getLblGestionarCat().setVisible(true);
+								btnGestionar.setVisible(true);
 								txtFechaFin.setText("");
 								txtCuota.setText("");
 								if (plazos == 3) {
@@ -767,6 +772,13 @@ public class VentanaCrearCompeticion extends JFrame {
 	private JButton getBtnGestionar() {
 		if (btnGestionar == null) {
 			btnGestionar = new JButton("Gestionar");
+			btnGestionar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostratVentanaCrearCategorias();
+				}
+
+				
+			});
 			btnGestionar.setBackground(Color.GREEN);
 			btnGestionar.setForeground(Color.WHITE);
 			btnGestionar.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -774,6 +786,23 @@ public class VentanaCrearCompeticion extends JFrame {
 		}
 		return btnGestionar;
 	}
+	public void prepararVuelta() {
+		this.setVisible(true);
+		btnFinalizar.setVisible(true);
+		btnGestionar.setEnabled(false);
+		
+	}
+	
+	private void mostratVentanaCrearCategorias() {
+		
+		VentanaCategorias vc = new VentanaCategorias(this,id_comp);
+		this.setVisible(false);
+		vc.setLocationRelativeTo(this);
+		vc.setVisible(true);
+		
+	}
+	
+	
 	private JButton getBtnFinalizar() {
 		if (btnFinalizar == null) {
 			btnFinalizar = new JButton("Finalizar");
