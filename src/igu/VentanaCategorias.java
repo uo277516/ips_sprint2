@@ -67,6 +67,7 @@ public class VentanaCategorias extends JFrame {
 		contentPane.add(getBtnAñadir());
 		contentPane.add(getBtnConfirmar());
 		contentPane.add(getBtnCrear());
+		btnConfirmar.setEnabled(false);
 	}
 	private JTextArea getTxtrPuedeCrearO() {
 		if (txtrPuedeCrearO == null) {
@@ -235,6 +236,7 @@ public class VentanaCategorias extends JFrame {
 		tableCate.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tableCate.setSelectionBackground(Color.YELLOW);
 		tableCate.setBackground(Color.LIGHT_GRAY);
+		btnConfirmar.setEnabled(true);
 		String[] tabla = {"Id","Nombre","Edad Min","Edad Max","Sexo"};
 		DefaultTableModel modelo = new DefaultTableModel() {
 			public boolean isCellEditable(int fila, int columnas) {

@@ -69,22 +69,6 @@ public class VentanaCrearCompeticion extends JFrame {
 	private JButton btnFinalizar;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaCrearCompeticion frame = new VentanaCrearCompeticion();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public VentanaCrearCompeticion() {
@@ -806,6 +790,11 @@ public class VentanaCrearCompeticion extends JFrame {
 	private JButton getBtnFinalizar() {
 		if (btnFinalizar == null) {
 			btnFinalizar = new JButton("Finalizar");
+			btnFinalizar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
 			btnFinalizar.setForeground(Color.WHITE);
 			btnFinalizar.setBackground(Color.RED);
 			btnFinalizar.setFont(new Font("Tahoma", Font.PLAIN, 15));

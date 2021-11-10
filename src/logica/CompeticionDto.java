@@ -18,7 +18,14 @@ public class CompeticionDto {
 	private String f_fin3;
 	private String f_inicio3;
 	private int dorsales_vip;
+	private int d_asig;
 	
+	public int getD_asig() {
+		return d_asig;
+	}
+	public void setD_asig(int d_asig) {
+		this.d_asig = d_asig;
+	}
 	public int getDorsales_vip() {
 		return dorsales_vip;
 	}
