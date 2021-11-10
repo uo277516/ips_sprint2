@@ -89,7 +89,7 @@ public class VentanaInicial extends JFrame {
 				   JOptionPane.YES_NO_CANCEL_OPTION,
 				   JOptionPane.QUESTION_MESSAGE,
 				   null,    // null para icono por defecto.
-				   new Object[] { "Inscripciones", "Clasificaciones"},   // null para YES, NO y CANCEL
+				   new Object[] { "Inscripciones", "Clasificaciones","Asignar Dorsales","Crear Competicion"},   // null para YES, NO y CANCEL
 				   "opcion 1");
 
 				if (seleccion != -1)
@@ -101,8 +101,21 @@ public class VentanaInicial extends JFrame {
 				else if (seleccion==1)
 					{
 						mostrarVentanaCalificaciones(); //moises
-					}}
+					}
+				else if (seleccion==3) {
+					mostrarVentanaCrearCompeticion();
+				}
+				}
 	
+
+	private void mostrarVentanaCrearCompeticion() {
+		this.dispose();
+		//CompeticionDto competicion = crearCompeticion();
+		VentanaCrearCompeticion vPal = new VentanaCrearCompeticion();
+		vPal.setLocationRelativeTo(this);
+		vPal.setVisible(true);
+		
+	}
 
 	private void mostrarVentanaCalificaciones() {
 		this.dispose();
