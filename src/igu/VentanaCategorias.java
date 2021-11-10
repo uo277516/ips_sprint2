@@ -1,7 +1,6 @@
 package igu;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,35 +33,22 @@ public class VentanaCategorias extends JFrame {
 	private JTable tableEstandar;
 	private JScrollPane scrollPane_1;
 	private JLabel lblCategorias;
-	private JButton btnAñadir;
+	private JButton btnAnadir;
 	private JButton btnConfirmar;
 	private JButton btnCrear;
 
 	private CategoriaModel cat;
 	private JTable tableCate;
 
-	private String id_comp = "1111";
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaCategorias frame = new VentanaCategorias();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private String id_comp;
+	private VentanaCrearCompeticion vcc;
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaCategorias() {
+	public VentanaCategorias(VentanaCrearCompeticion vcc, String id) {
+		this.vcc = vcc;
+		this.id_comp = id;
 		cat = new CategoriaModel();
 		setTitle("Ventana categorias:");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,9 +63,11 @@ public class VentanaCategorias extends JFrame {
 		contentPane.add(getScrollPane());
 		contentPane.add(getScrollPane_1());
 		contentPane.add(getLblCategorias());
-		contentPane.add(getBtnAñadir());
+		contentPane.add(getBtnAnadir());
+
 		contentPane.add(getBtnConfirmar());
 		contentPane.add(getBtnCrear());
+		btnConfirmar.setEnabled(false);
 	}
 
 	private JTextArea getTxtrPuedeCrearO() {
@@ -171,10 +159,10 @@ public class VentanaCategorias extends JFrame {
 		return lblCategorias;
 	}
 
-	private JButton getBtnAñadir() {
-		if (btnAñadir == null) {
-			btnAñadir = new JButton("A\u00F1adir");
-			btnAñadir.addActionListener(new ActionListener() {
+	private JButton getBtnAnadir() {
+		if (btnAnadir == null) {
+			btnAnadir = new JButton("A\u00F1adir");
+			btnAnadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					CategoriaDto cate = sacarCategoriaSeleccionada();
 					List<CategoriaDto> list = new ArrayList<>();
@@ -208,19 +196,23 @@ public class VentanaCategorias extends JFrame {
 				}
 
 			});
-			btnAñadir.setForeground(Color.WHITE);
-			btnAñadir.setBackground(Color.GREEN);
-			btnAñadir.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			btnAñadir.setBounds(364, 386, 89, 23);
+			btnAnadir.setForeground(Color.WHITE);
+			btnAnadir.setBackground(Color.GREEN);
+			btnAnadir.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			btnAnadir.setBounds(364, 386, 89, 23);
 		}
-		return btnAñadir;
+
+		return btnAnadir;
+
 	}
 
 	private void mostrarVentanaActualizar(CategoriaDto cate, int edad) {
 
 		// CompeticionDto competicion = crearCompeticion();
-		VentanaCreacionActualizaCate vPal = new VentanaCreacionActualizaCate(this, cate, id_comp, edad);
+		VentanaCreacionActualizaCate vPal = new VentanaCreacionActualizaCate(this, cate, this.id_comp, edad);
+
 		vPal.setLocationRelativeTo(this);
+
 		vPal.setVisible(true);
 
 	}
@@ -228,20 +220,22 @@ public class VentanaCategorias extends JFrame {
 	private void mostrarVentanaActualizar(int edad, String genero) {
 		// CompeticionDto competicion = crearCompeticion();
 		VentanaCreacionActualizaCate vPal = new VentanaCreacionActualizaCate(this, id_comp, edad, genero);
+
 		vPal.setLocationRelativeTo(this);
 		vPal.setVisible(true);
 
 	}
 
 	private int opcionActualizarOno() {
-		return JOptionPane.showOptionDialog(null, "�Desea modificar esta categor�a estandar?", "Seleccione una opci�n:",
+
+		return JOptionPane.showOptionDialog(null, "�Desea modificar esta categor�a estandar?", "Seleccione una opci�n:",
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, // null para icono por defecto.
 				new Object[] { "Si", "No" }, // null para YES, NO y CANCEL
 				"opcion 1");
 	}
 
 	private void mostrarCategoriaInsertada() {
-		JOptionPane.showMessageDialog(this, "Categor�a ya insertada");
+		JOptionPane.showMessageDialog(this, "Categor�a ya insertada");
 	}
 
 	public void actualizarTablaCategorias(CategoriaDto catNueva) {
@@ -251,6 +245,7 @@ public class VentanaCategorias extends JFrame {
 		tableCate.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tableCate.setSelectionBackground(Color.YELLOW);
 		tableCate.setBackground(Color.LIGHT_GRAY);
+		btnConfirmar.setEnabled(true);
 		String[] tabla = { "Id", "Nombre", "Edad Min", "Edad Max", "Sexo" };
 		DefaultTableModel modelo = new DefaultTableModel() {
 			public boolean isCellEditable(int fila, int columnas) {
@@ -392,12 +387,28 @@ public class VentanaCategorias extends JFrame {
 	private JButton getBtnConfirmar() {
 		if (btnConfirmar == null) {
 			btnConfirmar = new JButton("Confirmar");
+			btnConfirmar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					cerrarVentana();
+				}
+
+			});
 			btnConfirmar.setForeground(Color.WHITE);
 			btnConfirmar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 			btnConfirmar.setBackground(Color.GREEN);
 			btnConfirmar.setBounds(811, 388, 107, 23);
 		}
 		return btnConfirmar;
+	}
+
+	private void cerrarVentana() {
+		int respuesta = JOptionPane.showConfirmDialog(null, "Estan listas las categorias?", "Confirmar categorias",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (respuesta == 0) {
+			vcc.prepararVuelta();
+			this.dispose();
+		}
+
 	}
 
 	private JButton getBtnCrear() {
@@ -437,7 +448,7 @@ public class VentanaCategorias extends JFrame {
 	}
 
 	private int opcionSexo() {
-		return JOptionPane.showOptionDialog(null, "�Para que genero es la categoria?", "Seleccione una opci�n:",
+		return JOptionPane.showOptionDialog(null, "�Para que genero es la categoria?", "Seleccione una opci�n:",
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, // null para icono por defecto.
 				new Object[] { "Masculino", "Femenino" }, // null para YES, NO y CANCEL
 				"opcion 1");

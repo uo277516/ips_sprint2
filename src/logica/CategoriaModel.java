@@ -57,7 +57,7 @@ public class CategoriaModel {
 			rs = pst.executeQuery();
 
 			// Añadimos los pedidos a la lista
-			listaCat = DtoAssembler.toCotegoriaDtoList(rs);
+			listaCat = DtoAssembler.toCategoriaDtoList(rs);
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -95,7 +95,7 @@ public class CategoriaModel {
 			rs = pst.executeQuery();
 
 			// Añadimos los pedidos a la lista
-			listaCat = DtoAssembler.toCotegoriaDtoList(rs);
+			listaCat = DtoAssembler.toCategoriaDtoList(rs);
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -164,7 +164,7 @@ public class CategoriaModel {
 			rs = pst.executeQuery();
 
 			// Añadimos los pedidos a la lista
-			listaCat = DtoAssembler.toCotegoriaDtoList(rs);
+			listaCat = DtoAssembler.toCategoriaDtoList(rs);
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -231,7 +231,7 @@ public class CategoriaModel {
 			rs = pst.executeQuery();
 
 			if (rs != null)
-				result = DtoAssembler.toCotegoriaDtoList(rs);
+				result = DtoAssembler.toCategoriaDtoList(rs);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -267,7 +267,7 @@ public class CategoriaModel {
 			rs = pst.executeQuery();
 
 			if (rs != null)
-				result = DtoAssembler.toCotegoriaDtoList(rs);
+				result = DtoAssembler.toCategoriaDtoList(rs);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
@@ -309,7 +309,7 @@ public class CategoriaModel {
 			rs = pst.executeQuery();
 			// Añadimos los pedidos a la lista
 			if (rs != null)
-				listaCat = DtoAssembler.toCotegoriaDtoList(rs);
+				listaCat = DtoAssembler.toCategoriaDtoList(rs);
 			System.out.println("Tamaño: "+listaCat.size());
 
 		} catch (SQLException e) {
@@ -384,7 +384,7 @@ public class CategoriaModel {
 			rs = pst.executeQuery();
 			// Añadimos los pedidos a la lista
 			if (rs != null)
-				listaCat = DtoAssembler.toCotegoriaDtoList(rs);
+				listaCat = DtoAssembler.toCategoriaDtoList(rs);
 
 		} catch (SQLException e) {
 			throw new RuntimeException(e);

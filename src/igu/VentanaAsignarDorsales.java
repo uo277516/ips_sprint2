@@ -46,21 +46,21 @@ public class VentanaAsignarDorsales extends JFrame {
 	private VentanaInicial vi;
 	private JLabel lblInfo;
 
-	//	/**
-	//	 * Launch the application.
-	//	 */
-	//	public static void main(String[] args) {
-	//		EventQueue.invokeLater(new Runnable() {
-	//			public void run() {
-	//				try {
-	//					VentanaMostrarCarreras frame = new VentanaMostrarCarreras();
-	//					frame.setVisible(true);
-	//				} catch (Exception e) {
-	//					e.printStackTrace();
-	//				}
-	//			}
-	//		});
-	//	}
+//		/**
+//		 * Launch the application.
+//		 */
+//		public static void main(String[] args) {
+//			EventQueue.invokeLater(new Runnable() {
+//				public void run() {
+//					try {
+//						VentanaMostrarCarreras frame = new VentanaMostrarCarreras();
+//						frame.setVisible(true);
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			});
+//		}
 
 	/**
 	 * Create the frame.

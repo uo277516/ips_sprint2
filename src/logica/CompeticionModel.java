@@ -15,11 +15,12 @@ public class CompeticionModel {
 	public static String sql1 = "select * from competicion";
 	public static String sql2ById = "select * from competicion where id=?";
 	public static String sqlActualizarPlazas = "update competicion set num_plazas = num_plazas-1 where id =?";
-	public static String sqlInsertarCompeticionBasicos = "insert into competicion (nombre,f_comp,tipo,distancia,num_plazas,dorsales_vip,id) values (?,?,?,?,?,?,?)";
+	public static String sqlInsertarCompeticionBasicos = "insert into competicion (nombre,f_comp,tipo,distancia,num_plazas,dorsales_vip,id,d_asig) values (?,?,?,?,?,?,?,0)";
 	public static String sqlFinCom = "select * from competicion where id =?";
 	public static String sqlActualizarCompeticion1 = "update competicion set f_inicio1=?, f_fin1=?, cuota1=? where id=?";
 	public static String sqlActualizarCompeticion2 = "update competicion set f_inicio2=?, f_fin2=?, cuota2=? where id=?";
 	public static String sqlActualizarCompeticion3 = "update competicion set f_inicio3=?, f_fin3=?, cuota3=? where id=?";
+	public static String findCategoriasByCompeticion = "select * from categoria c, pertenece p, competicion co where co.id = p.id_comp and c.id = p.id_cat and co.id = ?";
 
 	private InscripcionModel im = new InscripcionModel();
 	private AtletaModel am = new AtletaModel();
@@ -361,44 +362,10 @@ public class CompeticionModel {
 
 	}
 
-	public void listarClasificacion(String carreraId) throws SQLException {
-		AtletaDto a;
-		List<InscripcionDto> inscripciones = im.getInscripcionesPorTiempo(carreraId);
-		System.out.println("----- Clasificacion general -----");
-		for (InscripcionDto i : inscripciones) {
-			a = am.findAtletaByDni(i.getDni_a());
-			if (i.getHoras() == 0 && i.getMinutos() == 0)
-				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
-			else
-				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: " + i.getHoras()
-						+ "h " + i.getMinutos() + " minutos");
-		}
-	}
-
-	public void listarClasificacionPorCategoria(int carreraId, String sql) throws SQLException {
-		listarClasificacionPorSexo(carreraId, "masculino");
-		listarClasificacionPorSexo(carreraId, "femenino");
-	}
-
-	public void listarClasificacionPorSexo(int carreraId, String sexo) throws SQLException {
-		AtletaDto a;
-		List<InscripcionDto> inscripciones = im.getInscripcionesPorTiempoYSexo(carreraId, sexo);
-		System.out.println("----- Clasificacion sexo " + sexo + " -----");
-		for (InscripcionDto i : inscripciones) {
-			a = am.findAtletaByDni(i.getDni_a());
-			if (i.getHoras() == 0 && i.getMinutos() == 0)
-				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
-			else
-				System.out.println("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: " + i.getHoras()
-						+ "h " + i.getMinutos() + " minutos");
-		}
-	}
-
 	public List<String> getClasificacion(String carreraId) throws SQLException {
 		List<String> clasificacion = new ArrayList<String>();
 		AtletaDto a;
 		List<InscripcionDto> inscripciones = im.getInscripcionesPorTiempo(carreraId);
-		System.out.println("----- Clasificacion general -----");
 		for (InscripcionDto i : inscripciones) {
 			a = am.findAtletaByDni(i.getDni_a());
 			if (i.getHoras() == 0 && i.getMinutos() == 0)
@@ -408,6 +375,72 @@ public class CompeticionModel {
 						+ "h " + i.getMinutos() + " minutos");
 		}
 		return clasificacion;
+	}
+
+	public List<String> getClasificacionPorSexo(String id, String categoria) throws SQLException {
+		if (categoria == "General") {
+			return getClasificacion(id);
+		} else {
+			List<String> clasificacion = new ArrayList<String>();
+			AtletaDto a;
+			List<InscripcionDto> inscripciones = im.getInscripcionesPorTiempoYSexo(id, categoria);
+			for (InscripcionDto i : inscripciones) {
+				a = am.findAtletaByDni(i.getDni_a());
+				if (i.getHoras() == 0 && i.getMinutos() == 0)
+					clasificacion.add("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: --- ");
+				else
+					clasificacion.add("Nombre: " + a.getNombre() + " - Sexo: " + a.getSexo() + " - Tiempo: "
+							+ i.getHoras() + "h " + i.getMinutos() + " minutos");
+			}
+			return clasificacion;
+		}
+	}
+
+	public List<String> getClasificacionPorEdad(String id, String categoria) throws SQLException {
+		int posicion = 1;
+		if (categoria == "General") {
+			return getClasificacion(id);
+		} else {
+			List<String> clasificacion = new ArrayList<String>();
+			AtletaDto a;
+			List<InscripcionDto> inscripciones = im.getInscripcionesPorTiempoYEdad(id, categoria);
+			for (InscripcionDto i : inscripciones) {
+				a = am.findAtletaByDni(i.getDni_a());
+				if (i.getHoras() == 0 && i.getMinutos() == 0)
+					clasificacion.add(
+							"Posición: " + posicion++ + " - Dorsal: " + i.getDorsal() + " - Nombre: " + a.getNombre()
+									+ " - Sexo: " + a.getSexo() + " - Edad: " + a.getF_nac() + " - Tiempo: --- ");
+				else
+					clasificacion.add("Posición: " + posicion++ + " - Dorsal: " + i.getDorsal() + " - Nombre: "
+							+ a.getNombre() + " - Sexo: " + a.getSexo() + " - Edad: " + a.getF_nac() + " - Tiempo: "
+							+ i.getHoras() + "h " + i.getMinutos() + " minutos");
+			}
+			return clasificacion;
+		}
+	}
+
+	public List<CategoriaDto> getCategoriasByCompeticion(String id) throws SQLException {
+		List<CategoriaDto> categorias = new ArrayList<CategoriaDto>();
+		Connection c = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(findCategoriasByCompeticion);
+			pst.setString(1, id);
+			rs = pst.executeQuery();
+
+			categorias = DtoAssembler.toCategoriaDtoList(rs);
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			rs.close();
+			pst.close();
+			c.close();
+		}
+
+		return categorias;
 	}
 
 	public void insertarDatosBasicos(String id, String nombre, String fecha, String tipo, int distancia, int plazas,
@@ -446,6 +479,13 @@ public class CompeticionModel {
 			pst.close();
 			c.close();
 		}
+	}
+
+	public void actualizarTiempos(String competicionId, ArrayList<MarcaTiempo> tiempos) throws SQLException {
+		for (MarcaTiempo t : tiempos) {
+			im.actualizarTiempoDorsal(competicionId, t.getDorsal(), t.getHoras(), t.getMinutos());
+		}
+		System.out.println("Tiempos actualizados");
 	}
 
 }
