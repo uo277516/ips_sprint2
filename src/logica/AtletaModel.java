@@ -324,16 +324,16 @@ public class AtletaModel {
 		return a;
 	}
 
-	public void añadirAtleta(String dni, String nombre, String sexo, String fecha, String email) {
+	public void addAtleta(String dni, String nombre, String sexo, String fecha, String email) {
 		try {
-			añadirAtletaP(dni, nombre, sexo, fecha, email);
+			addAtletaP(dni, nombre, sexo, fecha, email);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private void añadirAtletaP(String dni, String nombre, String sexo, String fecha, String email) throws SQLException {
+	private void addAtletaP(String dni, String nombre, String sexo, String fecha, String email) throws SQLException {
 		// Conexi�n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;

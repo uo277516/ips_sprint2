@@ -249,7 +249,7 @@ public class DtoAssembler {
 		return ret;
 	}
 	
-	public static List<CategoriaDto> toCotegoriaDtoList (ResultSet rs)
+	public static List<CategoriaDto> toCategoriaDtoList (ResultSet rs)
 	{
 		List<CategoriaDto> lista = new ArrayList<CategoriaDto>();
 		try {

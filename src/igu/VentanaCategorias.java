@@ -34,7 +34,7 @@ public class VentanaCategorias extends JFrame {
 	private JTable tableEstandar;
 	private JScrollPane scrollPane_1;
 	private JLabel lblCategorias;
-	private JButton btnAñadir;
+	private JButton btnAnadir;
 	private JButton btnConfirmar;
 	private JButton btnCrear;
 
@@ -77,7 +77,7 @@ public class VentanaCategorias extends JFrame {
 		contentPane.add(getScrollPane());
 		contentPane.add(getScrollPane_1());
 		contentPane.add(getLblCategorias());
-		contentPane.add(getBtnAñadir());
+		contentPane.add(getBtnAnadir());
 		contentPane.add(getBtnConfirmar());
 		contentPane.add(getBtnCrear());
 	}
@@ -171,10 +171,10 @@ public class VentanaCategorias extends JFrame {
 		return lblCategorias;
 	}
 
-	private JButton getBtnAñadir() {
-		if (btnAñadir == null) {
-			btnAñadir = new JButton("A\u00F1adir");
-			btnAñadir.addActionListener(new ActionListener() {
+	private JButton getBtnAnadir() {
+		if (btnAnadir == null) {
+			btnAnadir = new JButton("A\u00F1adir");
+			btnAnadir.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					CategoriaDto cate = sacarCategoriaSeleccionada();
 					List<CategoriaDto> list = new ArrayList<>();
@@ -208,12 +208,12 @@ public class VentanaCategorias extends JFrame {
 				}
 
 			});
-			btnAñadir.setForeground(Color.WHITE);
-			btnAñadir.setBackground(Color.GREEN);
-			btnAñadir.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			btnAñadir.setBounds(364, 386, 89, 23);
+			btnAnadir.setForeground(Color.WHITE);
+			btnAnadir.setBackground(Color.GREEN);
+			btnAnadir.setFont(new Font("Tahoma", Font.PLAIN, 15));
+			btnAnadir.setBounds(364, 386, 89, 23);
 		}
-		return btnAñadir;
+		return btnAnadir;
 	}
 
 	private void mostrarVentanaActualizar(CategoriaDto cate, int edad) {
@@ -234,8 +234,12 @@ public class VentanaCategorias extends JFrame {
 	}
 
 	private int opcionActualizarOno() {
-		return JOptionPane.showOptionDialog(null, "�Desea modificar esta categor�a estandar?", "Seleccione una opci�n:",
-				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, // null para icono por defecto.
+		return JOptionPane.showOptionDialog(null, "�Desea modificar esta categor�a estandar?",
+				"Seleccione una opci�n:", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, // null
+																													// para
+																													// icono
+																													// por
+																													// defecto.
 				new Object[] { "Si", "No" }, // null para YES, NO y CANCEL
 				"opcion 1");
 	}

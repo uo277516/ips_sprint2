@@ -27,7 +27,7 @@ public class VentanaRegistro extends JFrame {
 	private JTextField txtDni;
 	private JTextField txtNombre;
 	private JTextField txtFecha;
-	private JTextField txtEmaiñ;
+	private JTextField txtEmail;
 	private JTextField txtSExo;
 	private AtletaModel at;
 
@@ -109,10 +109,10 @@ public class VentanaRegistro extends JFrame {
 		contentPane.add(txtFecha);
 		txtFecha.setColumns(10);
 
-		txtEmaiñ = new JTextField();
-		txtEmaiñ.setBounds(65, 195, 173, 19);
-		contentPane.add(txtEmaiñ);
-		txtEmaiñ.setColumns(10);
+		txtEmail = new JTextField();
+		txtEmail.setBounds(65, 195, 173, 19);
+		contentPane.add(txtEmail);
+		txtEmail.setColumns(10);
 
 		txtSExo = new JTextField();
 		txtSExo.setBounds(65, 233, 173, 19);
@@ -129,7 +129,7 @@ public class VentanaRegistro extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (checkCamposNoVacios() && checkFechaFormato() && checkSexo()) {
 					System.out.println("todo ok");
-					añadirAtleta();
+					addAtleta();
 					mostrarVentanaInscripcionAgain();
 				}
 			}
@@ -153,10 +153,10 @@ public class VentanaRegistro extends JFrame {
 
 	}
 
-	protected void añadirAtleta() {
+	protected void addAtleta() {
 		// String dni, String nombre, String sexo, String fecha, String email
-		at.añadirAtleta(txtDni.getText(), txtNombre.getText(), txtSExo.getText(), txtFecha.getText(),
-				txtEmaiñ.getText());
+		at.addAtleta(txtDni.getText(), txtNombre.getText(), txtSExo.getText(), txtFecha.getText(),
+				txtEmail.getText());
 		System.out.println("a�adido se�ores");
 	}
 
@@ -189,7 +189,7 @@ public class VentanaRegistro extends JFrame {
 	}
 
 	protected boolean checkCamposNoVacios() {
-		if (txtDni.getText().isEmpty() || txtEmaiñ.getText().isEmpty() || txtFecha.getText().isEmpty()
+		if (txtDni.getText().isEmpty() || txtEmail.getText().isEmpty() || txtFecha.getText().isEmpty()
 				|| txtNombre.getText().isEmpty() || txtSExo.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Ning�n campo puede ser vac�o.");
 			return false;

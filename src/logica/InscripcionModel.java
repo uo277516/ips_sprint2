@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import util.BaseDatos;
 import util.DtoAssembler;
 
@@ -31,12 +30,14 @@ public class InscripcionModel {
 
 	public static String sql_InscripcionesPorTiempo = "select  * from inscripcion i, atleta a where i.dni_a = a.dni and id_c = ? order by horas is null, minutos is null, horas, minutos asc";
 	public static String sql_InscripcionesPorTiempoYCategoria = "select  * from inscripcion i, atleta a where i.dni_a = a.dni and ? order by horas is null, minutos is null, horas, minutos asc";
-	public static String sql_InscripcionesPorTiempoYSexo = "select  * from inscripcion i, atleta a where i.dni_a = a.dni and a.sexo=? order by horas is null, minutos is null, horas, minutos asc";
-
+	public static String sql_InscripcionesPorTiempoYSexo = "select  * from inscripcion i, atleta a where i.dni_a = a.dni and i.id_c = ? and a.sexo=? order by horas is null, minutos is null, horas, minutos asc";
+	public static String sql_InscripcionesPorTiempoYEdad = "select * from inscripcion i, atleta a where i.dni_a = a.dni and i.id_c = ? and i.categoria = ? order by horas is null, minutos is null, horas, minutos asc";
 	public static String sql_InscripcionesMetodoPago = "select * from inscripcion where metodo_pago=?";
 
 	public static String sqlActualizarDorsales = "update inscripcion set dorsal=? where id_c=? and dni_a=?";
 	public static String sqlActEnComp = "update competicion set d_asig=1 where id=?";
+
+	public static String updateTimes = "update inscripcion set horas = ? , minutos = ? where dorsal = ? and id_c = ?";
 
 	public AtletaDto findAtletaEmail(String email) {
 		AtletaDto a = null;
@@ -560,7 +561,7 @@ public class InscripcionModel {
 	}
 
 //aver
-	public List<InscripcionDto> getInscripcionesPorTiempoYSexo(int carreraId, String sexo) throws SQLException {
+	public List<InscripcionDto> getInscripcionesPorTiempoYSexo(String carreraId, String sexo) throws SQLException {
 		List<InscripcionDto> listaInscripciones = new ArrayList<InscripcionDto>();
 
 		// Conexi�n a la base de datos
@@ -571,6 +572,34 @@ public class InscripcionModel {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sql_InscripcionesPorTiempoYSexo);
 			pst.setString(1, sexo);
+			rs = pst.executeQuery();
+
+			listaInscripciones = DtoAssembler.toInscripcionDtoList(rs);
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (rs != null)
+				rs.close();
+			pst.close();
+			c.close();
+		}
+
+		return listaInscripciones;
+	}
+
+	public List<InscripcionDto> getInscripcionesPorTiempoYEdad(String carreraId, String categoria) throws SQLException {
+		List<InscripcionDto> listaInscripciones = new ArrayList<InscripcionDto>();
+
+		// Conexi�n a la base de datos
+		Connection c = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sql_InscripcionesPorTiempoYEdad);
+			pst.setString(1, carreraId);
+			pst.setString(2, categoria);
 			rs = pst.executeQuery();
 
 			listaInscripciones = DtoAssembler.toInscripcionDtoList(rs);
@@ -691,6 +720,26 @@ public class InscripcionModel {
 			c.close();
 		}
 
+	}
+
+	public void actualizarTiempoDorsal(String competicionId, String dorsal, int horas, int minutos)
+			throws SQLException {
+		Connection c = null;
+		PreparedStatement pst = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(updateTimes);
+			pst.setString(3, dorsal);
+			pst.setString(4, competicionId);
+			pst.setInt(1, horas);
+			pst.setInt(2, minutos);
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			pst.close();
+			c.close();
+		}
 	}
 
 }

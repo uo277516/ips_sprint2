@@ -5,13 +5,25 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logica.CompeticionModel;
+import logica.MarcaTiempo;
 
 public class VentanaInicial extends JFrame {
 
@@ -20,6 +32,7 @@ public class VentanaInicial extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JFileChooser chooser;
 
 	/**
 	 * Launch the application.
@@ -68,7 +81,12 @@ public class VentanaInicial extends JFrame {
 		JButton btnOrganizador = new JButton("Organizador");
 		btnOrganizador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				elegirAsOrganizador();
+				try {
+					elegirAsOrganizador();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnOrganizador.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -81,18 +99,19 @@ public class VentanaInicial extends JFrame {
 		contentPane.add(llblBienvenido);
 	}
 
-	protected void elegirAsOrganizador() {
+	protected void elegirAsOrganizador() throws FileNotFoundException {
 		int seleccion = JOptionPane.showOptionDialog(this, "Seleccione la opción que quiere realizar",
 				"Inicio como organizador", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, // null
 																													// para
 																													// icono
 																													// por
 																													// defecto.
-				new Object[] { "Consultar inscripciones", "Consultar clasificaciones", "Asignar dorsales" }, // null
-																												// para
-																												// YES,
-																												// NO y
-																												// CANCEL
+				new Object[] { "Consultar inscripciones", "Consultar clasificaciones", "Cargar tiempos",
+						"Asignar dorsales" }, // null
+				// para
+				// YES,
+				// NO y
+				// CANCEL
 				"opcion 1");
 
 		if (seleccion != -1)
@@ -101,10 +120,80 @@ public class VentanaInicial extends JFrame {
 		{
 			mostrarVentanaInscripciones(); // tania
 		} else if (seleccion == 1) {
-			mostrarVentanaCalificaciones(); // moises
-		} else if (seleccion == 2) {
+			mostrarVentanaClasificaciones();
+		} // moises
+		else if (seleccion == 2) {
+			actualizarClasificaciones(); // moises
+		} else if (seleccion == 3) {
 			asignarDorsales();
 		}
+	}
+
+	private void actualizarClasificaciones() throws FileNotFoundException {
+		File[] files = cargarFicherosTiempos();
+		for (int i = 0; i < files.length; i++) {
+			getValues(files[i]);
+		}
+
+	}
+
+
+	protected File[] cargarFicherosTiempos() {
+		int respuesta = getChooser().showOpenDialog(null);
+		if (respuesta == 0) {
+			File[] files = (File[]) chooser.getSelectedFiles();
+			return files;
+		}
+		return null;
+	}
+
+	public void getValues(File file) {
+		String competicionId = null;
+		CompeticionModel cm = new CompeticionModel();
+		MarcaTiempo mt;
+		FileInputStream stream = null;
+		try {
+			stream = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+		String strLine;
+		ArrayList<MarcaTiempo> tiempos = new ArrayList<MarcaTiempo>();
+		try {
+			while ((strLine = reader.readLine()) != null) {
+				String[] trozos = strLine.split(" ");
+				if (trozos.length == 1)
+					competicionId = trozos[0];
+				else if (trozos.length == 3) {
+					mt = new MarcaTiempo();
+					mt.setDorsal(trozos[0]);
+					mt.setTiempoInicial(trozos[1]);
+					mt.setTiempoFinal(trozos[2]);
+					tiempos.add(mt);
+				} else
+					System.out.println("El archivo " + file.getName() + "no sigue el formato correcto");// Parsear linea
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			cm.actualizarTiempos(competicionId, tiempos);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public JFileChooser getChooser() {
+		if (chooser == null)
+			chooser = new JFileChooser();
+		chooser.setMultiSelectionEnabled(true);
+		return chooser;
 	}
 
 	private void asignarDorsales() {
@@ -116,7 +205,7 @@ public class VentanaInicial extends JFrame {
 
 	}
 
-	private void mostrarVentanaCalificaciones() {
+	private void mostrarVentanaClasificaciones() {
 		this.dispose();
 		// CompeticionDto competicion = crearCompeticion();
 		VentanaMostrarCarrerasOrganizador vPal = new VentanaMostrarCarrerasOrganizador("c");
