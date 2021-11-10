@@ -89,7 +89,7 @@ public class VentanaInicial extends JFrame {
 				   JOptionPane.YES_NO_CANCEL_OPTION,
 				   JOptionPane.QUESTION_MESSAGE,
 				   null,    // null para icono por defecto.
-				   new Object[] { "Consultar inscripciones", "Consultar clasificaciones", "Asignar dorsales"},   // null para YES, NO y CANCEL
+				   new Object[] { "Consultar inscripciones", "Consultar clasificaciones", "Asignar dorsales", "Crear Competicion"},   // null para YES, NO y CANCEL
 				   "opcion 1");
 
 				if (seleccion != -1)
@@ -106,9 +106,21 @@ public class VentanaInicial extends JFrame {
 					{
 						asignarDorsales();
 					}
+				else if (seleccion==3) {
+					mostrarVentanaCrearCompeticion();
+				}
 		}
 	
-
+	private void mostrarVentanaCrearCompeticion() {
+		this.dispose();
+		//CompeticionDto competicion = crearCompeticion();
+		VentanaCrearCompeticion vPal = new VentanaCrearCompeticion();
+		vPal.setLocationRelativeTo(this);
+		vPal.setVisible(true);
+		
+	}
+	
+	
 	private void asignarDorsales() {
 		this.dispose();
 		//CompeticionDto competicion = crearCompeticion();

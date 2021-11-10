@@ -41,28 +41,15 @@ public class VentanaCategorias extends JFrame {
 	private CategoriaModel cat;
 	private JTable tableCate;
 
-	private String id_comp="1111";
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaCategorias frame = new VentanaCategorias();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private String id_comp;
+	private VentanaCrearCompeticion vcc;
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaCategorias() {
+	public VentanaCategorias(VentanaCrearCompeticion vcc, String id) {
+		this.vcc = vcc;
+		this.id_comp=id;
 		cat = new CategoriaModel();
 		setTitle("Ventana categorias:");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,6 +67,7 @@ public class VentanaCategorias extends JFrame {
 		contentPane.add(getBtnAñadir());
 		contentPane.add(getBtnConfirmar());
 		contentPane.add(getBtnCrear());
+		btnConfirmar.setEnabled(false);
 	}
 	private JTextArea getTxtrPuedeCrearO() {
 		if (txtrPuedeCrearO == null) {
@@ -210,8 +198,10 @@ public class VentanaCategorias extends JFrame {
 	private void mostrarVentanaActualizar(CategoriaDto cate, int edad) {
 
 		// CompeticionDto competicion = crearCompeticion();
-		VentanaCreacionActualizaCate vPal = new VentanaCreacionActualizaCate(this,cate,id_comp,edad);
+		VentanaCreacionActualizaCate vPal = new VentanaCreacionActualizaCate(this,cate,this.id_comp,edad);
+		
 		vPal.setLocationRelativeTo(this);
+		
 		vPal.setVisible(true);
 
 	}
@@ -219,6 +209,7 @@ public class VentanaCategorias extends JFrame {
 	private void mostrarVentanaActualizar(int edad, String genero) {
 		// CompeticionDto competicion = crearCompeticion();
 		VentanaCreacionActualizaCate vPal = new VentanaCreacionActualizaCate(this,id_comp,edad,genero);
+		
 		vPal.setLocationRelativeTo(this);
 		vPal.setVisible(true);
 
@@ -245,6 +236,7 @@ public class VentanaCategorias extends JFrame {
 		tableCate.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tableCate.setSelectionBackground(Color.YELLOW);
 		tableCate.setBackground(Color.LIGHT_GRAY);
+		btnConfirmar.setEnabled(true);
 		String[] tabla = {"Id","Nombre","Edad Min","Edad Max","Sexo"};
 		DefaultTableModel modelo = new DefaultTableModel() {
 			public boolean isCellEditable(int fila, int columnas) {
@@ -379,6 +371,13 @@ public class VentanaCategorias extends JFrame {
 	private JButton getBtnConfirmar() {
 		if (btnConfirmar == null) {
 			btnConfirmar = new JButton("Confirmar");
+			btnConfirmar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					cerrarVentana();
+				}
+
+				
+			});
 			btnConfirmar.setForeground(Color.WHITE);
 			btnConfirmar.setFont(new Font("Tahoma", Font.PLAIN, 15));
 			btnConfirmar.setBackground(Color.GREEN);
@@ -386,6 +385,19 @@ public class VentanaCategorias extends JFrame {
 		}
 		return btnConfirmar;
 	}
+	
+	private void cerrarVentana() {
+		int respuesta = JOptionPane.showConfirmDialog(null, "Estan listas las categorias?", "Confirmar categorias", 
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if (respuesta == 0) {
+			vcc.prepararVuelta();
+			this.dispose();
+		}
+		
+
+		
+	}
+	
 	private JButton getBtnCrear() {
 		if (btnCrear == null) {
 			btnCrear = new JButton("Crear");
