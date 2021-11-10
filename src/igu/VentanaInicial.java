@@ -99,6 +99,7 @@ public class VentanaInicial extends JFrame {
 		contentPane.add(llblBienvenido);
 	}
 
+<<<<<<< HEAD
 	protected void elegirAsOrganizador() throws FileNotFoundException {
 		int seleccion = JOptionPane.showOptionDialog(this, "Seleccione la opciÃ³n que quiere realizar",
 				"Inicio como organizador", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, // null
@@ -127,7 +128,48 @@ public class VentanaInicial extends JFrame {
 		} else if (seleccion == 3) {
 			asignarDorsales();
 		}
+=======
+	protected void elegirAsOrganizador() {
+
+		int seleccion = JOptionPane.showOptionDialog(
+				   this,
+				   "Seleccione la opción que quiere realizar", 
+				   "Inicio como organizador",
+				   JOptionPane.YES_NO_CANCEL_OPTION,
+				   JOptionPane.QUESTION_MESSAGE,
+				   null,    // null para icono por defecto.
+				   new Object[] { "Consultar inscripciones", "Consultar clasificaciones", "Asignar dorsales", "Crear Competicion"},   // null para YES, NO y CANCEL
+				   "opcion 1");
+
+				if (seleccion != -1)
+				   System.out.println("seleccionada opcion " + (seleccion + 1));	
+				if (seleccion==0) //organizador
+					{
+						mostrarVentanaInscripciones();  //tania
+					}
+				else if (seleccion==1)
+					{
+						mostrarVentanaCalificaciones(); //moises
+					}
+				else if (seleccion==2) 
+					{
+						asignarDorsales();
+					}
+				else if (seleccion==3) {
+					mostrarVentanaCrearCompeticion();
+				}
 	}
+	
+	private void mostrarVentanaCrearCompeticion() {
+		this.dispose();
+		//CompeticionDto competicion = crearCompeticion();
+		VentanaCrearCompeticion vPal = new VentanaCrearCompeticion();
+		vPal.setLocationRelativeTo(this);
+		vPal.setVisible(true);
+		
+>>>>>>> branch 'master' of https://github.com/uo277516/ips_sprint2.git
+	}
+<<<<<<< HEAD
 
 	private void actualizarClasificaciones() throws FileNotFoundException {
 		File[] files = cargarFicherosTiempos();
@@ -196,6 +238,10 @@ public class VentanaInicial extends JFrame {
 		return chooser;
 	}
 
+=======
+	
+	
+>>>>>>> branch 'master' of https://github.com/uo277516/ips_sprint2.git
 	private void asignarDorsales() {
 		this.dispose();
 		// CompeticionDto competicion = crearCompeticion();

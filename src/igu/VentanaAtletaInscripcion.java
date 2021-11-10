@@ -160,6 +160,7 @@ public class VentanaAtletaInscripcion extends JFrame {
 	private JTable getTable() throws SQLException {
 		if (table == null) {
 			table = new JTable();
+			table.setToolTipText("Inscripciones");
 			table.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 			table.setSelectionBackground(new Color(106, 31, 109));
 			table.setBackground(Color.WHITE);

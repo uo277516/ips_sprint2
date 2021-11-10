@@ -201,7 +201,7 @@ public class InscripcionModel {
 	private void agregarParticipante(String email, String id, float f, String fecha) throws SQLException {
 		AtletaDto a = findAtletaEmail2(email);
 		String dni = a.getDni();
-		String cat = calcularCategoria(a.getF_nac());
+		String cat = calcularCategoria(a.getF_nac(), id, a.getSexo());
 		// Conexi�n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
@@ -227,26 +227,18 @@ public class InscripcionModel {
 		}
 	}
 
-	private static int year1 = 18;
-	private static int year2 = 35;
-	private static String[] categories = { "A", "B", "C", "D", "E", "F", "G" };
+	private String calcularCategoria(String fecha, String idComp, String sexo) {
+		CategoriaModel cm = new CategoriaModel();
+		List<CategoriaDto> categorias = cm.findCateBySex(idComp, sexo);
 
-	private String calcularCategoria(String fecha) {
 		String[] fechaArray = fecha.split("/");
 		int year = Integer.valueOf(fechaArray[2]);
 		int yearActual = LocalDate.now().getYear();
 		int cat = yearActual - year;
-		if (cat >= year1 && cat < year2) {
-			return "Senior";
-		} else if (cat >= year2) {
-			int a = year2;
-			int b = year2 + 5;
-			for (int i = 0; i < categories.length; i++) {
-				if (cat >= a && cat < b) {
-					return "Veterano " + categories[i];
-				}
-				a += 5;
-				b += 5;
+
+		for (CategoriaDto c : categorias) {
+			if (c.getEdad_min() <= cat && cat <= c.getEdad_max()) {
+				return c.getNombre();
 			}
 		}
 		return null;
@@ -257,7 +249,6 @@ public class InscripcionModel {
 		try {
 			listaDni = buscarInsByDniP(dni);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return listaDni;
@@ -268,7 +259,6 @@ public class InscripcionModel {
 		try {
 			listaE = buscarInsByEmailP(email);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return listaE;
