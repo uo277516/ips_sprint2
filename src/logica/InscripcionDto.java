@@ -1,7 +1,15 @@
 package logica;
 
 public class InscripcionDto {
-	
+
+	// Estados
+	public static String INSCRITO = "Inscrito";
+	public static String PRE_INSCRITO = "Pre-inscrito";
+	public static String ANULADA = "Anulada";
+	public static String ANULADA_DEVOLUCION = "Anulada - pendiente de devoluciÃ³n";
+	public static String INSCRITO_DEVOLUCION = "Inscrito - pendiente de devoluciÃ³n";
+	public static String PENDIENTE = "Pendiente";
+
 	private String dni_a;
 	private String id_c;
 	private String categoria;
@@ -10,6 +18,9 @@ public class InscripcionDto {
 	private String metodo_pago;
 	private float cantidad_pagada;
 	private int horas;
+	private int minutos;
+	private String estado;
+
 	public String getDni_a() {
 		return dni_a;
 	}
@@ -82,12 +93,9 @@ public class InscripcionDto {
 		this.minutos = minutos;
 	}
 
-	private int minutos;
-	private String estado;
 	private String dorsal;
-	
-	public InscripcionDto()
-	{
+
+	public InscripcionDto() {
 	}
 
 	public String getEstado() {
@@ -97,8 +105,6 @@ public class InscripcionDto {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
-	
 
 	public String getDorsal() {
 		return dorsal;
@@ -111,13 +117,13 @@ public class InscripcionDto {
 	public String mostrarMisInscripcionesNombre(String nombre) {
 		return "--> Nombre: " + nombre;
 	}
-	
+
 	public String mostrarMisInscripcionesEstado() {
-		return "      Estado de la inscripción:"
-				+ " " + getEstado();
+		return "      Estado de la inscripciï¿½n:" + " " + getEstado();
 	}
+
 	public String mostrarMisInscripcionesFecha() {
-		return "      Fecha último cambio: " + getFecha();
+		return "      Fecha ï¿½ltimo cambio: " + getFecha();
 	}
 
 	@Override
@@ -126,8 +132,5 @@ public class InscripcionDto {
 				+ ", fecha=" + fecha + ", metodo_pago=" + metodo_pago + ", cantidad_pagada=" + cantidad_pagada
 				+ ", horas=" + horas + ", minutos=" + minutos + ", estado=" + estado + ", dorsal=" + dorsal + "]";
 	}
-	
-	
-	
 
 }

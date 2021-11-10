@@ -96,8 +96,6 @@ public class VentanaInscripcion extends JFrame {
 		contentPane.add(getBtnSiguiente());
 	}
 
-	
-
 	private JLabel getLblPedir() {
 		if (lblPedir == null) {
 			lblPedir = new JLabel("Para inscribirte en una nueva carrera, por favor introduzca su email:");
@@ -134,27 +132,26 @@ public class VentanaInscripcion extends JFrame {
 			btnValidar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					if (txtEmail.getText().equals("")) { //si esta vacio
+					if (txtEmail.getText().equals("")) { // si esta vacio
 						mostrarErrorVacio();
-					} else if (yaRegistradoEnlaCarrera()) { //si ya en la carrera
+					} else if (yaRegistradoEnlaCarrera()) { // si ya en la carrera
 						mostrarErrorYaRegistrado();
-					} else if (registradoAtletaEnBase()) { //si ya en la base de datos
+					} else if (registradoAtletaEnBase()) { // si ya en la base de datos
 						textArea.setEnabled(true);
 						lblInfoJus.setVisible(true);
 						btnSiguiente.setEnabled(true);
 						inscribirParticipante();
 						textArea.setText(getInformacion());
-					} else if (!registradoAtletaEnBase()) { //si no en la base de datos
+					} else if (!registradoAtletaEnBase()) { // si no en la base de datos
 						System.out.println("patata");
 						mostrarMensajeNoInscritoSiQuiere();
-					} else if (!haySuficientesPlazas()) { //si no plazos
+					} else if (!haySuficientesPlazas()) { // si no plazos
 						mostrarErrorPlazas();
-					} else if (esMenor()) { //si es menor
+					} else if (esMenor()) { // si es menor
 						mostrarErrorMenor();
-					} 
+					}
 				}
-			}
-			);
+			});
 			btnValidar.setFont(new Font("Tahoma", Font.PLAIN, 13));
 			btnValidar.setBackground(SystemColor.activeCaption);
 			btnValidar.setBounds(20, 131, 106, 21);
@@ -163,19 +160,19 @@ public class VentanaInscripcion extends JFrame {
 	}
 
 	protected void mostrarMensajeNoInscritoSiQuiere() {
-		int reply = JOptionPane.showConfirmDialog(this, "No est醩 registrado en la base 縯e gustar韆 registrarte?", "Ventana registro", JOptionPane.YES_NO_OPTION);
-        if (reply == JOptionPane.YES_OPTION) {
-          mostrarVentanaRegistro();
-          txtEmail.setText("");
-        }
-        else {
-           JOptionPane.showMessageDialog(this, "Lo sentimos, pero entonces no puede inscribirse.");
-           //System.exit(0);
-        }
+		int reply = JOptionPane.showConfirmDialog(this, "No est锟絪 registrado en la base 锟絫e gustar锟絘 registrarte?",
+				"Ventana registro", JOptionPane.YES_NO_OPTION);
+		if (reply == JOptionPane.YES_OPTION) {
+			mostrarVentanaRegistro();
+			txtEmail.setText("");
+		} else {
+			JOptionPane.showMessageDialog(this, "Lo sentimos, pero entonces no puede inscribirse.");
+			// System.exit(0);
+		}
 	}
 
 	private void mostrarVentanaRegistro() {
-		//this.dispose();
+		// this.dispose();
 		// CompeticionDto competicion = crearCompeticion();
 		VentanaRegistro vPal = new VentanaRegistro(this);
 		vPal.setLocationRelativeTo(this);
@@ -188,11 +185,11 @@ public class VentanaInscripcion extends JFrame {
 	}
 
 	private boolean registradoAtletaEnBase() {
-		if (atl.atletaYaRegistradoEnLaBase(txtEmail.getText()).isEmpty()) 
-		{
-			//si no hay ninguno
+		if (atl.atletaYaRegistradoEnLaBase(txtEmail.getText()).isEmpty()) {
+			// si no hay ninguno
 			return false;
-		} else return true;
+		} else
+			return true;
 	}
 
 	protected void mostrarErrorMenor() {
@@ -257,14 +254,13 @@ public class VentanaInscripcion extends JFrame {
 		String s = "";
 		float n = 10.0f + cogerCuotaSegunFecha();
 		atleta = ins.findAtletaEmail(txtEmail.getText());
-		return s += "Nombre del atleta: " + atleta.getNombre() + "\n" + "Competicion: " + cSeleccionada.getNombre()
-				+ "\n" + "Categoria: " + ins.getCategoriaByDniId(atleta.getDni(), cSeleccionada.getId()) + "\n"
-				+ "Fecha de inscripcion: " + cambiarFormatoFecha() + "\n" + "Cantidad a abonar: " + n
-				+ " euros (cuota+gastos adicionales)";
+		return s += "Nombre del atleta: " + atleta.getNombre() + "\n" + "Competici贸n: " + cSeleccionada.getNombre()
+				+ "\n" + "Categor铆a: " + ins.getCategoriaByDniId(atleta.getDni(), cSeleccionada.getId()) + "\n"
+				+ "Fecha de inscripci贸n: " + cambiarFormatoFecha() + "\n" + "Cantidad a abonar: " + n;
 	}
 
 	private float cogerCuotaSegunFecha() {
-		SimpleDateFormat formato =new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		Date fechaActual = null;
 		Date fechaInicio1 = null;
 		Date fechaInicio2 = null;
@@ -272,18 +268,18 @@ public class VentanaInscripcion extends JFrame {
 		Date fechaFin1 = null;
 		Date fechaFin2 = null;
 		Date fechaFin3 = null;
-		
+
 		try {
 			fechaActual = formato.parse(cambiarFormatoFecha());
-			if (cSeleccionada.getF_inicio1()!=null) {
+			if (cSeleccionada.getF_inicio1() != null) {
 				fechaInicio1 = formato.parse(cSeleccionada.getF_inicio1());
 				fechaFin1 = formato.parse(cSeleccionada.getF_fin1());
 			}
-			if (cSeleccionada.getF_inicio2()!=null) {
+			if (cSeleccionada.getF_inicio2() != null) {
 				fechaInicio2 = formato.parse(cSeleccionada.getF_inicio2());
 				fechaFin2 = formato.parse(cSeleccionada.getF_fin2());
 			}
-			if (cSeleccionada.getF_inicio3()!=null) {
+			if (cSeleccionada.getF_inicio3() != null) {
 				fechaInicio3 = formato.parse(cSeleccionada.getF_inicio3());
 				fechaFin3 = formato.parse(cSeleccionada.getF_fin3());
 			}
@@ -292,30 +288,22 @@ public class VentanaInscripcion extends JFrame {
 			e.printStackTrace();
 		}
 
-		if (cSeleccionada.getF_inicio1()!=null) {
-	        if (fechaActual.before(fechaFin1) && fechaActual.after(fechaInicio1))
-	        {
-	        	return cSeleccionada.getCuota1();
-	        }
-		}
-		else if (cSeleccionada.getF_inicio2()!=null) {
-	        if (fechaActual.before(fechaFin2) && fechaActual.after(fechaInicio2))
-	        {
-	        	return cSeleccionada.getCuota2();
-	        }
-		} else if (cSeleccionada.getF_inicio3()!=null) {
-	        if (fechaActual.before(fechaFin3) && fechaActual.after(fechaInicio3))
-	        {
-	        	return cSeleccionada.getCuota3();
-	        }
+		if (cSeleccionada.getF_inicio1() != null) {
+			if (fechaActual.before(fechaFin1) && fechaActual.after(fechaInicio1)) {
+				return cSeleccionada.getCuota1();
+			}
+		} else if (cSeleccionada.getF_inicio2() != null) {
+			if (fechaActual.before(fechaFin2) && fechaActual.after(fechaInicio2)) {
+				return cSeleccionada.getCuota2();
+			}
+		} else if (cSeleccionada.getF_inicio3() != null) {
+			if (fechaActual.before(fechaFin3) && fechaActual.after(fechaInicio3)) {
+				return cSeleccionada.getCuota3();
+			}
 		}
 		return -600;
-		
-        
-        
+
 	}
-
-
 
 	private String cambiarFormatoFecha() {
 		String fechaString = String.valueOf(LocalDate.now());
@@ -353,10 +341,10 @@ public class VentanaInscripcion extends JFrame {
 			btnSiguiente.setEnabled(false);
 			btnSiguiente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int seleccion = JOptionPane.showOptionDialog(null, "M閠odo de pago",
-							"Seleccione una opci髇 para pagar su inscripci髇", JOptionPane.YES_NO_CANCEL_OPTION,
+					int seleccion = JOptionPane.showOptionDialog(null, "M茅todo de pago",
+							"Seleccione una opci贸n para pagar su inscripci贸n", JOptionPane.YES_NO_CANCEL_OPTION,
 							JOptionPane.QUESTION_MESSAGE, null, // null para icono por defecto.
-							new Object[] { "Tarjeta de cr閐ito", "Tranferencia" }, // null para YES, NO y CANCEL
+							new Object[] { "Tarjeta de cr茅dito", "Tranferencia" }, // null para YES, NO y CANCEL
 							"opcion 1");
 
 					if (seleccion != -1)

@@ -20,10 +20,11 @@ public class AtletaModel {
 	public static String sql3 = "select * from atleta where atleta.email=?";
 	public static String COMPID_ATL = "select a.dni, a.nombre, a.sexo, a.f_nac, a.email"
 			+ " from atleta as a, inscripcion as i" + " where a.dni = i.dni_a" + " and i.id_c = ?";
-	
+
 	public static String sqlFindByDni = "select * from atleta where dni=?";
 	public static String sqlFindByEmail = "select * from atleta where email=?";
-	//String dni, String nombre, String sexo, String fecha, String email
+	public static String sqlFindById = "select * from atleta where id=?";
+	// String dni, String nombre, String sexo, String fecha, String email
 	public static String sqlAdd = "insert into Atleta(dni, nombre, sexo, f_nac, email) values (?,?,?,?,?)";
 
 	public List<AtletaDto> getAtletas() throws SQLException {
@@ -33,7 +34,7 @@ public class AtletaModel {
 	private List<AtletaDto> getAllAtletas() throws SQLException {
 		List<AtletaDto> listaAtletas = new ArrayList<AtletaDto>();
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -42,7 +43,7 @@ public class AtletaModel {
 			pst = c.prepareStatement(sql1);
 			rs = pst.executeQuery();
 
-			// Añadimos los pedidos a la lista
+			// Aï¿½adimos los pedidos a la lista
 			listaAtletas = DtoAssembler.toAtletaDtoList(rs);
 
 		} catch (SQLException e) {
@@ -76,7 +77,7 @@ public class AtletaModel {
 	private boolean yaEstaRegistrado(String emailAtleta, String nombreCompe) throws SQLException {
 		List<AtletaDto> listaAtletas = new ArrayList<AtletaDto>();
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -87,7 +88,7 @@ public class AtletaModel {
 			pst.setString(2, nombreCompe);
 			rs = pst.executeQuery();
 
-			// Añadimos los pedidos a la lista
+			// Aï¿½adimos los pedidos a la lista
 			listaAtletas = DtoAssembler.toAtletaDtoList(rs);
 
 		} catch (SQLException e) {
@@ -124,7 +125,7 @@ public class AtletaModel {
 
 	public boolean atletaEnBaseP(String email) throws SQLException {
 		boolean op = false;
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -149,10 +150,8 @@ public class AtletaModel {
 		}
 		return op;
 	}
-	
-	
-	public List<AtletaDto> atletaYaRegistradoEnLaBase(String email)
-	{
+
+	public List<AtletaDto> atletaYaRegistradoEnLaBase(String email) {
 		List<AtletaDto> atletas = new ArrayList<AtletaDto>();
 		try {
 			atletas = atletaYaRegistradoEnLaBaseP(email);
@@ -163,9 +162,8 @@ public class AtletaModel {
 		}
 		return atletas;
 	}
-	
-	private List<AtletaDto> atletaYaRegistradoEnLaBaseP(String email) throws SQLException
-	{
+
+	private List<AtletaDto> atletaYaRegistradoEnLaBaseP(String email) throws SQLException {
 		List<AtletaDto> atletas = new ArrayList<AtletaDto>();
 
 		Connection c = null;
@@ -253,7 +251,7 @@ public class AtletaModel {
 	public AtletaDto findAtletaByDni(String dni) throws SQLException {
 		AtletaDto a;
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -279,7 +277,7 @@ public class AtletaModel {
 	public AtletaDto findAtletaByEmail(String email) throws SQLException {
 		AtletaDto a;
 
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
@@ -301,9 +299,32 @@ public class AtletaModel {
 		}
 		return a;
 	}
-	
-	public void añadirAtleta(String dni, String nombre, String sexo, String fecha, String email)
-	{
+
+	public AtletaDto findAtletaById(String id) throws SQLException {
+		AtletaDto a;
+		Connection c = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			c = BaseDatos.getConnection();
+			pst = c.prepareStatement(sqlFindById);
+			pst.setString(1, id);
+			rs = pst.executeQuery();
+
+			rs.next();
+			a = DtoAssembler.toAtletaDto(rs);
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			rs.close();
+			pst.close();
+			c.close();
+		}
+		return a;
+	}
+
+	public void añadirAtleta(String dni, String nombre, String sexo, String fecha, String email) {
 		try {
 			añadirAtletaP(dni, nombre, sexo, fecha, email);
 		} catch (SQLException e) {
@@ -311,12 +332,12 @@ public class AtletaModel {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void añadirAtletaP(String dni, String nombre, String sexo, String fecha, String email) throws SQLException {
-		// Conexión a la base de datos
+		// Conexiï¿½n a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
-		//ResultSet rs = null;
+		// ResultSet rs = null;
 		try {
 			c = BaseDatos.getConnection();
 			pst = c.prepareStatement(sqlAdd);
@@ -332,7 +353,7 @@ public class AtletaModel {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			//rs.close();
+			// rs.close();
 			pst.close();
 			c.close();
 		}
