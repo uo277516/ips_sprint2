@@ -324,29 +324,19 @@ public class AtletaModel {
 		return a;
 	}
 
-<<<<<<< HEAD
+
 	public void addAtleta(String dni, String nombre, String sexo, String fecha, String email) {
-=======
-	public void añadirAtleta(String dni, String nombre, String sexo, String fecha, String email) {
->>>>>>> branch 'master' of https://github.com/uo277516/ips_sprint2.git
 		try {
-<<<<<<< HEAD
 			addAtletaP(dni, nombre, sexo, fecha, email);
-=======
-			añadirAtletaP(dni, nombre, sexo, fecha, email);
->>>>>>> branch 'master' of https://github.com/uo277516/ips_sprint2.git
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-<<<<<<< HEAD
 	private void addAtletaP(String dni, String nombre, String sexo, String fecha, String email) throws SQLException {
-=======
-	private void añadirAtletaP(String dni, String nombre, String sexo, String fecha, String email) throws SQLException {
->>>>>>> branch 'master' of https://github.com/uo277516/ips_sprint2.git
-		// Conexiï¿½n a la base de datos
+
+		// Conexión a la base de datos
 		Connection c = null;
 		PreparedStatement pst = null;
 		// ResultSet rs = null;

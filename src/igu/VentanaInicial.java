@@ -99,16 +99,15 @@ public class VentanaInicial extends JFrame {
 		contentPane.add(llblBienvenido);
 	}
 
-<<<<<<< HEAD
 	protected void elegirAsOrganizador() throws FileNotFoundException {
-		int seleccion = JOptionPane.showOptionDialog(this, "Seleccione la opciÃ³n que quiere realizar",
+		int seleccion = JOptionPane.showOptionDialog(this, "Seleccione la opción que quiere realizar",
 				"Inicio como organizador", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, // null
 																													// para
 																													// icono
 																													// por
 																													// defecto.
 				new Object[] { "Consultar inscripciones", "Consultar clasificaciones", "Cargar tiempos",
-						"Asignar dorsales" }, // null
+						"Asignar dorsales", "Crear Competicion" }, // null
 				// para
 				// YES,
 				// NO y
@@ -124,61 +123,36 @@ public class VentanaInicial extends JFrame {
 			mostrarVentanaClasificaciones();
 		} // moises
 		else if (seleccion == 2) {
-			actualizarClasificaciones(); // moises
+			if (actualizarClasificaciones())
+				JOptionPane.showMessageDialog(this, "Los dorsales han sido asignados correctamente.");
+			else
+				JOptionPane.showMessageDialog(this, "Los Tiempos no ha podido cargarse."); // moises
 		} else if (seleccion == 3) {
 			asignarDorsales();
+		} else if (seleccion == 4) {
+			mostrarVentanaCrearCompeticion();
 		}
-=======
-	protected void elegirAsOrganizador() {
-
-		int seleccion = JOptionPane.showOptionDialog(
-				   this,
-				   "Seleccione la opción que quiere realizar", 
-				   "Inicio como organizador",
-				   JOptionPane.YES_NO_CANCEL_OPTION,
-				   JOptionPane.QUESTION_MESSAGE,
-				   null,    // null para icono por defecto.
-				   new Object[] { "Consultar inscripciones", "Consultar clasificaciones", "Asignar dorsales", "Crear Competicion"},   // null para YES, NO y CANCEL
-				   "opcion 1");
-
-				if (seleccion != -1)
-				   System.out.println("seleccionada opcion " + (seleccion + 1));	
-				if (seleccion==0) //organizador
-					{
-						mostrarVentanaInscripciones();  //tania
-					}
-				else if (seleccion==1)
-					{
-						mostrarVentanaCalificaciones(); //moises
-					}
-				else if (seleccion==2) 
-					{
-						asignarDorsales();
-					}
-				else if (seleccion==3) {
-					mostrarVentanaCrearCompeticion();
-				}
 	}
-	
+
 	private void mostrarVentanaCrearCompeticion() {
 		this.dispose();
-		//CompeticionDto competicion = crearCompeticion();
+		// CompeticionDto competicion = crearCompeticion();
 		VentanaCrearCompeticion vPal = new VentanaCrearCompeticion();
 		vPal.setLocationRelativeTo(this);
 		vPal.setVisible(true);
-		
->>>>>>> branch 'master' of https://github.com/uo277516/ips_sprint2.git
-	}
-<<<<<<< HEAD
 
-	private void actualizarClasificaciones() throws FileNotFoundException {
+	}
+
+	private boolean actualizarClasificaciones() throws FileNotFoundException {
 		File[] files = cargarFicherosTiempos();
 		for (int i = 0; i < files.length; i++) {
-			getValues(files[i]);
+			if (!getValues(files[i]))
+				return false;
+			return true;
 		}
+		return false;
 
 	}
-
 
 	protected File[] cargarFicherosTiempos() {
 		int respuesta = getChooser().showOpenDialog(null);
@@ -189,7 +163,7 @@ public class VentanaInicial extends JFrame {
 		return null;
 	}
 
-	public void getValues(File file) {
+	public boolean getValues(File file) {
 		String competicionId = null;
 		CompeticionModel cm = new CompeticionModel();
 		MarcaTiempo mt;
@@ -213,22 +187,28 @@ public class VentanaInicial extends JFrame {
 					mt.setTiempoInicial(trozos[1]);
 					mt.setTiempoFinal(trozos[2]);
 					tiempos.add(mt);
-				} else
-					System.out.println("El archivo " + file.getName() + "no sigue el formato correcto");// Parsear linea
+				} else {
+					JOptionPane.showMessageDialog(this, "El archivo " + file.getName() + " no sigue el formato correcto"); // moises
+					return false;
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
 		try {
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
 		try {
 			cm.actualizarTiempos(competicionId, tiempos);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
 	public JFileChooser getChooser() {
@@ -238,10 +218,6 @@ public class VentanaInicial extends JFrame {
 		return chooser;
 	}
 
-=======
-	
-	
->>>>>>> branch 'master' of https://github.com/uo277516/ips_sprint2.git
 	private void asignarDorsales() {
 		this.dispose();
 		// CompeticionDto competicion = crearCompeticion();
@@ -270,7 +246,7 @@ public class VentanaInicial extends JFrame {
 
 	protected void elegirAsAtleta() {
 		int seleccion = JOptionPane.showOptionDialog(this,
-				"ï¿½Desea inscribirse o conocer el estado de sus inscripciones?", "Inicio como atleta",
+				"¿Desea inscribirse o conocer el estado de sus inscripciones?", "Inicio como atleta",
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, // null para icono por defecto.
 				new Object[] { "Inscribirme", "Conocer mi estado" }, // null para YES, NO y CANCEL
 				"opcion 1");
