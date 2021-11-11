@@ -15,7 +15,7 @@ public class VentanaTransferencia extends JFrame {
 
 	/**
 	 * 
-	 */
+	 *///vhsad
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextArea textArea;
